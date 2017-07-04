@@ -1,12 +1,12 @@
-import { CourierNotifierProvider } from './notifier';
-import { ForEachStrategyProvider } from './for_each_strategy';
-import { CallClientProvider } from './call_client';
-import { CallResponseHandlersProvider } from './call_response_handlers';
-import { ContinueIncompleteProvider } from './continue_incomplete';
-import { ReqStatusProvider } from './req_status';
+import NotifierProvider from './notifier';
+import ForEachStrategyProvider from './for_each_strategy';
+import CallClientProvider from './call_client';
+import CallResponseHandlersProvider from './call_response_handlers';
+import ContinueIncompleteProvider from './continue_incomplete';
+import ReqStatusProvider from './req_status';
 
-export function FetchTheseProvider(Private, Promise) {
-  const notify = Private(CourierNotifierProvider);
+export default function FetchTheseProvider(Private, Promise) {
+  const notify = Private(NotifierProvider);
   const forEachStrategy = Private(ForEachStrategyProvider);
 
   // core tasks

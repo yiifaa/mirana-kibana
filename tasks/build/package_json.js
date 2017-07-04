@@ -11,7 +11,6 @@ module.exports = function (grunt) {
         description: pkg.description,
         keywords: pkg.keywords,
         version,
-        branch: pkg.branch,
         build: {
           number,
           sha

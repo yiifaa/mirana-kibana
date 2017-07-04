@@ -10,13 +10,14 @@ import { EventEmitter } from 'events';
  * @param geoJson {geoJson Object}
  * @param params {Object}
  */
-export class HeatmapMarkers extends EventEmitter {
+export default class Heatmap extends EventEmitter {
 
   constructor(featureCollection, options, zoom) {
 
     super();
     this._geojsonFeatureCollection = featureCollection;
-    const points = dataToHeatArray(featureCollection);
+    const max = _.get(featureCollection, 'properties.max');
+    const points = dataToHeatArray(max, options.heatNormalizeData, featureCollection);
     this._leafletLayer = L.heatLayer(points, options);
     this._tooltipFormatter = options.tooltipFormatter;
     this._zoom = zoom;
@@ -168,20 +169,27 @@ export class HeatmapMarkers extends EventEmitter {
 
 
 /**
- * returns normalized data for heat map intensity
+ * returns data for data for heat map intensity
+ * if heatNormalizeData attribute is checked/true
+ • normalizes data for heat map intensity
  *
- * @method dataToHeatArray
- * @param featureCollection {Array}
+ * @method _dataToHeatArray
+ * @param max {Number}
  * @return {Array}
  */
-function dataToHeatArray(featureCollection) {
-  const max = _.get(featureCollection, 'properties.max');
+function dataToHeatArray(max, heatNormalizeData, featureCollection) {
 
   return featureCollection.features.map((feature) => {
     const lat = feature.geometry.coordinates[1];
     const lng = feature.geometry.coordinates[0];
-    // show bucket value normalized to max value
-    const heatIntensity = feature.properties.value / max;
+    let heatIntensity;
+    if (!heatNormalizeData) {
+      // show bucket value on heatmap
+      heatIntensity = feature.properties.value;
+    } else {
+      // show bucket value normalized to max value
+      heatIntensity = feature.properties.value / max;
+    }
 
     return [lat, lng, heatIntensity];
   });

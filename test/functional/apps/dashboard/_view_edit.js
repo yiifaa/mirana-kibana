@@ -164,7 +164,7 @@ export default function ({ getService, getPageObjects }) {
           expect(query).to.equal(originalQuery);
         });
 
-        it.skip('when a filter is deleted', async function () {
+        it('when a filter is deleted', async function () {
           await PageObjects.dashboard.setTimepickerInDataRange();
           await PageObjects.dashboard.filterOnPieSlice();
           await PageObjects.dashboard.saveDashboard(dashboardName);
@@ -205,6 +205,7 @@ export default function ({ getService, getPageObjects }) {
           await PageObjects.visualize.clickAreaChart();
           await PageObjects.visualize.clickNewSearch();
           await PageObjects.visualize.saveVisualization('new viz panel');
+          await PageObjects.header.clickToastOK();
           await PageObjects.header.clickToastOK();
 
           await PageObjects.dashboard.clickCancelOutOfEditMode();

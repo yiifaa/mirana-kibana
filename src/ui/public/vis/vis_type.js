@@ -1,6 +1,6 @@
-import { VisSchemasProvider } from './schemas';
+import VisSchemasProvider from './schemas';
 
-export function VisVisTypeProvider(Private) {
+export default function VisTypeFactory(Private) {
   const VisTypeSchemas = Private(VisSchemasProvider);
 
   class VisType {

@@ -8,7 +8,7 @@
  output of the entire thing.
 */
 
-export default {
+module.exports = {
   _shards: {
     total: 1
   },

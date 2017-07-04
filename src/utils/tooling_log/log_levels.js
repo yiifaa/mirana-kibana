@@ -8,21 +8,20 @@ const LEVELS = [
   'verbose',
 ];
 
-export function parseLogLevel(name) {
-  const i = LEVELS.indexOf(name);
+export function createLogLevelFlags(levelLimit) {
+  const levelLimitI = LEVELS.indexOf(levelLimit);
 
-  if (i === -1) {
+  if (levelLimitI === -1) {
     const msg = (
-      `Invalid log level "${name}" ` +
+      `Invalid log level "${levelLimit}" ` +
       `(expected one of ${LEVELS.join(',')})`
     );
     throw new Error(msg);
   }
 
   const flags = {};
-  LEVELS.forEach((level, levelI) => {
-    flags[level] = levelI <= i;
+  LEVELS.forEach((level, i) => {
+    flags[level] = i <= levelLimitI;
   });
-
-  return { name, flags };
+  return flags;
 }

@@ -5,13 +5,12 @@ import url from 'url';
 
 const NoConnections = require('elasticsearch').errors.NoConnections;
 
-import mappings from './fixtures/mappings';
 import healthCheck from '../health_check';
 import kibanaVersion from '../kibana_version';
-import { esTestServerUrlParts } from '../../../../../test/es_test_server_url_parts';
+import serverConfig from '../../../../../test/server_config';
 
-const esPort = esTestServerUrlParts.port;
-const esUrl = url.format(esTestServerUrlParts);
+const esPort = serverConfig.servers.elasticsearch.port;
+const esUrl = url.format(serverConfig.servers.elasticsearch);
 
 describe('plugins/elasticsearch', () => {
   describe('lib/health_check', function () {
@@ -71,7 +70,7 @@ describe('plugins/elasticsearch', () => {
         }
       };
 
-      health = healthCheck(plugin, server, { mappings });
+      health = healthCheck(plugin, server);
     });
 
     afterEach(() => {

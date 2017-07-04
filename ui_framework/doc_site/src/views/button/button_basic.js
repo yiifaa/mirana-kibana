@@ -7,7 +7,7 @@ import {
 export default () => (
   <div>
     <KuiButton
-      buttonType="basic"
+      type="basic"
       onClick={() => window.alert('Button clicked')}
     >
       Basic button
@@ -16,7 +16,7 @@ export default () => (
     <br />
 
     <KuiButton
-      buttonType="basic"
+      type="basic"
       onClick={() => window.alert('Button clicked')}
       disabled
     >

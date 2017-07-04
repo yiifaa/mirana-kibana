@@ -27,21 +27,15 @@ class IconOption extends Component {
 
   render() {
     const icon = this.props.option.value;
-    const label = this.props.option.label;
+    const title = this.props.option.label;
     return (
       <div className={this.props.className}
         onMouseEnter={this.handleMouseEnter}
         onMouseDown={this.handleMouseDown}
         onMouseMove={this.handleMouseMove}
-      >
-        <span
-          className="Select-value-label"
-          aria-label={`${label} icon`}
-        >
-          <span
-            className={`vis_editor__icon_select-option kuiIcon ${icon}`}
-            aria-hidden="true"
-          ></span>
+        title={title}>
+        <span className="Select-value-label">
+          <i className={`vis_editor__icon_select-option fa ${icon}`}></i>
           { this.props.children }
         </span>
       </div>
@@ -66,12 +60,9 @@ function IconValue(props) {
   const icon = props.value && props.value.value;
   const label = props.value && props.value.label;
   return (
-    <div className="Select-value">
-      <span
-        className="Select-value-label"
-        aria-label={`${label} icon`}
-      >
-        <span className={`vis_editor__icon_select-value kuiIcon ${icon}`}></span>
+    <div className="Select-value" title={label}>
+      <span className="Select-value-label">
+        <i className={`vis_editor__icon_select-value fa ${icon}`}></i>
         { props.children }
       </span>
     </div>

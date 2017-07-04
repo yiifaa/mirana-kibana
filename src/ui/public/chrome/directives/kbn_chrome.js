@@ -2,17 +2,17 @@ import $ from 'jquery';
 import { remove } from 'lodash';
 
 import './kbn_chrome.less';
-import { uiModules } from 'ui/modules';
+import UiModules from 'ui/modules';
 import { isSystemApiRequest } from 'ui/system_api';
 import {
   getUnhashableStatesProvider,
   unhashUrl,
 } from 'ui/state_management/state_hashing';
-import { notify } from 'ui/notify';
+import Notifier from 'ui/notify';
 
-export function kbnChromeProvider(chrome, internals) {
+export default function (chrome, internals) {
 
-  uiModules
+  UiModules
   .get('kibana')
   .directive('kbnChrome', () => {
     return {
@@ -56,7 +56,7 @@ export function kbnChromeProvider(chrome, internals) {
 
         // and some local values
         chrome.httpActive = $http.pendingRequests;
-        $scope.notifList = notify._notifs;
+        $scope.notifList = Notifier._notifs;
 
         return chrome;
       }

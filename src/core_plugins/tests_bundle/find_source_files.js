@@ -35,4 +35,4 @@ findSourceFiles.statCache = {};
 findSourceFiles.realpathCache = {};
 findSourceFiles.cache = {};
 
-export default findSourceFiles;
+module.exports = findSourceFiles;

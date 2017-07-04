@@ -1,13 +1,12 @@
 import { validateInterval } from './validate_interval';
-import { dashboardContextProvider } from 'plugins/kibana/dashboard/dashboard_context';
 export default (
   timefilter,
   Private,
   Notifier,
   $http,
-  config,
+  config
 ) => {
-  const dashboardContext = Private(dashboardContextProvider);
+  const dashboardContext = Private(require('../../../timelion/public/services/dashboard_context'));
   const notify = new Notifier({ location: 'Metrics' });
   return $scope => () => {
     const panel = $scope.model;

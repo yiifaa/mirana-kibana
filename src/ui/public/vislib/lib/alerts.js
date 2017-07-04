@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import _ from 'lodash';
-
-export function VislibLibAlertsProvider() {
+export default function AlertsFactory() {
 
   /**
    * Adds allerts that float in front of a visualization

@@ -3,7 +3,6 @@ import expect from 'expect.js';
 export default function ({ getService, getPageObjects }) {
   const kibanaServer = getService('kibanaServer');
   const retry = getService('retry');
-  const screenshots = getService('screenshots');
   const PageObjects = getPageObjects(['settings', 'common']);
 
   describe('index result field sort', function describeIndexTests() {
@@ -33,7 +32,7 @@ export default function ({ getService, getPageObjects }) {
         before(function () {
           return PageObjects.settings.navigateTo()
           .then(function () {
-            return PageObjects.settings.clickKibanaIndices();
+            return PageObjects.settings.clickKibanaIndicies();
           });
         });
 
@@ -51,7 +50,7 @@ export default function ({ getService, getPageObjects }) {
             return col.selector();
           })
           .then(function (rowText) {
-            screenshots.take(`Settings-indices-column-${col.heading}-sort-ascending`);
+            PageObjects.common.saveScreenshot(`Settings-indices-column-${col.heading}-sort-ascending`);
             expect(rowText).to.be(col.first);
           });
         });
@@ -65,7 +64,7 @@ export default function ({ getService, getPageObjects }) {
             return col.selector();
           })
           .then(function (rowText) {
-            screenshots.take(`Settings-indices-column-${col.heading}-sort-descending`);
+            PageObjects.common.saveScreenshot(`Settings-indices-column-${col.heading}-sort-descending`);
             expect(rowText).to.be(col.last);
           });
         });
@@ -109,7 +108,7 @@ export default function ({ getService, getPageObjects }) {
         for (let pageNum = 1; pageNum <= LAST_PAGE_NUMBER; pageNum += 1) {
           await PageObjects.settings.goToPage(pageNum);
           const pageFieldNames = await retry.tryMethod(PageObjects.settings, 'getFieldNames');
-          await screenshots.take(`Settings-indexed-fields-page-${pageNum}`);
+          await PageObjects.common.saveScreenshot(`Settings-indexed-fields-page-${pageNum}`);
 
           if (pageNum === LAST_PAGE_NUMBER) {
             expect(pageFieldNames).to.have.length(EXPECTED_LAST_PAGE_COUNT);

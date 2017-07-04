@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export default {
+module.exports = {
   'columns': [
     {
       'label': '200: response',

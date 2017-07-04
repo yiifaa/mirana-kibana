@@ -3,7 +3,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { InvalidLogScaleValues } from 'ui/errors';
 
-export function VislibAxisScaleProvider() {
+export default function AxisScaleFactory() {
   class AxisScale {
     constructor(axisConfig, visConfig) {
       this.axisConfig = axisConfig;

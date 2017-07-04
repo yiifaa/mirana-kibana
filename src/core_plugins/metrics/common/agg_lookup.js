@@ -26,8 +26,7 @@ const lookup = {
   'series_agg': 'Series Agg',
   'serial_diff': 'Serial Difference',
   'filter_ratio': 'Filter Ratio',
-  'positive_only': 'Positive Only',
-  'static': 'Static Value'
+  'positive_only': 'Positive Only'
 };
 
 const pipeline = [

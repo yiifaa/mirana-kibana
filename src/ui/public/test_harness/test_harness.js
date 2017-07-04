@@ -2,12 +2,15 @@
 import chrome from 'ui/chrome';
 
 import sinon from 'sinon';
-import { Notifier } from 'ui/notify/notifier';
+import Notifier from 'ui/notify/notifier';
+import { setupAutoRelease } from 'auto-release-sinon';
 
 import './test_harness.less';
 import 'ng_mock';
 import { setupTestSharding } from './test_sharding';
 
+// Setup auto releasing stubs and spys
+setupAutoRelease(sinon, window.afterEach);
 setupTestSharding();
 
 // allows test_harness.less to have higher priority selectors
@@ -26,6 +29,6 @@ beforeEach(function () {
 });
 
 // Kick off mocha, called at the end of test entry files
-export function bootstrap() {
+exports.bootstrap = () => {
   chrome.setupAngular();
-}
+};

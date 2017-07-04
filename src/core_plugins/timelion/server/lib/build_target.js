@@ -1,7 +1,7 @@
 import moment from 'moment';
 import splitInterval from './split_interval.js';
 
-export default function (tlConfig) {
+module.exports = function (tlConfig) {
   const min = moment(tlConfig.time.from);
   const max = moment(tlConfig.time.to);
 
@@ -17,4 +17,4 @@ export default function (tlConfig) {
   }
 
   return targetSeries;
-}
+};

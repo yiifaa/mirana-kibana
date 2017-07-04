@@ -1,13 +1,13 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import AggConfigResult from 'ui/vis/agg_config_result';
-import { FilterBarClickHandlerProvider } from 'ui/filter_bar/filter_bar_click_handler';
-import { uiModules } from 'ui/modules';
+import FilterBarFilterBarClickHandlerProvider from 'ui/filter_bar/filter_bar_click_handler';
+import uiModules from 'ui/modules';
 import tableCellFilterHtml from './partials/table_cell_filter.html';
 const module = uiModules.get('kibana');
 
 module.directive('kbnRows', function ($compile, $rootScope, getAppState, Private) {
-  const filterBarClickHandler = Private(FilterBarClickHandlerProvider);
+  const filterBarClickHandler = Private(FilterBarFilterBarClickHandlerProvider);
   return {
     restrict: 'A',
     link: function ($scope, $el, attr) {
@@ -40,10 +40,10 @@ module.directive('kbnRows', function ($compile, $rootScope, getAppState, Private
         let $cellContent;
 
         if (contents instanceof AggConfigResult) {
-          const field = contents.aggConfig.getField();
           const isCellContentFilterable =
-            contents.aggConfig.isFilterable()
-            && (!field || field.filterable);
+            contents.type === 'bucket'
+            && contents.aggConfig.getField()
+            && contents.aggConfig.getField().filterable;
 
           if (isCellContentFilterable) {
             $cell = createFilterableCell(contents);

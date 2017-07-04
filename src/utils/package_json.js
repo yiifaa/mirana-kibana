@@ -1,7 +1,5 @@
 import { dirname } from 'path';
 
-export const pkg = {
-  __filename: require.resolve('../../package.json'),
-  __dirname: dirname(require.resolve('../../package.json')),
-  ...require('../../package.json')
-};
+module.exports = require('../../package.json');
+module.exports.__filename = require.resolve('../../package.json');
+module.exports.__dirname = dirname(module.exports.__filename);

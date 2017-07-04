@@ -3,12 +3,12 @@ import _ from 'lodash';
 import Promise from 'bluebird';
 import parseSheet from './lib/parse_sheet.js';
 import parseDateMath from '../lib/date_math.js';
+import calculateInterval from '../../public/lib/calculate_interval.js';
 import repositionArguments from './lib/reposition_arguments.js';
 import indexArguments from './lib/index_arguments.js';
 import validateTime from './lib/validate_time.js';
-import { calculateInterval } from '../../common/lib';
 
-export default function chainRunner(tlConfig) {
+module.exports = function (tlConfig) {
   const preprocessChain = require('./lib/preprocess_chain')(tlConfig);
 
   let queryCache = {};
@@ -169,8 +169,7 @@ export default function chainRunner(tlConfig) {
       tlConfig.time.from,
       tlConfig.time.to,
       tlConfig.settings['timelion:target_buckets'] || 200,
-      tlConfig.time.interval,
-      tlConfig.settings['timelion:min_interval']  || '1ms',
+      tlConfig.time.interval
     );
 
     tlConfig.setTargetSeries();
@@ -197,4 +196,4 @@ export default function chainRunner(tlConfig) {
     processRequest: processRequest,
     getStats: function () { return stats; }
   };
-}
+};

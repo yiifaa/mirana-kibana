@@ -1,10 +1,11 @@
 import $ from 'jquery';
-import { createColorPalette } from 'ui/vis/components/color/color_palette';
-import { uiModules } from 'ui/modules';
-
+import VislibComponentsColorColorPaletteProvider from 'ui/vis/components/color/color_palette';
+import uiModules from 'ui/modules';
 uiModules
 .get('kibana')
-.directive('nestingIndicator', function () {
+.directive('nestingIndicator', function ($rootScope, $parse, Private) {
+  const getColors = Private(VislibComponentsColorColorPaletteProvider);
+
   return {
     restrict: 'E',
     scope: {
@@ -17,7 +18,7 @@ uiModules
 
         const index = $scope.list.indexOf($scope.item);
         const bars = $scope.list.slice(0, index + 1);
-        const colors = createColorPalette(bars.length);
+        const colors = getColors(bars.length);
 
         $el.html(bars.map(function (bar, i) {
           return $(document.createElement('span'))

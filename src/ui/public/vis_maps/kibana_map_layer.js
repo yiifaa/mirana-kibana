@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 
 
-export class KibanaMapLayer extends EventEmitter {
+export default class KibanaMapLayer extends EventEmitter {
   constructor() {
     super();
     this._leafletLayer = null;

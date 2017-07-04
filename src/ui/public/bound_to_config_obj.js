@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-export function BoundToConfigObjProvider(config) {
+export default function BoundToConfigObjProvider(config) {
 
   /**
    * Create an object with properties that may be bound to config values.

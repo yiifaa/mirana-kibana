@@ -7,7 +7,7 @@ import BasePathProxy from './base_path_proxy';
 
 process.env.kbnWorkerType = 'managr';
 
-export default class ClusterManager {
+module.exports = class ClusterManager {
   constructor(opts = {}, settings = {}) {
     this.log = new Log(opts.quiet, opts.silent);
     this.addedCount = 0;
@@ -62,23 +62,10 @@ export default class ClusterManager {
     bindAll(this, 'onWatcherAdd', 'onWatcherError', 'onWatcherChange');
 
     if (opts.watch) {
-      const extraPaths = [
+      this.setupWatching([
         ...settings.plugins.paths,
-        ...settings.plugins.scanDirs,
-      ];
-
-      const extraIgnores = settings.plugins.scanDirs
-        .map(scanDir => resolve(scanDir, '*'))
-        .concat(settings.plugins.paths)
-        .reduce((acc, path) => acc.concat(
-          resolve(path, 'test'),
-          resolve(path, 'build'),
-          resolve(path, 'target'),
-          resolve(path, 'scripts'),
-          resolve(path, 'docs'),
-        ), []);
-
-      this.setupWatching(extraPaths, extraIgnores);
+        ...settings.plugins.scanDirs
+      ]);
     }
 
     else this.startCluster();
@@ -92,9 +79,9 @@ export default class ClusterManager {
     }
   }
 
-  setupWatching(extraPaths, extraIgnores) {
+  setupWatching(extraPaths) {
     const chokidar = require('chokidar');
-    const { fromRoot } = require('../../utils');
+    const fromRoot = require('../../utils/from_root');
 
     const watchPaths = [
       fromRoot('src/core_plugins'),
@@ -107,10 +94,7 @@ export default class ClusterManager {
 
     this.watcher = chokidar.watch(uniq(watchPaths), {
       cwd: fromRoot('.'),
-      ignored: [
-        /[\\\/](\..*|node_modules|bower_components|public|__tests__|coverage)[\\\/]/,
-        ...extraIgnores
-      ]
+      ignored: /[\\\/](\..*|node_modules|bower_components|public|__tests__|coverage)[\\\/]/
     });
 
     this.watcher.on('add', this.onWatcherAdd);
@@ -169,4 +153,4 @@ export default class ClusterManager {
     this.log.bad('failed to watch files!\n', err.stack);
     process.exit(1); // eslint-disable-line no-process-exit
   }
-}
+};

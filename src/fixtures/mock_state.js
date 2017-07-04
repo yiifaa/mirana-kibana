@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import sinon from 'sinon';
+import sinon from 'auto-release-sinon';
 
 function MockState(defaults) {
   this.on = _.noop;
@@ -8,5 +8,10 @@ function MockState(defaults) {
   this.replace = sinon.stub();
   _.assign(this, defaults);
 }
+
+MockState.prototype.resetStub = function () {
+  this.save = sinon.stub();
+  return this;
+};
 
 export default MockState;

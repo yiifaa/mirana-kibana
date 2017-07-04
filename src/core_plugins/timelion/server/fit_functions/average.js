@@ -4,7 +4,7 @@ import _ from 'lodash';
 // Good: min, max, average
 // Bad: sum, count
 
-export default function average(dataTuples, targetTuples) {
+module.exports = function (dataTuples, targetTuples) {
 
   // Phase 1: Downsample
   // We nessecarily won't well match the dataSource here as we don't know how much data
@@ -27,7 +27,7 @@ export default function average(dataTuples, targetTuples) {
 
     dataTuplesQueue.splice(0, i);
 
-    const sum = avgSet.reduce((sum, num) => sum + num, 0);
+    const sum = _.reduce(avgSet, function (sum, num) { return sum + num; }, 0);
 
     return avgSet.length ? (sum / avgSet.length) : NaN;
   });
@@ -72,4 +72,4 @@ export default function average(dataTuples, targetTuples) {
 
   const resultTuples = _.zip(resultTimes, resultValues);
   return resultTuples;
-}
+};

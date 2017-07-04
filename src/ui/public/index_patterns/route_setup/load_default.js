@@ -1,21 +1,20 @@
 import _ from 'lodash';
-import { Notifier } from 'ui/notify/notifier';
+import Notifier from 'ui/notify/notifier';
 import { NoDefaultIndexPattern } from 'ui/errors';
-import { IndexPatternsGetIdsProvider } from '../_get_ids';
+import GetIdsProvider from '../_get_ids';
 import uiRoutes from 'ui/routes';
 const notify = new Notifier({
   location: 'Index Patterns'
 });
 
-// eslint-disable-next-line kibana-custom/no-default-export
-export default function (opts) {
+module.exports = function (opts) {
   opts = opts || {};
   const whenMissingRedirectTo = opts.whenMissingRedirectTo || null;
   let defaultRequiredToasts = null;
 
   uiRoutes
   .addSetupWork(function loadDefaultIndexPattern(Private, Promise, $route, config) {
-    const getIds = Private(IndexPatternsGetIdsProvider);
+    const getIds = Private(GetIdsProvider);
     const route = _.get($route, 'current.$$route');
 
     return getIds()
@@ -54,4 +53,6 @@ export default function (opts) {
       else defaultRequiredToasts.push(notify.error(err));
     }
   );
-}
+
+
+};

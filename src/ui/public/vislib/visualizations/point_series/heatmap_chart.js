@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import moment from 'moment';
-import { VislibVisualizationsPointSeriesProvider } from './_point_series';
-import { getHeatmapColors } from 'ui/vislib/components/color/heatmap_color';
+import VislibVisualizationsPointSeriesProvider from './_point_series';
+import getColor from 'ui/vislib/components/color/heatmap_color';
 
-export function VislibVisualizationsHeatmapChartProvider(Private) {
+export default function HeatmapChartFactory(Private) {
 
   const PointSeries = Private(VislibVisualizationsPointSeriesProvider);
 
@@ -93,7 +93,7 @@ export function VislibVisualizationsHeatmapChartProvider(Private) {
       for (const i in labels) {
         if (labels[i]) {
           const val = invertColors ? 1 - i / colorsNumber : i / colorsNumber;
-          colors[labels[i]] = getHeatmapColors(val, colorSchema);
+          colors[labels[i]] = getColor(val, colorSchema);
         }
       }
       return colors;
@@ -243,7 +243,7 @@ export function VislibVisualizationsHeatmapChartProvider(Private) {
             return `rotate(${rotate},${horizontalCenter},${verticalCenter})`;
           });
         if (hiddenLabels) {
-          this.baseChart.handler.alerts.show('Some labels were hidden due to size constraints');
+          this.baseChart.handler.alerts.show('Some labels were hidden due to size constrains');
         }
       }
 

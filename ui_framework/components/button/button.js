@@ -9,9 +9,7 @@ const BUTTON_TYPES = [
   'basic',
   'hollow',
   'danger',
-  'warning',
   'primary',
-  'secondary',
 ];
 
 const ICON_POSITIONS = [
@@ -25,13 +23,11 @@ const buttonTypeToClassNameMap = {
   basic: 'kuiButton--basic',
   hollow: 'kuiButton--hollow',
   danger: 'kuiButton--danger',
-  warning: 'kuiButton--warning',
   primary: 'kuiButton--primary',
-  secondary: 'kuiButton--secondary',
 };
 
-const getClassName = ({ className, buttonType, hasIcon = false }) =>
-  classNames('kuiButton', className, buttonTypeToClassNameMap[buttonType], {
+const getClassName = ({ className, type, hasIcon = false }) =>
+  classNames('kuiButton', className, buttonTypeToClassNameMap[type], {
     'kuiButton--iconText': hasIcon,
   });
 
@@ -67,7 +63,7 @@ const KuiButton = ({
   isLoading,
   iconPosition = DEFAULT_ICON_POSITION,
   className,
-  buttonType,
+  type,
   icon,
   children,
   ...rest
@@ -76,7 +72,7 @@ const KuiButton = ({
     <button
       className={getClassName({
         className,
-        buttonType,
+        type,
         hasIcon: icon || isLoading,
       })}
       {...rest}
@@ -97,7 +93,7 @@ KuiButton.propTypes = {
   iconPosition: PropTypes.oneOf(ICON_POSITIONS),
   children: PropTypes.node,
   isLoading: PropTypes.bool,
-  buttonType: PropTypes.oneOf(BUTTON_TYPES),
+  type: PropTypes.oneOf(BUTTON_TYPES),
   className: PropTypes.string,
 };
 
@@ -107,7 +103,7 @@ const KuiLinkButton = ({
   iconPosition = DEFAULT_ICON_POSITION,
   className,
   disabled,
-  buttonType,
+  type,
   children,
   ...rest
 }) => {
@@ -119,7 +115,7 @@ const KuiLinkButton = ({
 
   const classes = classNames(getClassName({
     className,
-    buttonType,
+    type,
     hasIcon: icon || isLoading,
   }), { 'kuiButton-isDisabled': disabled });
 
@@ -144,14 +140,14 @@ KuiLinkButton.propTypes = {
   icon: PropTypes.node,
   iconPosition: PropTypes.oneOf(ICON_POSITIONS),
   isLoading: PropTypes.bool,
-  buttonType: PropTypes.oneOf(BUTTON_TYPES),
+  type: PropTypes.oneOf(BUTTON_TYPES),
   className: PropTypes.string,
   children: PropTypes.node,
 };
 
 const KuiSubmitButton = ({
   className,
-  buttonType,
+  type,
   children,
   ...rest
 }) => {
@@ -160,7 +156,7 @@ const KuiSubmitButton = ({
     <input
       type="submit"
       value={children}
-      className={getClassName({ className, buttonType })}
+      className={getClassName({ className, type })}
       {...rest}
     />
   );
@@ -168,7 +164,7 @@ const KuiSubmitButton = ({
 
 KuiSubmitButton.propTypes = {
   children: PropTypes.string,
-  buttonType: PropTypes.oneOf(BUTTON_TYPES),
+  type: PropTypes.oneOf(BUTTON_TYPES),
   className: PropTypes.string,
 };
 

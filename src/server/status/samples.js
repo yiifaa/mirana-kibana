@@ -23,4 +23,4 @@ Samples.prototype.toJSON = function () {
   return this.vals;
 };
 
-export default Samples;
+module.exports = Samples;

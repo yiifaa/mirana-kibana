@@ -1,6 +1,6 @@
-import { Notifier } from 'ui/notify/notifier';
+import Notifier from 'ui/notify/notifier';
 
-export function CourierNotifierProvider() {
+export default function CourierFetchNotifier() {
   return new Notifier({
     location: 'Courier Fetch'
   });

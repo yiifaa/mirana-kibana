@@ -58,9 +58,6 @@ export class AppView extends Component {
           onToggleNav={this.onToggleNav}
           onClickNavItem={this.onClickNavItem}
           version={pkg.version}
-          routes={this.props.routes}
-          getNextRoute={Routes.getNextRoute}
-          getPreviousRoute={Routes.getPreviousRoute}
           components={Routes.components}
           sandboxes={Routes.sandboxes}
         />

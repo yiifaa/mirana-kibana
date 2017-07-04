@@ -1,13 +1,12 @@
 import { format } from 'url';
-import { esTestServerUrlParts } from '../../test/es_test_server_url_parts';
-import { kibanaTestServerUrlParts } from '../../test/kibana_test_server_url_parts';
-
+import { resolve } from 'path';
+import chromedriver from 'chromedriver';
 module.exports = function (grunt) {
   const platform = require('os').platform();
+  const root = p => resolve(__dirname, '../../', p);
   const binScript =  /^win/.test(platform) ? '.\\bin\\kibana.bat' : './bin/kibana';
   const buildScript =  /^win/.test(platform) ? '.\\build\\kibana\\bin\\kibana.bat' : './build/kibana/bin/kibana';
-  const pkgVersion = grunt.config.get('pkg.version');
-  const releaseBinScript = `./build/kibana-${pkgVersion}-linux-x86_64/bin/kibana`;
+  const uiConfig = require(root('test/server_config'));
 
   const stdDevArgs = [
     '--env.name=development',
@@ -55,29 +54,8 @@ module.exports = function (grunt) {
       args: [
         ...stdDevArgs,
         '--optimize.enabled=false',
-        '--elasticsearch.url=' + format(esTestServerUrlParts),
-        '--server.port=' + kibanaTestServerUrlParts.port,
-        '--server.xsrf.disableProtection=true',
-        ...kbnServerFlags,
-      ]
-    },
-
-    devApiTestServer: {
-      options: {
-        wait: false,
-        ready: /Server running/,
-        quiet: false,
-        failOnError: false
-      },
-      cmd: binScript,
-      args: [
-        ...stdDevArgs,
-        '--dev',
-        '--no-base-path',
-        '--no-ssl',
-        '--optimize.enabled=false',
-        '--elasticsearch.url=' + format(esTestServerUrlParts),
-        '--server.port=' + kibanaTestServerUrlParts.port,
+        '--elasticsearch.url=' + format(uiConfig.servers.elasticsearch),
+        '--server.port=' + uiConfig.servers.kibana.port,
         '--server.xsrf.disableProtection=true',
         ...kbnServerFlags,
       ]
@@ -93,24 +71,8 @@ module.exports = function (grunt) {
       cmd: binScript,
       args: [
         ...stdDevArgs,
-        '--server.port=' + kibanaTestServerUrlParts.port,
-        '--elasticsearch.url=' + format(esTestServerUrlParts),
-        ...kbnServerFlags,
-      ]
-    },
-
-    testUIReleaseServer: {
-      options: {
-        wait: false,
-        ready: /Server running/,
-        quiet: false,
-        failOnError: false
-      },
-      cmd: releaseBinScript,
-      args: [
-        ...stdDevArgs,
-        '--server.port=' + kibanaTestServerUrlParts.port,
-        '--elasticsearch.url=' + format(esTestServerUrlParts),
+        '--server.port=' + uiConfig.servers.kibana.port,
+        '--elasticsearch.url=' + format(uiConfig.servers.elasticsearch),
         ...kbnServerFlags,
       ]
     },
@@ -125,8 +87,8 @@ module.exports = function (grunt) {
       cmd: binScript,
       args: [
         ...stdDevArgs,
-        '--server.port=' + kibanaTestServerUrlParts.port,
-        '--elasticsearch.url=' + format(esTestServerUrlParts),
+        '--server.port=' + uiConfig.servers.kibana.port,
+        '--elasticsearch.url=' + format(uiConfig.servers.elasticsearch),
         '--dev',
         '--no-base-path',
         '--no-ssl',
@@ -172,6 +134,34 @@ module.exports = function (grunt) {
         '--optimize.lazyPrebuild=true',
         '--optimize.bundleDir=optimize/testdev',
         ...kbnServerFlags,
+      ]
+    },
+
+    chromeDriver: {
+      options: {
+        wait: false,
+        ready: /Starting ChromeDriver/,
+        quiet: false,
+        failOnError: false
+      },
+      cmd: chromedriver.path,
+      args: [
+        `--port=${uiConfig.servers.webdriver.port}`,
+        '--url-base=wd/hub',
+      ]
+    },
+
+    devChromeDriver: {
+      options: {
+        wait: false,
+        ready: /Starting ChromeDriver/,
+        quiet: false,
+        failOnError: false
+      },
+      cmd: chromedriver.path,
+      args: [
+        `--port=${uiConfig.servers.webdriver.port}`,
+        '--url-base=wd/hub',
       ]
     },
 

@@ -1,4 +1,4 @@
-export default function (api) {
+module.exports = function (api) {
   api.addGlobalAutocompleteRules('highlight', {
     pre_tags: {},
     post_tags: {},
@@ -21,4 +21,4 @@ export default function (api) {
     lang: "",
     params: {}
   });
-}
+};

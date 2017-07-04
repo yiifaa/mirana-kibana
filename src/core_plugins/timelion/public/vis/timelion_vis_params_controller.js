@@ -1,12 +1,14 @@
-import { uiModules } from 'ui/modules';
-import 'plugins/timelion/directives/timelion_expression_input';
+define(function (require) {
+  require('plugins/timelion/directives/expression_directive');
 
-const module = uiModules.get('kibana/timelion_vis', ['kibana']);
-module.controller('TimelionVisParamsController', function ($scope, $rootScope) {
-  $scope.vis.params.expression = $scope.vis.params.expression || '.es(*)';
-  $scope.vis.params.interval = $scope.vis.params.interval || '1m';
+  const module = require('ui/modules').get('kibana/timelion_vis', ['kibana']);
+  module.controller('TimelionVisParamsController', function ($scope, $rootScope) {
+    $scope.vis.params.expression = $scope.vis.params.expression || '.es(*)';
+    $scope.vis.params.interval = $scope.vis.params.interval || '1m';
 
-  $scope.search = function () {
-    $rootScope.$broadcast('courier:searchRefresh');
-  };
+
+    $scope.search = function () {
+      $rootScope.$broadcast('courier:searchRefresh');
+    };
+  });
 });

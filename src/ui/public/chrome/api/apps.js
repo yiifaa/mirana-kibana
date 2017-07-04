@@ -1,8 +1,7 @@
 import { clone, get } from 'lodash';
 import { resolve } from 'url';
 
-// eslint-disable-next-line kibana-custom/no-default-export
-export default function (chrome, internals) {
+module.exports = function (chrome, internals) {
 
   if (get(internals, 'app.navLink.url')) {
     internals.app.navLink.url = resolve(window.location.href, internals.app.navLink.url);
@@ -62,4 +61,4 @@ export default function (chrome, internals) {
   chrome.setLastUrlFor = function (appId, url) {
     internals.appUrlStore.setItem(`appLastUrl:${appId}`, url);
   };
-}
+};

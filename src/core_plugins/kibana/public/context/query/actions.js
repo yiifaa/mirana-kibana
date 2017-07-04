@@ -1,14 +1,12 @@
 import _ from 'lodash';
 
-import { fetchAnchorProvider } from '../api/anchor';
-import { fetchContextProvider } from '../api/context';
+import { fetchAnchor } from '../api/anchor';
+import { fetchPredecessors, fetchSuccessors } from '../api/context';
 import { QueryParameterActionsProvider } from '../query_parameters';
 import { FAILURE_REASONS, LOADING_STATUS } from './constants';
 
 
-export function QueryActionsProvider(courier, Notifier, Private, Promise) {
-  const fetchAnchor = Private(fetchAnchorProvider);
-  const { fetchPredecessors, fetchSuccessors } = Private(fetchContextProvider);
+export function QueryActionsProvider(es, Notifier, Private, Promise) {
   const {
     increasePredecessorCount,
     increaseSuccessorCount,
@@ -42,7 +40,7 @@ export function QueryActionsProvider(courier, Notifier, Private, Promise) {
   );
 
   const fetchAnchorRow = (state) => () => {
-    const { queryParameters: { indexPatternId, anchorUid, sort, tieBreakerField } } = state;
+    const { queryParameters: { indexPattern, anchorUid, sort, tieBreakerField } } = state;
 
     if (!tieBreakerField) {
       return Promise.reject(setFailedStatus(state)('anchor', {
@@ -53,7 +51,7 @@ export function QueryActionsProvider(courier, Notifier, Private, Promise) {
     setLoadingStatus(state)('anchor');
 
     return Promise.try(() => (
-      fetchAnchor(indexPatternId, anchorUid, [_.zipObject([sort]), { [tieBreakerField]: 'asc' }])
+      fetchAnchor(es, indexPattern, anchorUid, [_.zipObject([sort]), { [tieBreakerField]: 'asc' }])
     ))
       .then(
         (anchorDocument) => {
@@ -71,7 +69,7 @@ export function QueryActionsProvider(courier, Notifier, Private, Promise) {
 
   const fetchPredecessorRows = (state) => () => {
     const {
-      queryParameters: { indexPatternId, filters, predecessorCount, sort, tieBreakerField },
+      queryParameters: { indexPattern, predecessorCount, sort, tieBreakerField },
       rows: { anchor },
     } = state;
 
@@ -84,7 +82,7 @@ export function QueryActionsProvider(courier, Notifier, Private, Promise) {
     setLoadingStatus(state)('predecessors');
 
     return Promise.try(() => (
-      fetchPredecessors(indexPatternId, anchor, [_.zipObject([sort]), { [tieBreakerField]: 'asc' }], predecessorCount, filters)
+      fetchPredecessors(es, indexPattern, anchor, [_.zipObject([sort]), { [tieBreakerField]: 'asc' }], predecessorCount)
     ))
       .then(
         (predecessorDocuments) => {
@@ -102,7 +100,7 @@ export function QueryActionsProvider(courier, Notifier, Private, Promise) {
 
   const fetchSuccessorRows = (state) => () => {
     const {
-      queryParameters: { indexPatternId, filters, sort, successorCount, tieBreakerField },
+      queryParameters: { indexPattern, sort, successorCount, tieBreakerField },
       rows: { anchor },
     } = state;
 
@@ -115,7 +113,7 @@ export function QueryActionsProvider(courier, Notifier, Private, Promise) {
     setLoadingStatus(state)('successors');
 
     return Promise.try(() => (
-      fetchSuccessors(indexPatternId, anchor, [_.zipObject([sort]), { [tieBreakerField]: 'asc' }], successorCount, filters)
+      fetchSuccessors(es, indexPattern, anchor, [_.zipObject([sort]), { [tieBreakerField]: 'asc' }], successorCount)
     ))
       .then(
         (successorDocuments) => {
@@ -131,22 +129,13 @@ export function QueryActionsProvider(courier, Notifier, Private, Promise) {
       );
   };
 
-  const fetchContextRows = (state) => () => (
-    Promise.all([
-      fetchPredecessorRows(state)(),
-      fetchSuccessorRows(state)(),
-    ])
-  );
-
   const fetchAllRows = (state) => () => (
     Promise.try(fetchAnchorRow(state))
-      .then(fetchContextRows(state))
+      .then(() => Promise.all([
+        fetchPredecessorRows(state)(),
+        fetchSuccessorRows(state)(),
+      ]))
   );
-
-  const fetchContextRowsWithNewQueryParameters = (state) => (queryParameters) => {
-    setQueryParameters(state)(queryParameters);
-    return fetchContextRows(state)();
-  };
 
   const fetchAllRowsWithNewQueryParameters = (state) => (queryParameters) => {
     setQueryParameters(state)(queryParameters);
@@ -185,8 +174,6 @@ export function QueryActionsProvider(courier, Notifier, Private, Promise) {
     fetchAllRows,
     fetchAllRowsWithNewQueryParameters,
     fetchAnchorRow,
-    fetchContextRows,
-    fetchContextRowsWithNewQueryParameters,
     fetchGivenPredecessorRows,
     fetchGivenSuccessorRows,
     fetchMorePredecessorRows,

@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-export function AggTypesParamTypesBaseProvider() {
+export default function BaseAggParamFactory() {
 
   function BaseAggParam(config) {
     _.assign(this, config);

@@ -27,6 +27,17 @@
 
   <div ng-if="editor.field.scripted" class="form-group">
     <label>Language</label>
+    <div class="hintbox" ng-if="editor.field.lang && !editor.isSupportedLang(editor.field.lang)">
+      <h4>
+        <i class="fa fa-warning text-warning"></i> Deprecation Warning
+      </h4>
+      <p>
+        <span class="text-capitalize">{{editor.field.lang}}</span> is deprecated and support will be removed in the
+        next major version of Kibana and Elasticsearch. We recommend using
+        <a target="_window" ng-href="{{editor.docLinks.painless}}">Painless <i class="fa-link fa"></i></a>
+        for new scripted fields.
+      </p>
+    </div>
     <select
       ng-model="editor.field.lang"
       ng-options="lang as lang for lang in editor.scriptingLangs"
@@ -86,44 +97,30 @@
 
   <div class="form-group">
     <label for="editor.field.count">Popularity</label>
-    <div class="kuiFieldGroup">
-      <div class="kuiFieldGroupSection">
-        <input
-          ng-model="editor.field.count"
-          type="number"
-          class="form-control"
-          data-test-subj=editorFieldCount
-        >
-      </div>
+    <div class="input-group">
 
-      <div class="kuiFieldGroupSection">
-        <div class="kuiButtonGroup kuiButtonGroup--united">
-          <button
-            data-test-subj="fieldIncreasePopularityButton"
-            type="button"
-            ng-click="editor.field.count = editor.field.count + 1"
-            aria-label="Plus"
-            class="kuiButton kuiButton--basic"
-          >
-            <span
-              aria-hidden="true"
-              class="kuiIcon fa-plus"
-            ></span>
-          </button>
+      <input
+        ng-model="editor.field.count"
+        type="number"
+        class="form-control"
+        data-test-subj=editorFieldCount>
 
-          <button
-            type="button"
-            ng-click="editor.field.count = editor.field.count - 1"
-            aria-label="Minus"
-            class="kuiButton kuiButton--basic"
-          >
-            <span
-              aria-hidden="true"
-              class="kuiIcon fa-minus"
-            ></span>
-          </button>
-        </div>
-      </div>
+      <span class="input-group-btn">
+        <button
+          type="button"
+          ng-click="editor.field.count = editor.field.count + 1"
+          aria-label="Plus"
+          class="btn btn-default">
+          <i aria-hidden="true" class="fa fa-plus" data-test-subj=editorFieldCountPlus></i>
+        </button>
+        <button
+          type="button"
+          ng-click="editor.field.count = editor.field.count - 1"
+          aria-label="Minus"
+          class="btn btn-default">
+          <i aria-hidden="true" class="fa fa-minus" data-test-subj=editorFieldCountMinus></i>
+        </button>
+      </span>
     </div>
   </div>
 
@@ -141,7 +138,7 @@
         </h4>
 
         <p>
-          Please familiarize yourself with <a target="_window" ng-href="{{ editor.docLinks.scriptFields }}">script fields <i class="fa-link fa"></i></a> and with <a target="_window" ng-href="{{ editor.docLinks.scriptAggs }}">scripts in aggregations <i class="fa-link fa"></i></a> before using scripted fields.
+          Please familiarize yourself with <a target="_window" ng-href="{{ editor.docLinks.scriptFields }}">script fields <i class="fa-link fa"></i></a> and with <a target="_window" ng-href="">scripts in aggregations <i class="fa-link fa"></i></a> before using scripted fields.
         </p>
 
         <p>
@@ -223,31 +220,25 @@
   <div class="form-group">
     <button
       type="button"
+      ng-click="editor.cancel()"
+      aria-label="Cancel"
+      class="btn btn-primary">
+      Cancel
+    </button>
+    <button
+      type="button"
       ng-if="editor.field.scripted && !editor.creating"
       ng-click="editor.delete()"
       aria-label="Delete"
-      class="kuiButton kuiButton--danger"
-    >
+      class="btn btn-danger">
       Delete Field
     </button>
-
     <button
-      data-test-subj="fieldSaveButton"
       ng-disabled="form.$invalid"
       type="submit"
       aria-label="{{ editor.creating ? 'Create' : 'Update' }} Field"
-      class="kuiButton kuiButton--primary"
-    >
+      class="btn btn-success">
       {{ editor.creating ? 'Create' : 'Update' }} Field
-    </button>
-
-    <button
-      data-test-subj="fieldCancelButton"
-      type="button"
-      ng-click="editor.cancel()"
-      class="kuiButton kuiButton--hollow"
-    >
-      Cancel
     </button>
   </div>
 </form>

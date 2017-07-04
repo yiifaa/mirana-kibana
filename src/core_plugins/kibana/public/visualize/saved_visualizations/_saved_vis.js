@@ -7,8 +7,8 @@
  */
 
 import _ from 'lodash';
-import { VisProvider } from 'ui/vis';
-import { uiModules } from 'ui/modules';
+import VisProvider from 'ui/vis';
+import uiModules from 'ui/modules';
 
 uiModules
 .get('app/visualize')
@@ -49,11 +49,11 @@ uiModules
   SavedVis.type = 'visualization';
 
   SavedVis.mapping = {
-    title: 'text',
+    title: 'string',
     visState: 'json',
-    uiStateJSON: 'text',
-    description: 'text',
-    savedSearchId: 'keyword',
+    uiStateJSON: 'string',
+    description: 'string',
+    savedSearchId: 'string',
     version: 'integer'
   };
 

@@ -1,10 +1,9 @@
 import _ from 'lodash';
-import { Scanner } from 'ui/utils/scanner';
+import Scanner from 'ui/utils/scanner';
 import { StringUtils } from 'ui/utils/string_utils';
-import { SavedObjectsClient } from 'ui/saved_objects';
 
 export class SavedObjectLoader {
-  constructor(SavedObjectClass, kbnIndex, esAdmin, kbnUrl, $http) {
+  constructor(SavedObjectClass, kbnIndex, esAdmin, kbnUrl) {
     this.type = SavedObjectClass.type;
     this.Class = SavedObjectClass;
     this.lowercaseType = this.type.toLowerCase();
@@ -22,8 +21,6 @@ export class SavedObjectLoader {
       noun: StringUtils.upperFirst(this.type),
       nouns: `${ this.lowercaseType }s`,
     };
-
-    this.savedObjectsClient = new SavedObjectsClient($http);
   }
 
   /**
@@ -52,26 +49,16 @@ export class SavedObjectLoader {
   }
 
   /**
-   * Updates source to contain an id and url field, and returns the updated
-   * source object.
-   * @param source
-   * @param id
-   * @returns {source} The modified source object, with an id and url field.
-   */
-  mapHitSource(source, id) {
-    source.id = id;
-    source.url = this.urlFor(id);
-    return source;
-  }
-
-  /**
    * Updates hit._source to contain an id and url field, and returns the updated
    * source object.
    * @param hit
    * @returns {hit._source} The modified hit._source object, with an id and url field.
    */
   mapHits(hit) {
-    return this.mapHitSource(hit._source, hit._id);
+    const source = hit._source;
+    source.id = hit._id;
+    source.url = this.urlFor(hit._id);
+    return source;
   }
 
   scanAll(queryString, pageSize = 1000) {
@@ -82,16 +69,6 @@ export class SavedObjectLoader {
   }
 
   /**
-   * Updates hit.attributes to contain an id and url field, and returns the updated
-   * attributes object.
-   * @param hit
-   * @returns {hit.attributes} The modified hit.attributes object, with an id and url field.
-   */
-  mapSavedObjectApiHits(hit) {
-    return this.mapHitSource(hit.attributes, hit.id);
-  }
-
-  /**
    * TODO: Rather than use a hardcoded limit, implement pagination. See
    * https://github.com/elastic/kibana/issues/8044 for reference.
    *
@@ -99,18 +76,32 @@ export class SavedObjectLoader {
    * @param size
    * @returns {Promise}
    */
-  find(search, size = 100) {
-    return this.savedObjectsClient.find(
-      {
-        type: this.lowercaseType,
-        search,
-        perPage: size,
-        page: 1,
-        searchFields: ['title^3', 'description']
-      }).then((resp) => {
+  find(searchString, size = 100) {
+    let body;
+    if (searchString) {
+      body = {
+        query: {
+          simple_query_string: {
+            query: searchString + '*',
+            fields: ['title^3', 'description'],
+            default_operator: 'AND'
+          }
+        }
+      };
+    } else {
+      body = { query: { match_all: {} } };
+    }
+
+    return this.esAdmin.search({
+      index: this.kbnIndex,
+      type: this.lowercaseType,
+      body,
+      size
+    })
+      .then((resp) => {
         return {
-          total: resp.total,
-          hits: resp.savedObjects.map((savedObject) => this.mapSavedObjectApiHits(savedObject))
+          total: resp.hits.total,
+          hits: resp.hits.hits.map((hit) => this.mapHits(hit))
         };
       });
   }

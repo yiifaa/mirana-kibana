@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-export function FilterBarLibFilterOutTimeBasedFilterProvider(courier, Promise) {
+export default function filterOutTimeBaseFilter(courier, Promise) {
   return Promise.method(function (filters) {
     const id = _.get(filters, '[0].meta.index');
     if (id == null) return;

@@ -1,9 +1,8 @@
-import { VislibTypesPointSeries } from './point_series';
-import { VislibPieConfigProvider } from './pie';
-import { vislibGaugeProvider } from './gauge';
+import VislibLibTypesPointSeriesProvider from './point_series';
+import VislibLibTypesPieProvider from './pie';
 
-export function VislibTypesProvider(Private) {
-  const pointSeries = Private(VislibTypesPointSeries);
+export default function TypeFactory(Private) {
+  const pointSeries = Private(VislibLibTypesPointSeriesProvider);
 
   /**
    * Handles the building of each visualization
@@ -14,12 +13,9 @@ export function VislibTypesProvider(Private) {
     histogram: pointSeries.column,
     horizontal_bar: pointSeries.column,
     line: pointSeries.line,
-    pie: Private(VislibPieConfigProvider),
+    pie: Private(VislibLibTypesPieProvider),
     area: pointSeries.area,
     point_series: pointSeries.line,
     heatmap: pointSeries.heatmap,
-    gauge: Private(vislibGaugeProvider),
-    goal: Private(vislibGaugeProvider),
-    metric: Private(vislibGaugeProvider)
   };
 }

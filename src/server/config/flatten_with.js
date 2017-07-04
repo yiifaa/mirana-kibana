@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-export default function (dot, nestedObj, flattenArrays) {
+module.exports = function (dot, nestedObj, flattenArrays) {
   const stack = []; // track key stack
   const flatObj = {};
   (function flattenObj(obj) {
@@ -13,6 +12,6 @@ export default function (dot, nestedObj, flattenArrays) {
     });
   }(nestedObj));
   return flatObj;
-}
+};
 
 

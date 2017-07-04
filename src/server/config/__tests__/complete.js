@@ -73,14 +73,10 @@ describe('server config complete', function () {
     expect(server.log.called).to.be(false);
   });
 
-  it('should transform server.ssl.cert to server.ssl.certificate', function () {
+  it('should transform deprecated settings ', function () {
     const kbnServer = {
       settings: {
-        server: {
-          ssl: {
-            cert: 'path/to/cert'
-          }
-        }
+        port: 8080
       }
     };
 
@@ -92,9 +88,7 @@ describe('server config complete', function () {
     const config = {
       get: sinon.stub().returns({
         server: {
-          ssl: {
-            certificate: 'path/to/cert'
-          }
+          port: 8080
         }
       })
     };

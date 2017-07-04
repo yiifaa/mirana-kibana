@@ -16,15 +16,6 @@
   class="kuiViewContent kuiViewContent--constrainedWidth"
   data-test-subj="dashboardLandingPage"
 >
-  <div class="kuiViewContentItem kuiVerticalRhythm" ng-if="listingController.showLimitError">
-    <div class="kuiInfoPanel kuiInfoPanel--warning">
-      <div class="kuiInfoPanelBody">
-        <div class="kuiInfoPanelBody__message">
-          You have {{ listingController.totalItems }} dashboards, but your "listingLimit" setting prevents the table below from displaying more than {{ listingController.listingLimit }}. You can change this setting under <a kbn-href="#/management/kibana/settings" class="kuiLink">Advanced Settings</a>.
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- ControlledTable -->
   <div class="kuiViewContentItem kuiControlledTable kuiVerticalRhythm">
     <!-- ToolBar -->
@@ -36,7 +27,7 @@
             class="kuiToolBarSearchBox__input"
             type="text"
             placeholder="Search..."
-            aria-label="Filter dashboards"
+            aria-label="Filter"
             data-test-subj="searchFilter"
             ng-model="listingController.filter"
           >
@@ -48,11 +39,10 @@
         <button
           class="kuiButton kuiButton--danger"
           ng-click="listingController.deleteSelectedItems()"
-          aria-label="Delete selected dashboards"
-          ng-if="listingController.getSelectedItemsCount() > 0 && !listingController.hideWriteControls"
+          aria-label="Delete selected objects"
+          ng-if="listingController.getSelectedItemsCount() > 0"
           tooltip="Delete selected dashboards"
           tooltip-append-to-body="true"
-          data-test-subj="deleteSelectedDashboards"
         >
           <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-trash"></span>
         </button>
@@ -63,7 +53,7 @@
           href="{{listingController.getCreateDashboardHref()}}"
           aria-label="Create new dashboard"
           data-test-subj="newDashboardLink"
-          ng-if="listingController.getSelectedItemsCount() === 0 && !listingController.hideWriteControls"
+          ng-if="listingController.getSelectedItemsCount() === 0"
           tooltip="Create new dashboard"
           tooltip-append-to-body="true"
         >
@@ -87,30 +77,29 @@
       </div>
     </div>
 
-    <!-- TableInfo -->
+    <!-- NoItems -->
     <div
-      class="kuiPanel kuiPanel--centered kuiPanel--withToolBar"
+      class="kuiPanel kuiPanel--centered kuiPanel--withHeader"
       ng-if="!listingController.items.length && listingController.filter"
     >
-      <div class="kuiTableInfo">
+      <div class="kuiNoItems">
         No dashboards matched your search.
       </div>
     </div>
 
-    <!-- EmptyTablePrompt -->
+    <!-- PromptForItems -->
     <div
-      class="kuiPanel kuiPanel--centered kuiPanel--withToolBar"
+      class="kuiPanel kuiPanel--centered kuiPanel--withHeader"
       ng-if="!listingController.isFetchingItems && !listingController.items.length && !listingController.filter"
     >
-      <div class="kuiEmptyTablePrompt">
-        <div class="kuiEmptyTablePrompt__message">
-          Looks like you don&rsquo;t have any dashboards. <span ng-if="!listingController.hideWriteControls">Let&rsquo;s create some!</span>
+      <div class="kuiPromptForItems">
+        <div class="kuiPromptForItems__message">
+          Looks like you don&rsquo;t have any dashboards. Let&rsquo;s create some!
         </div>
 
-        <div class="kuiEmptyTablePrompt__actions" ng-if="!listingController.hideWriteControls">
+        <div class="kuiPromptForItems__actions">
           <a
             class="kuiButton kuiButton--primary kuiButton--iconText"
-            data-test-subj="createDashboardPromptButton"
             href="{{listingController.getCreateDashboardHref()}}"
           >
             <span class="kuiButton__inner">
@@ -126,7 +115,7 @@
     <table class="kuiTable" ng-if="listingController.items.length">
       <thead>
       <tr>
-        <th class="kuiTableHeaderCell kuiTableHeaderCell--checkBox" ng-if="!listingController.hideWriteControls">
+        <th class="kuiTableHeaderCell kuiTableHeaderCell--checkBox">
           <input
             type="checkbox"
             class="kuiCheckBox"
@@ -135,22 +124,11 @@
           >
         </th>
 
-        <th class="kuiTableHeaderCell" ng-click="listingController.sortOn('title')">
+        <th class="kuiTableHeaderCell" ng-click="listingController.toggleSort()">
           Name
           <span
-            class="kuiIcon"
-            ng-show="listingController.getSortedProperty().name == 'title'"
-            ng-class="listingController.isAscending('title') ? 'fa-caret-up' : 'fa-caret-down'"
-          >
-          </span>
-        </th>
-        <th class="kuiTableHeaderCell" ng-click="listingController.sortOn('description')">
-          Description
-          <span
-            class="kuiIcon"
-            ng-show="listingController.getSortedProperty().name == 'description'"
-            ng-class="listingController.isAscending('description') ? 'fa-caret-up' : 'fa-caret-down'"
-          >
+            class="fa"
+            ng-class="listingController.isAscending ? 'fa-caret-up' : 'fa-caret-down'">
           </span>
         </th>
       </tr>
@@ -161,12 +139,11 @@
         ng-repeat="item in listingController.pageOfItems track by item.id"
         class="kuiTableRow"
       >
-        <td class="kuiTableRowCell kuiTableRowCell--checkBox" ng-if="!listingController.hideWriteControls">
+        <td class="kuiTableRowCell kuiTableRowCell--checkBox">
           <div class="kuiTableRowCell__liner">
             <input
               type="checkbox"
               class="kuiCheckBox"
-              data-test-subj="dashboardListItemCheckbox"
               ng-click="listingController.toggleItem(item)"
               ng-checked="listingController.isItemChecked(item)"
             >
@@ -178,11 +155,6 @@
             <a class="kuiLink" ng-href="{{ listingController.getUrlForItem(item) }}">
               {{ item.title }}
             </a>
-          </div>
-        </td>
-        <td class="kuiTableRowCell kuiTableRowCell--wrap">
-          <div class="kuiTableRowCell__liner">
-            {{ item.description }}
           </div>
         </td>
       </tr>

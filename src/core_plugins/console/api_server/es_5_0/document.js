@@ -1,4 +1,4 @@
-export default function (api) {
+module.exports = function (api) {
   api.addEndpointDescription('_get_doc', {
     methods: ['GET'],
     patterns: [
@@ -230,4 +230,4 @@ export default function (api) {
       }
     }
   });
-}
+};

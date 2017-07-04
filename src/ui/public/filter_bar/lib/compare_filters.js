@@ -9,7 +9,7 @@ let comparators;
  * @param {object} comparatorOptions Parameters to use for comparison
  * @returns {bool} Filters are the same
  */
-export function compareFilters(first, second, comparatorOptions) {
+export default function (first, second, comparatorOptions) {
   excludedAttributes = ['$$hashKey', 'meta'];
   comparators = _.defaults(comparatorOptions || {}, {
     state: false,

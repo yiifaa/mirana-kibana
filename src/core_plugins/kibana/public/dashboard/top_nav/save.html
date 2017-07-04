@@ -3,35 +3,14 @@
   ng-submit="opts.save()"
 >
   <div class="kuiLocalDropdownTitle">Save {{opts.displayName}}</div>
-  <div class="kuiLocalDropdownSection">
-    <div class="kuiLocalDropdownHeader">
-      <div class="kuiLocalDropdownHeader__label">
-        Title
-      </div>
-    </div>
-    <input
-      class="kuiLocalDropdownInput"
-      id="dashboardTitle"
-      type="text"
-      ng-model="model.title"
-      placeholder="Dashboard title"
-      input-focus="select"
-    >
-  </div>
-  <div class="kuiLocalDropdownSection">
-    <div class="kuiLocalDropdownHeader">
-      <div class="kuiLocalDropdownHeader__label">
-        Description
-      </div>
-    </div>
-    <input
-      class="kuiLocalDropdownInput"
-      id="dashboardDescription"
-      type="text"
-      ng-model="model.description"
-      placeholder="Dashboard description"
-    >
-  </div>
+  <input
+    class="kuiLocalDropdownInput"
+    id="dashboardTitle"
+    type="text"
+    ng-model="model.title"
+    placeholder="Dashboard title"
+    input-focus="select"
+  >
 
   <saved-object-save-as-check-box saved-object="opts.dashboard"></saved-object-save-as-check-box>
 
@@ -48,13 +27,7 @@
     </label>
   </div>
 
-  <button
-    data-test-subj="confirmSaveDashboardButton"
-    type="submit"
-    ng-disabled="!model.title"
-    class="kuiButton kuiButton--primary"
-    aria-label="Save dashboard"
-  >
+  <button type="submit" ng-disabled="!model.title" class="btn btn-primary" aria-label="Save dashboard">
     Save
   </button>
 </form>

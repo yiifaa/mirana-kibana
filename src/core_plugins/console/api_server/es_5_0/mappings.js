@@ -4,7 +4,7 @@ var BOOLEAN = {
   __one_of: [true, false]
 };
 
-export default function (api) {
+module.exports = function (api) {
   api.addEndpointDescription('_get_mapping', {
     methods: ['GET'],
     priority: 10, // collides with get doc by id
@@ -216,4 +216,4 @@ export default function (api) {
       }
     }
   });
-}
+};

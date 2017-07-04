@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { renderToHtml } from '../../services';
-
 import {
   GuideDemo,
   GuidePage,
@@ -9,55 +7,38 @@ import {
   GuideSectionTypes,
 } from '../../components';
 
-import {
-  KuiConfirmModal,
-} from '../../../../components';
-
-import { ConfirmModalExample } from './confirm_modal_example';
-const showConfirmModalSource = require('!!raw!./confirm_modal_example');
-const showConfirmModalHtml = renderToHtml(ConfirmModalExample);
-
-const kuiConfirmModalSource = require('!!raw!../../../../components/modal/confirm_modal');
-const kuiConfirmModalHtml = renderToHtml(KuiConfirmModal);
+const modalHtml = require('./modal.html');
+const modalOverlayHtml = require('./modal_overlay.html');
+const modalOverlayJs = require('raw!./modal_overlay.js');
 
 export default props => (
   <GuidePage title={props.route.name}>
-
     <GuideSection
-      title="Confirmation Modal"
+      title="Modal"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: kuiConfirmModalSource,
-      }, {
         type: GuideSectionTypes.HTML,
-        code: kuiConfirmModalHtml,
+        code: modalHtml,
       }]}
     >
-      <GuideDemo>
-          <KuiConfirmModal
-            onCancel={() => {}}
-            onConfirm={() => {}}
-            confirmButtonText="Confirm"
-            cancelButtonText="Cancel"
-            message="This is a confirmation modal"
-            title="Confirm Modal Title"
-          />
-      </GuideDemo>
+      <GuideDemo
+        html={modalHtml}
+      />
     </GuideSection>
 
     <GuideSection
-      title="Pop up Confirmation Modal with Overlay"
+      title="ModalOverlay"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: showConfirmModalSource,
-      }, {
         type: GuideSectionTypes.HTML,
-        code: showConfirmModalHtml,
+        code: modalOverlayHtml,
+      }, {
+        type: GuideSectionTypes.JS,
+        code: modalOverlayJs,
       }]}
     >
-      <GuideDemo>
-        <ConfirmModalExample />
-      </GuideDemo>
+      <GuideDemo
+        html={modalOverlayHtml}
+        js={modalOverlayJs}
+      />
     </GuideSection>
   </GuidePage>
 );

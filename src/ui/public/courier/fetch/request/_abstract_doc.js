@@ -1,6 +1,6 @@
-import { AbstractRequestProvider } from './request';
+import AbstractRequestProvider from './request';
 
-export function AbstractDocRequestProvider(Private) {
+export default function DocRequestProvider(Private) {
 
   const AbstractRequest = Private(AbstractRequestProvider);
 
@@ -35,6 +35,7 @@ export function AbstractDocRequestProvider(Private) {
       return super.handleResponse(resp);
     }
   }
+
 
   return AbstractDocRequest;
 }

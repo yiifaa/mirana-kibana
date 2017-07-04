@@ -1,5 +1,4 @@
 import React from 'react';
-import { renderToHtml } from '../../services';
 
 import {
   GuideDemo,
@@ -9,22 +8,15 @@ import {
   GuideText,
 } from '../../components';
 
-import { ToolBar } from './tool_bar';
-const toolBarSource = require('!!raw!./tool_bar');
-const toolBarHtml = renderToHtml(ToolBar);
-
-import { ToolBarFooter } from './tool_bar_footer';
-const toolBarFooterSource = require('!!raw!./tool_bar_footer');
-const toolBarFooterHtml = renderToHtml(ToolBarFooter);
+const toolBarHtml = require('./tool_bar.html');
+const toolBarSearchOnlyHtml = require('./tool_bar_search_only.html');
+const toolBarFooterHtml = require('./tool_bar_footer.html');
 
 export default props => (
   <GuidePage title={props.route.name}>
     <GuideSection
       title="ToolBar"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: toolBarSource,
-      }, {
         type: GuideSectionTypes.HTML,
         code: toolBarHtml,
       }]}
@@ -34,17 +26,26 @@ export default props => (
         list, table, or menu.
       </GuideText>
 
-      <GuideDemo>
-        <ToolBar />
-      </GuideDemo>
+      <GuideDemo
+        html={toolBarHtml}
+      />
+    </GuideSection>
+
+    <GuideSection
+      title="ToolBar with Search only"
+      source={[{
+        type: GuideSectionTypes.HTML,
+        code: toolBarSearchOnlyHtml,
+      }]}
+    >
+      <GuideDemo
+        html={toolBarSearchOnlyHtml}
+      />
     </GuideSection>
 
     <GuideSection
       title="ToolBarFooter"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: toolBarFooterSource,
-      }, {
         type: GuideSectionTypes.HTML,
         code: toolBarFooterHtml,
       }]}
@@ -54,9 +55,9 @@ export default props => (
         controls or a subset of the primary controls.
       </GuideText>
 
-      <GuideDemo>
-        <ToolBarFooter />
-      </GuideDemo>
+      <GuideDemo
+        html={toolBarFooterHtml}
+      />
     </GuideSection>
   </GuidePage>
 );

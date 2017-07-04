@@ -13,7 +13,22 @@ export default function ({ getService, getPageObjects }) {
         return PageObjects.settings.navigateTo();
       })
       .then(function () {
-        return PageObjects.settings.clickKibanaIndices();
+        return PageObjects.settings.clickKibanaIndicies();
+      });
+    });
+
+    it('should load with time pattern checked', function () {
+      return PageObjects.settings.getTimeBasedEventsCheckbox().isSelected()
+      .then(function (selected) {
+        PageObjects.common.saveScreenshot('Settings-initial-state');
+        expect(selected).to.be.ok();
+      });
+    });
+
+    it('should load with name pattern unchecked', function () {
+      return PageObjects.settings.getTimeBasedIndexPatternCheckbox().isSelected()
+      .then(function (selected) {
+        expect(selected).to.not.be.ok();
       });
     });
 
@@ -34,8 +49,8 @@ export default function ({ getService, getPageObjects }) {
       });
     });
 
-    it('should not enable creation', function () {
-      return PageObjects.settings.getCreateIndexPatternButton().isEnabled()
+    it('should not be enable creation', function () {
+      return PageObjects.settings.getCreateButton().isEnabled()
       .then(function (enabled) {
         expect(enabled).to.not.be.ok();
       });

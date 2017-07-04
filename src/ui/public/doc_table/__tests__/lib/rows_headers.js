@@ -1,6 +1,6 @@
 import angular from 'angular';
 import _ from 'lodash';
-import sinon from 'sinon';
+import sinon from 'auto-release-sinon';
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
 import getFakeRow from 'fixtures/fake_row';
@@ -50,39 +50,42 @@ describe('Doc Table', function () {
   //
   const columnTests = function (elemType, parentElem) {
 
-    it('should create a time column if the timefield is defined', function () {
+    it('should create a time column if the timefield is defined', function (done) {
       const childElems = parentElem.find(elemType);
-      expect(childElems.length).to.be(1);
+      expect(childElems.length).to.be(2);
+      done();
     });
 
-    it('should be able to add and remove columns', function () {
+    it('should be able to add and remove columns', function (done) {
       let childElems;
       // Should include a column for toggling and the time column by default
       $parentScope.columns = ['bytes'];
       parentElem.scope().$digest();
       childElems = parentElem.find(elemType);
-      expect(childElems.length).to.be(2);
-      expect($(childElems[1]).text()).to.contain('bytes');
+      expect(childElems.length).to.be(3);
+      expect($(childElems[2]).text()).to.contain('bytes');
 
       $parentScope.columns = ['bytes', 'request_body'];
       parentElem.scope().$digest();
       childElems = parentElem.find(elemType);
-      expect(childElems.length).to.be(3);
-      expect($(childElems[2]).text()).to.contain('request_body');
+      expect(childElems.length).to.be(4);
+      expect($(childElems[3]).text()).to.contain('request_body');
 
       $parentScope.columns = ['request_body'];
       parentElem.scope().$digest();
       childElems = parentElem.find(elemType);
-      expect(childElems.length).to.be(2);
-      expect($(childElems[1]).text()).to.contain('request_body');
+      expect(childElems.length).to.be(3);
+      expect($(childElems[2]).text()).to.contain('request_body');
+      done();
     });
 
-    it('should create only the toggle column if there is no timeField', function () {
+    it('should create only the toggle column if there is no timeField', function (done) {
       delete parentElem.scope().indexPattern.timeFieldName;
       parentElem.scope().$digest();
 
       const childElems = parentElem.find(elemType);
-      expect(childElems.length).to.be(0);
+      expect(childElems.length).to.be(1);
+      done();
     });
 
   };
@@ -117,7 +120,7 @@ describe('Doc Table', function () {
     });
 
     describe('adding and removing columns', function () {
-      columnTests('[data-test-subj~="docTableHeaderField"]', $elem);
+      columnTests('th', $elem);
     });
 
     describe('cycleSortOrder function', function () {
@@ -252,7 +255,7 @@ describe('Doc Table', function () {
     });
 
     describe('adding and removing columns', function () {
-      columnTests('[data-test-subj~="docTableField"]', $elem);
+      columnTests('td', $elem);
     });
 
     describe('details row', function () {

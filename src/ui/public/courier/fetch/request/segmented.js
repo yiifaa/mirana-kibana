@@ -1,9 +1,12 @@
 import _ from 'lodash';
-import { Notifier } from 'ui/notify/notifier';
-import { SearchRequestProvider } from './search';
-import { SegmentedHandleProvider } from './segmented_handle';
+import { isNumber } from 'lodash';
 
-export function SegmentedRequestProvider(es, Private, Promise, timefilter, config) {
+import Notifier from 'ui/notify/notifier';
+
+import SearchRequestProvider from './search';
+import SegmentedHandleProvider from './segmented_handle';
+
+export default function SegmentedReqProvider(es, Private, Promise, timefilter, config) {
   const SearchReq = Private(SearchRequestProvider);
   const SegmentedHandle = Private(SegmentedHandleProvider);
 
@@ -88,7 +91,7 @@ export function SegmentedRequestProvider(es, Private, Promise, timefilter, confi
         const indices = this._active = this._queue.splice(0, indexCount);
         params.index = _.pluck(indices, 'index');
 
-        if (_.isNumber(this._desiredSize)) {
+        if (isNumber(this._desiredSize)) {
           params.body.size = this._pickSizeForIndices(indices);
         }
 
@@ -183,8 +186,11 @@ export function SegmentedRequestProvider(es, Private, Promise, timefilter, confi
 
       return indexPattern.toDetailedIndexList(timeBounds.min, timeBounds.max, this._direction)
       .then(queue => {
+        if (!_.isArray(queue)) queue = [queue];
+
         this._queue = queue;
         this._queueCreated = true;
+
         return queue;
       });
     }
@@ -233,7 +239,7 @@ export function SegmentedRequestProvider(es, Private, Promise, timefilter, confi
         });
       }
 
-      if (_.isNumber(desiredSize)) {
+      if (isNumber(desiredSize)) {
         this._mergedResp.hits.hits = mergedHits.slice(0, desiredSize);
       }
     }
@@ -287,7 +293,7 @@ export function SegmentedRequestProvider(es, Private, Promise, timefilter, confi
       const desiredSize = this._desiredSize;
 
       const size = _.size(hits);
-      if (!_.isNumber(desiredSize) || size < desiredSize) {
+      if (!isNumber(desiredSize) || size < desiredSize) {
         this._hitWindow = {
           size: size,
           min: -Infinity,
@@ -313,7 +319,7 @@ export function SegmentedRequestProvider(es, Private, Promise, timefilter, confi
       const hitWindow = this._hitWindow;
       const desiredSize = this._desiredSize;
 
-      if (!_.isNumber(desiredSize)) return null;
+      if (!isNumber(desiredSize)) return null;
       // we don't have any hits yet, get us more info!
       if (!hitWindow) return desiredSize;
       // the order of documents isn't important, just get us more

@@ -1,5 +1,4 @@
 import React from 'react';
-import { renderToHtml } from '../../services';
 
 import {
   GuideDemo,
@@ -7,34 +6,32 @@ import {
   GuideSection,
   GuideSectionTypes,
   GuideText,
-  GuideCode
 } from '../../components';
 
-import Tabs from './tabs';
-const tabsSource = require('!!raw!./tabs');
-const tabsHtml = renderToHtml(Tabs);
+const html = require('./tabs.html');
+const js = require('raw!./tabs.js');
 
 export default props => (
   <GuidePage title={props.route.name}>
     <GuideSection
       title="Tabs"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: tabsSource,
-      }, {
         type: GuideSectionTypes.HTML,
-        code: tabsHtml,
+        code: html,
+      }, {
+        type: GuideSectionTypes.JS,
+        code: js,
       }]}
     >
       <GuideText>
-        The <GuideCode>KuiTabs</GuideCode> component should have
-        <GuideCode>KuiTab</GuideCode> components as children.
+        Wrap any series of components, e.g. Panel, in the VerticalRhythm component to space
+        them apart.
       </GuideText>
 
-      <GuideDemo>
-        <Tabs />
-      </GuideDemo>
+      <GuideDemo
+        html={html}
+        js={js}
+      />
     </GuideSection>
-
   </GuidePage>
 );

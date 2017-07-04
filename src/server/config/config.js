@@ -2,13 +2,14 @@ import Joi from 'joi';
 import _ from 'lodash';
 import override from './override';
 import createDefaultSchema from './schema';
-import { pkg, unset, deepCloneWithBuffers as clone } from '../../utils';
+import { pkg, unset } from '../../utils';
+import { deepCloneWithBuffers as clone } from '../../utils';
 
 const schema = Symbol('Joi Schema');
 const schemaExts = Symbol('Schema Extensions');
 const vals = Symbol('config values');
 
-export default class Config {
+module.exports = class Config {
   static withDefaultSchema(settings = {}) {
     return new Config(createDefaultSchema(), settings);
   }
@@ -73,7 +74,7 @@ export default class Config {
     let env = newVals.env;
     delete newVals.env;
     if (_.isObject(env)) env = env.name;
-    if (!env) env = 'production';
+    if (!env) env = process.env.NODE_ENV || 'production';
 
     const dev = env === 'development';
     const prod = env === 'production';
@@ -86,7 +87,6 @@ export default class Config {
       notProd: !prod,
       notDev: !dev,
       version: _.get(pkg, 'version'),
-      branch: _.get(pkg, 'branch'),
       buildNum: dev ? Math.pow(2, 53) - 1 : _.get(pkg, 'build.number', NaN),
       buildSha: dev ? 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' : _.get(pkg, 'build.sha', '')
     };
@@ -97,10 +97,7 @@ export default class Config {
       );
     }
 
-    const results = Joi.validate(newVals, this.getSchema(), {
-      context,
-      abortEarly: false
-    });
+    const results = Joi.validate(newVals, this.getSchema(), { context });
 
     if (results.error) {
       throw results.error;
@@ -174,4 +171,4 @@ export default class Config {
 
     return this[schema];
   }
-}
+};

@@ -16,5 +16,11 @@ module.exports = {
       '!src/**/public/**',
       '!**/_*.js'
     ]
+  },
+  api: {
+    src: [
+      'test/mocha_setup.js',
+      'test/unit/**/*.js'
+    ]
   }
 };

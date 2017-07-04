@@ -1,7 +1,7 @@
 
 import formatNumber from './format_number';
 
-export default function makeChartOptions(type) {
+module.exports = function makeChartOptions(type) {
   return {
     chart: {
       type: 'lineChart',
@@ -25,4 +25,4 @@ export default function makeChartOptions(type) {
       x: function (d) { return d.x; }
     }
   };
-}
+};

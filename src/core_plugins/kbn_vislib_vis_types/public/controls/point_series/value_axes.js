@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 import vislibValueAxesTemplate from 'plugins/kbn_vislib_vis_types/controls/point_series/value_axes.html';
 const module = uiModules.get('kibana');
 
@@ -48,9 +48,9 @@ module.directive('vislibValueAxes', function () {
 
       $scope.getSeries = function (axis) {
         const isFirst = $scope.vis.params.valueAxes[0] === axis;
-        const series = $scope.vis.params.seriesParams.filter(series =>
-          (series.valueAxis === axis.id || (isFirst && !series.valueAxis))
-        );
+        const series = _.filter($scope.vis.params.seriesParams, series => {
+          return series.valueAxis === axis.id || (isFirst && !series.valueAxis);
+        });
         return series.map(series => series.data.label).join(', ');
       };
 

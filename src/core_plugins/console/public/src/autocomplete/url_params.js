@@ -1,12 +1,13 @@
 let _ = require('lodash');
 let engine = require('./engine');
 
-export function ParamComponent(name, parent, description) {
+function ParamComponent(name, parent, description) {
   engine.ConstantComponent.call(this, name, parent);
   this.description = description;
 }
 
 ParamComponent.prototype = _.create(engine.ConstantComponent.prototype, { "constructor": ParamComponent });
+module.exports.ParamComponent = ParamComponent;
 
 (function (cls) {
   cls.getTerms = function () {
@@ -23,7 +24,7 @@ ParamComponent.prototype = _.create(engine.ConstantComponent.prototype, { "const
 
 })(ParamComponent.prototype);
 
-export function UrlParams(description, defaults) {
+function UrlParams(description, defaults) {
   // This is not really a component, just a handy container to make iteration logic simpler
   this.rootComponent = new engine.SharedComponent("ROOT");
   if (_.isUndefined(defaults)) {
@@ -54,3 +55,5 @@ export function UrlParams(description, defaults) {
   }
 
 })(UrlParams.prototype);
+
+module.exports.UrlParams = UrlParams;

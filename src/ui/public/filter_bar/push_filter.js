@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export function FilterBarPushFilterProvider() {
+export default function () {
   return function ($state) {
     if (!_.isObject($state)) throw new Error('pushFilters requires a state object');
     return function (filter, negate, index) {

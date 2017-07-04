@@ -1,2 +1,7 @@
-export { getHighlightHtml } from './highlight_html';
-export { getHighlightRequest } from './highlight_request';
+import getHighlightHtml from './highlight_html';
+import getHighlightRequestProvider from './highlight_request';
+
+export default {
+  getHighlightHtml,
+  getHighlightRequestProvider
+};

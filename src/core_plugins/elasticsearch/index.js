@@ -9,13 +9,14 @@ import { clientLogger } from './lib/client_logger';
 import { createClusters } from './lib/create_clusters';
 import filterHeaders from './lib/filter_headers';
 
-import { createProxy, createPath } from './lib/create_proxy';
+import createProxy, { createPath } from './lib/create_proxy';
 
 const DEFAULT_REQUEST_HEADERS = [ 'authorization' ];
 
-export default function (kibana) {
-  return new kibana.Plugin({
+module.exports = function ({ Plugin }) {
+  return new Plugin({
     require: ['kibana'],
+
     config(Joi) {
       const { array, boolean, number, object, string, ref } = Joi;
 
@@ -41,7 +42,7 @@ export default function (kibana) {
         startupTimeout: number().default(5000),
         logQueries: boolean().default(false),
         ssl: sslSchema,
-        apiVersion: Joi.string().default('master'),
+        apiVersion: Joi.string().default('5.x'),
         healthCheck: object({
           delay: number().default(2500)
         }).default(),
@@ -58,7 +59,7 @@ export default function (kibana) {
           startupTimeout: number().default(5000),
           logQueries: boolean().default(false),
           ssl: sslSchema,
-          apiVersion: Joi.string().default('master'),
+          apiVersion: Joi.string().default('5.x'),
         }).default()
       }).default();
     },
@@ -158,12 +159,12 @@ export default function (kibana) {
           pre: [ noDirectIndex, noBulkCheck ]
         }
       );
+
       // Set up the health check service and start it.
-      const mappings = kibana.uiExports.mappings.getCombined();
-      const { start, waitUntilReady } = healthCheck(this, server, { mappings });
+      const { start, waitUntilReady } = healthCheck(this, server);
       server.expose('waitUntilReady', waitUntilReady);
       start();
     }
   });
 
-}
+};

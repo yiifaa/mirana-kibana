@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import angular from 'angular';
 import moment from 'moment';
-import { getSort } from 'ui/doc_table/lib/get_sort';
+import getSort from 'ui/doc_table/lib/get_sort';
 import * as columnActions from 'ui/doc_table/actions/columns';
 import dateMath from '@elastic/datemath';
 import 'ui/doc_table';
@@ -15,19 +15,18 @@ import 'ui/index_patterns';
 import 'ui/state_management/app_state';
 import 'ui/timefilter';
 import 'ui/share';
-import { VisProvider } from 'ui/vis';
-import { DocTitleProvider } from 'ui/doc_title';
-import { UtilsBrushEventProvider } from 'ui/utils/brush_event';
+import VisProvider from 'ui/vis';
+import DocTitleProvider from 'ui/doc_title';
+import UtilsBrushEventProvider from 'ui/utils/brush_event';
 import PluginsKibanaDiscoverHitSortFnProvider from 'plugins/kibana/discover/_hit_sort_fn';
-import { FilterBarQueryFilterProvider } from 'ui/filter_bar/query_filter';
-import { FilterManagerProvider } from 'ui/filter_manager';
-import { AggTypesBucketsIntervalOptionsProvider } from 'ui/agg_types/buckets/_interval_options';
-import { stateMonitorFactory } from 'ui/state_management/state_monitor_factory';
+import FilterBarQueryFilterProvider from 'ui/filter_bar/query_filter';
+import FilterManagerProvider from 'ui/filter_manager';
+import AggTypesBucketsIntervalOptionsProvider from 'ui/agg_types/buckets/_interval_options';
+import stateMonitorFactory  from 'ui/state_management/state_monitor_factory';
 import uiRoutes from 'ui/routes';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 import indexTemplate from 'plugins/kibana/discover/index.html';
-import { StateProvider } from 'ui/state_management/state';
-import { documentationLinks } from 'ui/documentation_links/documentation_links';
+import StateProvider from 'ui/state_management/state';
 
 const app = uiModules.get('apps/discover', [
   'kibana/notify',
@@ -103,7 +102,6 @@ function discoverController($scope, config, courier, $route, $window, Notifier,
     location: 'Discover'
   });
 
-  $scope.queryDocLinks = documentationLinks.query;
   $scope.intervalOptions = Private(AggTypesBucketsIntervalOptionsProvider);
   $scope.showInterval = false;
 
@@ -152,81 +150,8 @@ function discoverController($scope, config, courier, $route, $window, Notifier,
   }
 
   let stateMonitor;
-  const $appStatus = $scope.appStatus = this.appStatus = {
-    dirty: !savedSearch.id
-  };
-
+  const $appStatus = $scope.appStatus = this.appStatus = {};
   const $state = $scope.state = new AppState(getStateDefaults());
-
-  const getFieldCounts = async () => {
-    // the field counts aren't set until we have the data back,
-    // so we wait for the fetch to be done before proceeding
-    if (!$scope.fetchStatus) {
-      return $scope.fieldCounts;
-    }
-
-    return await new Promise(resolve => {
-      const unwatch = $scope.$watch('fetchStatus', (newValue) => {
-        if (newValue) {
-          return;
-        }
-
-        unwatch();
-        resolve($scope.fieldCounts);
-      });
-    });
-  };
-
-
-  const getSharingDataFields = async () => {
-    const selectedFields = $state.columns;
-    if (selectedFields.length === 1 && selectedFields[0] ===  '_source') {
-      const fieldCounts = await getFieldCounts();
-      return {
-        searchFields: null,
-        selectFields: _.keys(fieldCounts).sort()
-      };
-    }
-
-    const timeFieldName = $scope.indexPattern.timeFieldName;
-    const fields = timeFieldName ? [timeFieldName, ...selectedFields] : selectedFields;
-    return {
-      searchFields: fields,
-      selectFields: fields
-    };
-  };
-
-  this.getSharingData = async () => {
-    const searchSource = $scope.searchSource.clone();
-
-    const { searchFields, selectFields } = await getSharingDataFields();
-    searchSource.set('fields', searchFields);
-    searchSource.set('sort', getSort($state.sort, $scope.indexPattern));
-    searchSource.set('highlight', null);
-    searchSource.set('highlightAll', null);
-    searchSource.set('aggs', null);
-    searchSource.set('size', null);
-
-    const body = await searchSource.getSearchRequestBody();
-    return {
-      searchRequest: {
-        index: searchSource.get('index').id,
-        body
-      },
-      fields: selectFields,
-      metaFields: $scope.indexPattern.metaFields,
-      conflictedTypesFields: $scope.indexPattern.fields.filter(f => f.type === 'conflict').map(f => f.name),
-    };
-  };
-
-  this.getSharingType = () => {
-    return 'search';
-  };
-
-  this.getSharingTitle = () => {
-    return savedSearch.title;
-  };
-
   $scope.uiState = $state.makeStateful('uiState');
 
   function getStateDefaults() {
@@ -270,7 +195,7 @@ function discoverController($scope, config, courier, $route, $window, Notifier,
 
     stateMonitor = stateMonitorFactory.create($state, getStateDefaults());
     stateMonitor.onChange((status) => {
-      $appStatus.dirty = status.dirty || !savedSearch.id;
+      $appStatus.dirty = status.dirty;
     });
     $scope.$on('$destroy', () => stateMonitor.destroy());
 

@@ -1,4 +1,4 @@
-export function ReqStatusProvider() {
+export default function CourierFetchRequestStatus() {
   return {
     ABORTED: { CourierFetchRequestStatus: 'aborted' },
     DUPLICATE: { CourierFetchRequestStatus: 'duplicate' },

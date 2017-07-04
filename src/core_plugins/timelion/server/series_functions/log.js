@@ -1,8 +1,7 @@
 import alter from '../lib/alter.js';
 import _ from 'lodash';
 import Chainable from '../lib/classes/chainable';
-
-export default new Chainable('log', {
+module.exports = new Chainable('log', {
   args: [
     {
       name: 'inputSeries',

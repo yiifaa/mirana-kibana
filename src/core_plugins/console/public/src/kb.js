@@ -1,10 +1,10 @@
-const $ = require('jquery');
-const _ = require('lodash');
-const mappings = require('./mappings');
-const Api = require('./kb/api');
-const autocomplete_engine = require('./autocomplete/engine');
+let $ = require('jquery');
+let _ = require('lodash');
+let mappings = require('./mappings');
+let Api = require('./kb/api');
+let autocomplete_engine = require('./autocomplete/engine');
 
-let ACTIVE_API = new Api();
+var ACTIVE_API = new Api();
 
 function nonValidIndexType(token) {
   return !(token === "_all" || token[0] !== "_");
@@ -166,15 +166,15 @@ var parametrizedComponentFactories = {
   }
 };
 
-export function getUnmatchedEndpointComponents() {
+function getUnmatchedEndpointComponents() {
   return ACTIVE_API.getUnmatchedEndpointComponents();
 }
 
-export function getEndpointDescriptionByEndpoint(endpoint) {
+function getEndpointDescriptionByEndpoint(endpoint) {
   return ACTIVE_API.getEndpointDescriptionByEndpoint(endpoint)
 }
 
-export function getEndpointBodyCompleteComponents(endpoint) {
+function getEndpointBodyCompleteComponents(endpoint) {
   var desc = getEndpointDescriptionByEndpoint(endpoint);
   if (!desc) {
     throw new Error("failed to resolve endpoint ['" + endpoint + "']");
@@ -182,11 +182,11 @@ export function getEndpointBodyCompleteComponents(endpoint) {
   return desc.bodyAutocompleteRootComponents;
 }
 
-export function getTopLevelUrlCompleteComponents() {
+function getTopLevelUrlCompleteComponents() {
   return ACTIVE_API.getTopLevelUrlCompleteComponents();
 }
 
-export function getGlobalAutocompleteComponents(term, throwOnMissing) {
+function getGlobalAutocompleteComponents(term, throwOnMissing) {
   return ACTIVE_API.getGlobalAutocompleteComponents(term, throwOnMissing);
 }
 
@@ -208,7 +208,7 @@ function loadApisFromJson(json, urlParametrizedComponentFactories, bodyParametri
   return api;
 }
 
-export function setActiveApi(api) {
+function setActiveApi(api) {
   if (_.isString(api)) {
     $.ajax({
         url: '../api/console/api_server?sense_version=' + encodeURIComponent('@@SENSE_VERSION') + "&apis=" + encodeURIComponent(api),
@@ -231,6 +231,13 @@ export function setActiveApi(api) {
 
 setActiveApi('es_5_0');
 
-export const _test = {
+module.exports.setActiveApi = setActiveApi;
+module.exports.getGlobalAutocompleteComponents = getGlobalAutocompleteComponents;
+module.exports.getEndpointDescriptionByEndpoint = getEndpointDescriptionByEndpoint;
+module.exports.getEndpointBodyCompleteComponents = getEndpointBodyCompleteComponents;
+module.exports.getTopLevelUrlCompleteComponents = getTopLevelUrlCompleteComponents;
+module.exports.getUnmatchedEndpointComponents = getUnmatchedEndpointComponents;
+
+module.exports._test = {
   loadApisFromJson: loadApisFromJson
 };

@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import processFunctionDefinition from './server/lib/process_function_definition';
 
-export default function (server) {
+module.exports = function (server) {
   //var config = server.config();
+
   require('./server/routes/run.js')(server);
   require('./server/routes/functions.js')(server);
   require('./server/routes/validate_es.js')(server);
@@ -25,4 +26,4 @@ export default function (server) {
   };
 
 
-}
+};

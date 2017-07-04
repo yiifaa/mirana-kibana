@@ -1,15 +1,17 @@
+import IndexedArray from 'ui/indexed_array';
+import _ from 'lodash';
 import $ from 'jquery';
 import aggSelectHtml from 'plugins/kibana/visualize/editor/agg_select.html';
 import advancedToggleHtml from 'plugins/kibana/visualize/editor/advanced_toggle.html';
 import 'ui/filters/match_any';
 import 'plugins/kibana/visualize/editor/agg_param';
-import { AggTypesIndexProvider } from 'ui/agg_types/index';
-import { uiModules } from 'ui/modules';
+import AggTypesIndexProvider from 'ui/agg_types/index';
+import uiModules from 'ui/modules';
 import aggParamsTemplate from 'plugins/kibana/visualize/editor/agg_params.html';
 
 uiModules
 .get('app/visualize')
-.directive('visEditorAggParams', function ($compile, $parse, Private) {
+.directive('visEditorAggParams', function ($compile, $parse, Private, Notifier, $filter) {
   const aggTypes = Private(AggTypesIndexProvider);
 
   return {
@@ -97,7 +99,7 @@ uiModules
           if (param.name === 'field') {
             fields = $aggParamEditorsScope.indexedFields;
           } else if (param.type === 'field') {
-            fields = $aggParamEditorsScope[`${param.name}Options`] = param.getFieldOptions($scope.agg);
+            fields = $aggParamEditorsScope[`${param.name}Options`] = getIndexedFields(param);
           }
 
           if (fields) {
@@ -149,6 +151,31 @@ uiModules
         .attr(attrs)
         .append(param.editor)
         .get(0);
+      }
+
+      function getIndexedFields(param) {
+        let fields = _.filter($scope.agg.vis.indexPattern.fields.raw, 'aggregatable');
+        const fieldTypes = param.filterFieldTypes;
+
+        if (fieldTypes) {
+          const filter = _.isFunction(fieldTypes) ? fieldTypes.bind(this, $scope.agg.vis) : fieldTypes;
+          fields = $filter('fieldType')(fields, filter);
+          fields = $filter('orderBy')(fields, ['type', 'name']);
+        }
+
+        return new IndexedArray({
+
+          /**
+           * @type {Array}
+           */
+          index: ['name'],
+
+          /**
+           * [group description]
+           * @type {Array}
+           */
+          initialSet: fields
+        });
       }
     }
   };

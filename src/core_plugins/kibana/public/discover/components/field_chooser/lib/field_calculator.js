@@ -94,7 +94,7 @@ function _groupValues(allValues, params) {
   return groups;
 }
 
-export const fieldCalculator = {
+export default {
   _groupValues: _groupValues,
   _countMissing: _countMissing,
   getFieldValues: getFieldValues,

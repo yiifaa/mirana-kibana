@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import $ from 'jquery';
-import { Binder } from 'ui/binder';
+import Binder from 'ui/binder';
 import chrome from 'ui/chrome';
 import 'gridster';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 import { DashboardViewMode } from 'plugins/kibana/dashboard/dashboard_view_mode';
 import { PanelUtils } from 'plugins/kibana/dashboard/panel/panel_utils';
 
@@ -23,12 +23,6 @@ app.directive('dashboardGrid', function ($compile, Notifier) {
        * @type {function} - Returns a {PersistedState} child uiState for this scope.
        */
       createChildUiState: '=',
-      /**
-       * Registers an index pattern with the dashboard app used by each panel. The index patterns are used by the
-       * filter bar for generating field suggestions.
-       * @type {function(IndexPattern)}
-       */
-      registerPanelIndexPattern: '=',
       /**
        * Trigger after a panel has been removed from the grid.
        */
@@ -112,7 +106,7 @@ app.directive('dashboardGrid', function ($compile, Notifier) {
             stop: readGridsterChangeHandler
           },
           draggable: {
-            handle: '[data-dashboard-panel-drag-handle]',
+            handle: '.panel-move, .fa-arrows',
             stop: readGridsterChangeHandler
           }
         }).data('gridster');
@@ -202,7 +196,6 @@ app.directive('dashboardGrid', function ($compile, Notifier) {
         $window.on('resize', safeLayout);
         $scope.$on('ready:vis', safeLayout);
         $scope.$on('globalNav:update', safeLayout);
-        $scope.$on('reLayout', safeLayout);
       }
 
       // tell gridster to add the panel, and create additional meatadata like $scope
@@ -219,7 +212,6 @@ app.directive('dashboardGrid', function ($compile, Notifier) {
                   get-vis-click-handler="getVisClickHandler"
                   get-vis-brush-handler="getVisBrushHandler"
                   save-state="saveState"
-                  register-panel-index-pattern="registerPanelIndexPattern"
                   toggle-expand="toggleExpand(${panel.panelIndex})"
                   create-child-ui-state="createChildUiState">
             </li>`;

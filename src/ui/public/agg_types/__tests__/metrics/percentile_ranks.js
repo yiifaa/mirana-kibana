@@ -1,10 +1,10 @@
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
-import { AggTypesMetricsPercentileRanksProvider } from 'ui/agg_types/metrics/percentile_ranks';
-import { VisProvider } from 'ui/vis';
+import AggTypeMetricPercentileRanksProvider from 'ui/agg_types/metrics/percentile_ranks';
+import VisProvider from 'ui/vis';
 import FixturesStubbedLogstashIndexPatternProvider from 'fixtures/stubbed_logstash_index_pattern';
 
-describe('AggTypesMetricsPercentileRanksProvider class', function () {
+describe('AggTypeMetricPercentileRanksProvider class', function () {
 
   let Vis;
   let indexPattern;
@@ -14,7 +14,7 @@ describe('AggTypesMetricsPercentileRanksProvider class', function () {
   beforeEach(ngMock.inject(function (Private) {
     Vis = Private(VisProvider);
     indexPattern = Private(FixturesStubbedLogstashIndexPatternProvider);
-    aggTypeMetricPercentileRanks = Private(AggTypesMetricsPercentileRanksProvider);
+    aggTypeMetricPercentileRanks = Private(AggTypeMetricPercentileRanksProvider);
   }));
 
   it('uses the custom label if it is set', function () {

@@ -9,7 +9,7 @@ fetch.Promise = require('bluebird');
 import Datasource from '../lib/classes/datasource';
 
 
-export default new Datasource ('quandl', {
+module.exports = new Datasource ('quandl', {
   dataSource: true,
   args: [
     {

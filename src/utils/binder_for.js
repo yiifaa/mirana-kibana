@@ -1,6 +1,6 @@
-import { BinderBase } from './binder';
+import Binder from './binder';
 
-export class BinderFor extends BinderBase {
+export default class BinderFor extends Binder {
   constructor(emitter) {
     super();
     this.emitter = emitter;

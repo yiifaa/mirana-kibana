@@ -1,4 +1,4 @@
-export function RangeKeyProvider() {
+export default function () {
 
   const id = Symbol('id');
 

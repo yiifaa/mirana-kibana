@@ -1,10 +1,11 @@
-export function FilterBarLibMapMissingProvider(Promise) {
+export default function mapMissingProvider(Promise) {
   return function (filter) {
+    let key;
+    let value;
     if (filter.missing) {
-      const type = 'missing';
-      const key = filter.missing.field;
-      const value = type;
-      return Promise.resolve({ type, key, value });
+      key = 'missing';
+      value = filter.missing.field;
+      return Promise.resolve({ key: key, value: value });
     }
     return Promise.reject(filter);
   };

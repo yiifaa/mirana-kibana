@@ -4,16 +4,15 @@ import '../visualizations/less/main.less';
 import 'react-select/dist/react-select.css';
 import '../less/main.less';
 import image from '../images/icon-visualbuilder.svg';
-import { TemplateVisTypeProvider } from 'ui/template_vis_type';
 
-import { VisVisTypeProvider } from 'ui/vis/vis_type';
+import VisVisTypeProvider from 'ui/vis/vis_type';
 // register the provider with the visTypes registry so that other know it exists
-import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
-VisTypesRegistryProvider.register(MetricsVisProvider);
+import visTypes from 'ui/registry/vis_types';
+visTypes.register(MetricsVisProvider);
 
 export default function MetricsVisProvider(Private) {
   const VisType = Private(VisVisTypeProvider);
-  const TemplateVisType = Private(TemplateVisTypeProvider);
+  const TemplateVisType = Private(require('ui/template_vis_type'));
 
   // return the visType object, which kibana will use to display and configure new
   // Vis object of this type.

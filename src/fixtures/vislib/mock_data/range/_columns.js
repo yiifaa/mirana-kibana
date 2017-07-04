@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default {
+module.exports = {
   'columns': [
     {
       'label': 'apache: _type',

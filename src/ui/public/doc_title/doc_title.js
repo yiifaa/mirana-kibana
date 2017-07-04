@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 
 uiModules.get('kibana')
 .run(function ($rootScope, docTitle) {
@@ -39,7 +39,6 @@ uiModules.get('kibana')
 });
 
 // return a "private module" so that it can be used both ways
-export function DocTitleProvider(docTitle) {
+export default function DoctitleProvider(docTitle) {
   return docTitle;
 }
-

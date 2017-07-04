@@ -1,10 +1,10 @@
-import { uiModules } from 'ui/modules';
+import UiModules from 'ui/modules';
 import { words, kebabCase } from 'lodash';
 
 export function kbnUrlDirective(name) {
   const attr = kebabCase(words(name).slice(1));
 
-  uiModules
+  UiModules
   .get('kibana')
   .directive(name, function (Private, chrome) {
     return {

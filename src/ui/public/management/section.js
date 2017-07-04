@@ -1,7 +1,7 @@
 import { assign } from 'lodash';
-import { IndexedArray } from 'ui/indexed_array';
+import IndexedArray from 'ui/indexed_array';
 
-export class ManagementSection {
+export default class ManagementSection {
 
   /**
    * @param {string} id

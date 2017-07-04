@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { highlightTags } from './highlight_tags';
+import highlightTags from './highlight_tags';
 
 const FRAGMENT_SIZE = Math.pow(2, 31) - 1; // Max allowed value for fragment_size (limit of a java int)
 
@@ -26,19 +26,21 @@ function getHighlightQuery(query) {
   return clone;
 }
 
-export function getHighlightRequest(query, getConfig) {
-  if (!getConfig('doc_table:highlight')) return;
+export default function getHighlightRequestProvider(config) {
+  return function getHighlightRequest(query) {
+    if (!config.get('doc_table:highlight')) return;
 
-  const fieldsParams = getConfig('doc_table:highlight:all_fields')
-    ? { highlight_query: getHighlightQuery(query) }
-    : {};
+    const fieldsParams = config.get('doc_table:highlight:all_fields')
+      ? { highlight_query: getHighlightQuery(query) }
+      : {};
 
-  return {
-    pre_tags: [highlightTags.pre],
-    post_tags: [highlightTags.post],
-    fields: {
-      '*': fieldsParams
-    },
-    fragment_size: FRAGMENT_SIZE
+    return {
+      pre_tags: [highlightTags.pre],
+      post_tags: [highlightTags.post],
+      fields: {
+        '*': fieldsParams
+      },
+      fragment_size: FRAGMENT_SIZE
+    };
   };
 }

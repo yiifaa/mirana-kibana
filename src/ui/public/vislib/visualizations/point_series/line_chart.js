@@ -1,8 +1,7 @@
 import d3 from 'd3';
 import _ from 'lodash';
-import { VislibVisualizationsPointSeriesProvider } from './_point_series';
-
-export function VislibVisualizationsLineChartProvider(Private) {
+import VislibVisualizationsPointSeriesProvider from './_point_series';
+export default function LineChartFactory(Private) {
 
   const PointSeries = Private(VislibVisualizationsPointSeriesProvider);
 

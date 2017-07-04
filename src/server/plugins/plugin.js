@@ -48,7 +48,7 @@ const defaultConfigSchema = Joi.object({
  *    the root of the plugin. Set this to false to disable exposure of a
  *    public directory
  */
-export default class Plugin {
+module.exports = class Plugin {
   constructor(kbnServer, path, pkg, opts) {
     this.kbnServer = kbnServer;
     this.pkg = pkg;
@@ -172,4 +172,4 @@ export default class Plugin {
   toString() {
     return `${this.id}@${this.version}`;
   }
-}
+};

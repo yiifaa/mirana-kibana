@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { AggTypesMetricsMetricAggTypeProvider } from 'ui/agg_types/metrics/metric_agg_type';
+import MetricAggTypeProvider from 'ui/agg_types/metrics/metric_agg_type';
 import topSortEditor from 'ui/agg_types/controls/top_sort.html';
 import aggregateAndSizeEditor from 'ui/agg_types/controls/top_aggregate_and_size.html';
 
-export function AggTypesMetricsTopHitProvider(Private) {
-  const MetricAggType = Private(AggTypesMetricsMetricAggTypeProvider);
+export default function AggTypeMetricTopProvider(Private) {
+  const MetricAggType = Private(MetricAggTypeProvider);
 
   const isNumber = function (type) {
     return type === 'number';
@@ -24,6 +24,7 @@ export function AggTypesMetricsTopHitProvider(Private) {
       {
         name: 'field',
         onlyAggregatable: false,
+        showAnalyzedWarning: false,
         filterFieldTypes: function (vis, value) {
           if (vis.type.name === 'table' || vis.type.name === 'metric') {
             return true;
@@ -44,7 +45,7 @@ export function AggTypesMetricsTopHitProvider(Private) {
               }
             };
           } else {
-            if (field.readFromDocValues) {
+            if (field.doc_values) {
               output.params.docvalue_fields = [ field.name ];
             }
             output.params._source = field.name === '_source' ? true : field.name;

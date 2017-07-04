@@ -4,7 +4,7 @@
 
 import _ from 'lodash';
 
-export default function ses(points, alpha) {
+module.exports = function ses(points, alpha) {
   let origin;
   let level;
 
@@ -31,4 +31,4 @@ export default function ses(points, alpha) {
   }, []);
 
   return smoothedPoints;
-}
+};

@@ -1,5 +1,4 @@
-import { esTestServerUrlParts } from '../../test/es_test_server_url_parts';
-
+import serverConfig from '../../test/server_config';
 module.exports = function (grunt) {
   const resolve = require('path').resolve;
   const directory = resolve(__dirname, '../../esvm');
@@ -7,12 +6,12 @@ module.exports = function (grunt) {
 
   return {
     options: {
-      branch: 'master',
+      branch: '5.4',
       fresh: !grunt.option('esvm-no-fresh'),
       config: {
         http: {
           port: 9200
-        },
+        }
       }
     },
 
@@ -89,7 +88,7 @@ module.exports = function (grunt) {
         purge: true,
         config: {
           http: {
-            port: esTestServerUrlParts.port
+            port: serverConfig.servers.elasticsearch.port
           },
           cluster: {
             name: 'esvm-test'
@@ -98,7 +97,7 @@ module.exports = function (grunt) {
             zen: {
               ping: {
                 unicast: {
-                  hosts: [ `localhost:${esTestServerUrlParts.port}` ]
+                  hosts: [ `localhost:${serverConfig.servers.elasticsearch.port}` ]
                 }
               }
             }
@@ -113,7 +112,7 @@ module.exports = function (grunt) {
         purge: true,
         config: {
           http: {
-            port: esTestServerUrlParts.port
+            port: serverConfig.servers.elasticsearch.port
           },
           cluster: {
             name: 'esvm-ui'
@@ -122,7 +121,7 @@ module.exports = function (grunt) {
             zen: {
               ping: {
                 unicast: {
-                  hosts: [ `localhost:${esTestServerUrlParts.port}` ]
+                  hosts: [ `localhost:${serverConfig.servers.elasticsearch.port}` ]
                 }
               }
             }

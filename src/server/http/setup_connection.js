@@ -21,11 +21,6 @@ export default function (kbnServer, server, config) {
       cors: config.get('server.cors'),
       payload: {
         maxBytes: config.get('server.maxPayloadBytes')
-      },
-      validate: {
-        options: {
-          abortEarly: false
-        }
       }
     }
   };

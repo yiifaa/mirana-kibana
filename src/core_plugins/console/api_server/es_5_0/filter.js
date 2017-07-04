@@ -330,7 +330,7 @@ filters.nested = {
   _name: ''
 };
 
-export default function (api) {
+module.exports = function (api) {
   api.addGlobalAutocompleteRules('filter', filters);
-}
+};
 

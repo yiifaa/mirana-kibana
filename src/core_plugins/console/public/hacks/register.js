@@ -1,6 +1,5 @@
-import { DevToolsRegistryProvider } from 'ui/registry/dev_tools';
-
-DevToolsRegistryProvider.register(() => ({
+import devTools from 'ui/registry/dev_tools';
+devTools.register(() => ({
   order: 1,
   name: 'console',
   display: 'Console',

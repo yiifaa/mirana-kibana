@@ -1,4 +1,3 @@
-/* eslint import/no-unresolved: 0 */
 let ace = require('ace');
 
 ace.define("ace/theme/sense-dark", ['require', 'exports', 'module'],

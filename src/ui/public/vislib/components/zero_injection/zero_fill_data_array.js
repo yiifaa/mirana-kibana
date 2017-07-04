@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-export function VislibComponentsZeroInjectionZeroFillDataArrayProvider() {
+export default function ZeroFillDataArrayUtilService() {
 
   /*
    * Accepts an array of zero-filled y value objects (arr1)

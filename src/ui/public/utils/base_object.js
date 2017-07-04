@@ -2,7 +2,7 @@ import _ from 'lodash';
 import rison from 'rison-node';
 import angular from 'angular';
 
-export function BaseObject(attributes) {
+function BaseObject(attributes) {
   // Set the attributes or default to an empty object
   _.assign(this, attributes);
 }
@@ -34,3 +34,5 @@ BaseObject.prototype.toRISON = function () {
 BaseObject.prototype.toJSON = function () {
   return this.toObject();
 };
+
+export default BaseObject;

@@ -3,9 +3,3 @@
     margin-top: $verticalRhythmSpacing;
   }
 }
-
-.kuiVerticalRhythmSmall {
-  & + & {
-    margin-top: $verticalRhythmSmallSpacing;
-  }
-}

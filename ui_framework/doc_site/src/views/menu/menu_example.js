@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { renderToHtml } from '../../services';
-
 import {
   GuideDemo,
   GuidePage,
@@ -9,44 +7,33 @@ import {
   GuideSectionTypes,
 } from '../../components';
 
-import Menu from './menu';
-const menuSource = require('!!raw!./menu');
-const menuHtml = renderToHtml(Menu);
-
-import MenuContained from './menu_contained';
-const menuContainedSource = require('!!raw!./menu_contained');
-const menuContainedHtml = renderToHtml(MenuContained);
+const menuHtml = require('./menu.html');
+const menuContainedHtml = require('./menu_contained.html');
 
 export default props => (
   <GuidePage title={props.route.name}>
     <GuideSection
       title="Menu"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: menuSource,
-      }, {
         type: GuideSectionTypes.HTML,
         code: menuHtml,
       }]}
     >
-      <GuideDemo>
-        <Menu />
-      </GuideDemo>
+      <GuideDemo
+        html={menuHtml}
+      />
     </GuideSection>
 
     <GuideSection
       title="Menu, contained"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: menuContainedSource,
-      }, {
         type: GuideSectionTypes.HTML,
         code: menuContainedHtml,
       }]}
     >
-      <GuideDemo>
-        <MenuContained />
-      </GuideDemo>
+      <GuideDemo
+        html={menuContainedHtml}
+      />
     </GuideSection>
   </GuidePage>
 );

@@ -2,27 +2,26 @@ import 'ui/field_format_editor';
 import 'angular-bootstrap-colorpicker';
 import 'angular-bootstrap-colorpicker/css/colorpicker.css';
 import _ from 'lodash';
-import { RegistryFieldFormatsProvider } from 'ui/registry/field_formats';
-import { IndexPatternsFieldProvider } from 'ui/index_patterns/_field';
-import { uiModules } from 'ui/modules';
+import RegistryFieldFormatsProvider from 'ui/registry/field_formats';
+import IndexPatternsFieldProvider from 'ui/index_patterns/_field';
+import uiModules from 'ui/modules';
 import fieldEditorTemplate from 'ui/field_editor/field_editor.html';
-import { documentationLinks } from '../documentation_links/documentation_links';
+import IndexPatternsCastMappingTypeProvider from 'ui/index_patterns/_cast_mapping_type';
+import { scriptedFields as docLinks } from '../documentation_links/documentation_links';
 import './field_editor.less';
-import { GetEnabledScriptingLanguagesProvider, getSupportedScriptingLanguages } from '../scripting_languages';
-import { getKbnTypeNames } from '../../../utils';
+import { GetEnabledScriptingLangsProvider, getSupportedScriptingLangs } from '../scripting_langs';
 
 uiModules
 .get('kibana', ['colorpicker.module'])
-.directive('fieldEditor', function (Private, $sce, confirmModal, config) {
-  const getConfig = (...args) => config.get(...args);
+.directive('fieldEditor', function (Private, $sce, confirmModal) {
   const fieldFormats = Private(RegistryFieldFormatsProvider);
   const Field = Private(IndexPatternsFieldProvider);
-  const getEnabledScriptingLanguages = Private(GetEnabledScriptingLanguagesProvider);
+  const getEnabledScriptingLangs = Private(GetEnabledScriptingLangsProvider);
 
   const fieldTypesByLang = {
     painless: ['number', 'string', 'date', 'boolean'],
     expression: ['number'],
-    default: getKbnTypeNames()
+    default: _.keys(Private(IndexPatternsCastMappingTypeProvider).types.byType)
   };
 
   return {
@@ -37,9 +36,9 @@ uiModules
       const self = this;
       const notify = new Notifier({ location: 'Field Editor' });
 
-      self.docLinks = documentationLinks.scriptedFields;
-      getScriptingLangs().then((langs) => {
-        self.scriptingLangs = _.intersection(langs, ['expression', 'painless']);
+      self.docLinks = docLinks;
+      getEnabledScriptingLangs().then((langs) => {
+        self.scriptingLangs = langs;
         if (!_.includes(self.scriptingLangs, self.field.lang)) {
           self.field.lang = undefined;
         }
@@ -62,12 +61,8 @@ uiModules
         const fields = indexPattern.fields;
         const field = self.field.toActualField();
 
-        const index = fields.findIndex(f => f.name === field.name);
-        if (index > -1) {
-          fields.splice(index, 1, field);
-        } else {
-          fields.push(field);
-        }
+        fields.remove({ name: field.name });
+        fields.push(field);
 
         if (!self.selectedFormatId) {
           delete indexPattern.fieldFormatMap[field.name];
@@ -104,6 +99,10 @@ uiModules
         );
       };
 
+      self.isSupportedLang = function (lang) {
+        return _.contains(getSupportedScriptingLangs(), lang);
+      };
+
       $scope.$watch('editor.selectedFormatId', function (cur, prev) {
         const format = self.field.format;
         const changedFormat = cur !== prev;
@@ -112,14 +111,12 @@ uiModules
         if (!changedFormat || !missingFormat) return;
 
         // reset to the defaults, but make sure it's an object
-        const FieldFormat = getFieldFormatType();
-        const paramDefaults = new FieldFormat({}, getConfig).getParamDefaults();
-        self.formatParams = _.assign({}, _.cloneDeep(paramDefaults));
+        self.formatParams = _.assign({}, _.cloneDeep(getFieldFormatType().paramDefaults));
       });
 
       $scope.$watch('editor.formatParams', function () {
         const FieldFormat = getFieldFormatType();
-        self.field.format = new FieldFormat(self.formatParams, getConfig);
+        self.field.format = new FieldFormat(self.formatParams);
       }, true);
 
       $scope.$watch('editor.field.type', function (newValue) {
@@ -175,13 +172,6 @@ uiModules
       function getFieldFormatType() {
         if (self.selectedFormatId) return fieldFormats.getType(self.selectedFormatId);
         else return fieldFormats.getDefaultType(self.field.type);
-      }
-
-      function getScriptingLangs() {
-        return getEnabledScriptingLanguages()
-        .then((enabledLanguages) => {
-          return _.intersection(enabledLanguages, getSupportedScriptingLanguages());
-        });
       }
 
       function initDefaultFormat() {

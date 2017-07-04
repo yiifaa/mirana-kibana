@@ -1,6 +1,5 @@
 import moment from 'moment';
-
-export function PointSeriesOrderedDateAxisProvider() {
+export default function PointSeriesOrderedDateAxis() {
 
   return function orderedDateAxis(vis, chart) {
     const xAgg = chart.aspects.x.agg;

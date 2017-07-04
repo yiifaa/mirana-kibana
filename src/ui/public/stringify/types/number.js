@@ -1,8 +1,12 @@
-import { Numeral } from 'ui/stringify/types/_numeral';
+import StringifyTypesNumeralProvider from 'ui/stringify/types/_numeral';
 
-export function stringifyNumber() {
+export default function NumberFormatProvider(Private) {
+  const Numeral = Private(StringifyTypesNumeralProvider);
   return Numeral.factory({
     id: 'number',
-    title: 'Number'
+    title: 'Number',
+    sampleInputs: [
+      10000, 12.345678, -1, -999, 0.52
+    ]
   });
 }

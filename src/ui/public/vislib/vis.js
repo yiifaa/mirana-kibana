@@ -1,17 +1,17 @@
 import _ from 'lodash';
 import d3 from 'd3';
-import { Binder } from 'ui/binder';
+import Binder from 'ui/binder';
 import { KbnError } from 'ui/errors';
-import { EventsProvider } from 'ui/events';
-import { ResizeCheckerProvider } from 'ui/resize_checker';
+import EventsProvider from 'ui/events';
 import './styles/main.less';
-import { VislibVisConfigProvider } from './lib/vis_config';
-import { VisHandlerProvider } from './lib/handler';
+import VislibLibResizeCheckerProvider from './lib/resize_checker';
+import VisConifgProvider from './lib/vis_config';
+import VisHandlerProvider from './lib/handler';
 
-export function VislibVisProvider(Private) {
-  const ResizeChecker = Private(ResizeCheckerProvider);
+export default function VisFactory(Private) {
+  const ResizeChecker = Private(VislibLibResizeCheckerProvider);
   const Events = Private(EventsProvider);
-  const VisConfig = Private(VislibVisConfigProvider);
+  const VisConfig = Private(VisConifgProvider);
   const Handler = Private(VisHandlerProvider);
 
   /**
@@ -98,9 +98,11 @@ export function VislibVisProvider(Private) {
     }
 
     _runWithoutResizeChecker(method) {
-      this.resizeChecker.modifySizeWithoutTriggeringResize(() => {
-        this._runOnHandler(method);
-      });
+      this.resizeChecker.stopSchedule();
+      this._runOnHandler(method);
+      this.resizeChecker.saveSize();
+      this.resizeChecker.saveDirty(false);
+      this.resizeChecker.continueSchedule();
     }
 
     _runOnHandler(method) {

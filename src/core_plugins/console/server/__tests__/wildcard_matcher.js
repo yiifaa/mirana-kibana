@@ -1,4 +1,3 @@
-/* eslint-env mocha */
 import { WildcardMatcher } from '../wildcard_matcher';
 
 function should(candidate, ...constructorArgs) {

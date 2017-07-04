@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import editorHtml from 'ui/agg_types/controls/string.html';
-import { AggTypesParamTypesBaseProvider } from 'ui/agg_types/param_types/base';
-
-export function AggTypesParamTypesStringProvider(Private) {
+import AggTypesParamTypesBaseProvider from 'ui/agg_types/param_types/base';
+export default function FieldAggParamFactory(Private) {
 
   const BaseAggParam = Private(AggTypesParamTypesBaseProvider);
 

@@ -1,13 +1,13 @@
 import expect from 'expect.js';
 import Chance from 'chance';
-import { parseLogLevel } from '../log_levels';
+import { createLogLevelFlags } from '../log_levels';
 
 const chance = new Chance();
 
-describe('parseLogLevel(logLevel).flags', () => {
+describe('createLogLevelFlags()', () => {
   describe('logLevel=silent', () => {
     it('produces correct map', () => {
-      expect(parseLogLevel('silent').flags).to.eql({
+      expect(createLogLevelFlags('silent')).to.eql({
         silent: true,
         error: false,
         warning: false,
@@ -20,7 +20,7 @@ describe('parseLogLevel(logLevel).flags', () => {
 
   describe('logLevel=error', () => {
     it('produces correct map', () => {
-      expect(parseLogLevel('error').flags).to.eql({
+      expect(createLogLevelFlags('error')).to.eql({
         silent: true,
         error: true,
         warning: false,
@@ -33,7 +33,7 @@ describe('parseLogLevel(logLevel).flags', () => {
 
   describe('logLevel=warning', () => {
     it('produces correct map', () => {
-      expect(parseLogLevel('warning').flags).to.eql({
+      expect(createLogLevelFlags('warning')).to.eql({
         silent: true,
         error: true,
         warning: true,
@@ -46,7 +46,7 @@ describe('parseLogLevel(logLevel).flags', () => {
 
   describe('logLevel=info', () => {
     it('produces correct map', () => {
-      expect(parseLogLevel('info').flags).to.eql({
+      expect(createLogLevelFlags('info')).to.eql({
         silent: true,
         error: true,
         warning: true,
@@ -59,7 +59,7 @@ describe('parseLogLevel(logLevel).flags', () => {
 
   describe('logLevel=debug', () => {
     it('produces correct map', () => {
-      expect(parseLogLevel('debug').flags).to.eql({
+      expect(createLogLevelFlags('debug')).to.eql({
         silent: true,
         error: true,
         warning: true,
@@ -72,7 +72,7 @@ describe('parseLogLevel(logLevel).flags', () => {
 
   describe('logLevel=verbose', () => {
     it('produces correct map', () => {
-      expect(parseLogLevel('verbose').flags).to.eql({
+      expect(createLogLevelFlags('verbose')).to.eql({
         silent: true,
         error: true,
         warning: true,
@@ -89,7 +89,7 @@ describe('parseLogLevel(logLevel).flags', () => {
       // by specifying a long length
       const level = chance.word({ length: 10 });
 
-      expect(() => parseLogLevel(level))
+      expect(() => createLogLevelFlags(level))
         .to.throwError(level);
     });
   });

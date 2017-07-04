@@ -1,5 +1,5 @@
 // These are the html tags that will replace the highlight tags.
-export const htmlTags = {
+export default {
   pre: '<mark>',
   post: '</mark>'
 };

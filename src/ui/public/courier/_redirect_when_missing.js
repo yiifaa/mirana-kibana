@@ -1,6 +1,6 @@
 import { SavedObjectNotFound } from 'ui/errors';
 
-export function RedirectWhenMissingProvider($location, kbnUrl, Notifier, Promise) {
+export default function RedirectWhenMissingFn($location, kbnUrl, Notifier, Promise) {
   const notify = new Notifier();
 
   /**

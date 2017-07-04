@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { formatESMsg } from 'ui/notify/lib/_format_es_msg';
+import formatESMsg from 'ui/notify/lib/_format_es_msg';
 const has = _.has;
 
 /**
@@ -9,7 +9,7 @@ const has = _.has;
  * @param  {String} from - Prefix for message indicating source (optional)
  * @returns {string}
  */
-export function formatMsg(err, from) {
+function formatMsg(err, from) {
   let rtn = '';
   if (from) {
     rtn += from + ': ';
@@ -25,14 +25,7 @@ export function formatMsg(err, from) {
     rtn += formatMsg.describeError(err);
   } else if (has(err, 'status') && has(err, 'data')) {
     // is an Angular $http "error object"
-    if (err.status === -1) {
-      // status = -1 indicates that the request was failed to reach the server
-      rtn += 'An HTTP request has failed to connect. ' +
-             'Please check if the Kibana server is running and that your browser has a working connection, ' +
-             'or contact your system administrator.';
-    } else {
-      rtn += 'Error ' + err.status + ' ' + err.statusText + ': ' + err.data.message;
-    }
+    rtn += 'Error ' + err.status + ' ' + err.statusText + ': ' + err.data.message;
   }
 
   return rtn;
@@ -44,3 +37,5 @@ formatMsg.describeError = function (err) {
   if (err.message) return err.message;
   return '' + err;
 };
+
+export default formatMsg;

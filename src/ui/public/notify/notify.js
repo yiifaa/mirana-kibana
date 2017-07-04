@@ -1,11 +1,9 @@
-import { uiModules } from 'ui/modules';
-import { Notifier } from 'ui/notify/notifier';
+import modules from 'ui/modules';
+import Notifier from 'ui/notify/notifier';
 import 'ui/notify/directives';
-import { metadata } from 'ui/metadata';
-
-const module = uiModules.get('kibana/notify');
-export const notify = new Notifier();
-export { Notifier } from 'ui/notify/notifier';
+import { kbnIndex } from 'ui/metadata';
+const module = modules.get('kibana/notify');
+const rootNotifier = new Notifier();
 
 module.factory('createNotifier', function () {
   return function (opts) {
@@ -29,7 +27,7 @@ module.run(function (config, $interval, $compile) {
 
 // if kibana is not included then the notify service can't
 // expect access to config (since it's dependent on kibana)
-if (!!metadata.kbnIndex) {
+if (!!kbnIndex) {
   require('ui/config');
   module.run(function (config) {
     config.watchAll(() => applyConfig(config));
@@ -43,20 +41,22 @@ function applyConfig(config) {
     warningLifetime: config.get('notifications:lifetime:warning'),
     infoLifetime: config.get('notifications:lifetime:info')
   });
-  notify.banner(config.get('notifications:banner'));
+  rootNotifier.banner(config.get('notifications:banner'));
 }
 
 window.onerror = function (err, url, line) {
-  notify.fatal(new Error(err + ' (' + url + ':' + line + ')'));
+  rootNotifier.fatal(new Error(err + ' (' + url + ':' + line + ')'));
   return true;
 };
 
 if (window.addEventListener) {
-  const notifier = new Notifier({
+  const notify = new Notifier({
     location: 'Promise'
   });
 
   window.addEventListener('unhandledrejection', function (e) {
-    notifier.log(`Detected an unhandled Promise rejection.\n${e.reason}`);
+    notify.log(`Detected an unhandled Promise rejection.\n${e.reason}`);
   });
 }
+
+export default rootNotifier;

@@ -1,14 +1,4 @@
 <dashboard-app class="app-container dashboard-container">
-  <div class="fullScreenModePlaceholder">
-    <div
-      ng-if="fullScreenMode"
-      class="kuiButton exitFullScreenMode"
-      ng-click="exitFullScreenMode()"
-    >
-      <div class="kuiIcon fa fa-angle-double-up"></div>
-      Exit Full Screen Mode
-    </div>
-  </div>
   <!-- Local nav. -->
   <kbn-top-nav name="dashboard" config="topNavMenu">
     <!-- Transcluded elements. -->
@@ -38,39 +28,26 @@
       >
         <div class="typeahead" kbn-typeahead="dashboard" on-select="filterResults()">
           <div class="kuiLocalSearch">
-            <div class="kuiLocalSearchAssistedInput">
-              <input
-                parse-query
-                input-focus
-                kbn-typeahead-input
-                ng-model="model.query"
-                placeholder="Search... (e.g. status:200 AND extension:PHP)"
-                aria-label="Enter query"
-                data-test-subj="dashboardQuery"
-                type="text"
-                class="kuiLocalSearchInput kuiLocalSearchInput--lucene"
-                ng-class="{'kuiLocalSearchInput-isInvalid': queryInput.$invalid}"
-              >
-              <div class="kuiLocalSearchAssistedInput__assistance">
-                <p class="kuiText">
-                  <a
-                    class="kuiLink"
-                    ng-href="{{queryDocLinks.luceneQuerySyntax}}"
-                    target="_blank"
-                  >
-                    Uses lucene query syntax
-                  </a>
-                </p>
-              </div>
-            </div>
+            <input
+              parse-query
+              input-focus
+              kbn-typeahead-input
+              ng-model="model.query"
+              placeholder="Filter..."
+              aria-label="Filter input"
+              data-test-subj="dashboardQuery"
+              type="text"
+              class="kuiLocalSearchInput"
+              ng-class="{'kuiLocalSearchInput-isInvalid': queryInput.$invalid}"
+            >
             <button
               type="submit"
-              aria-label="Submit query"
+              aria-label="Filter Dashboards"
               class="kuiLocalSearchButton"
               data-test-subj="dashboardQueryFilterButton"
               ng-disabled="queryInput.$invalid"
             >
-              <span class="kuiIcon fa-search" aria-hidden="true"></span>
+              <span class="fa fa-search" aria-hidden="true"></span>
             </button>
           </div>
           <kbn-typeahead-items></kbn-typeahead-items>
@@ -80,33 +57,16 @@
   </kbn-top-nav>
 
   <!-- Filters. -->
-  <filter-bar
-    ng-show="showFilterBar()"
-    state="state"
-    index-patterns="indexPatterns"
-  ></filter-bar>
+  <filter-bar state="state"></filter-bar>
 
-  <div
-    ng-show="getShouldShowEditHelp()"
-    class="text-center start-screen"
-  >
-    <h2 class="kuiTitle kuiVerticalRhythm">
-      This dashboard is empty. Let&rsquo;s fill it up!
-    </h2>
-
-    <p class="kuiText kuiVerticalRhythm">
-      Click the <a kbn-accessible-click class="kuiButton kuiButton--primary kuiButton--small" ng-click="showAddPanel()" aria-label="Add visualization">Add</a> button in the menu bar above to add a visualization to the dashboard. <br/>If you haven't set up any visualizations yet, <a class="kuiLink" href="#/visualize">visit the Visualize app</a> to create your first visualization.
-    </p>
+  <div ng-show="getShouldShowEditHelp()" class="text-center start-screen">
+    <h2>This dashboard is empty. Let's fill it up!</h2>
+    <p>Click the <a class="btn btn-xs navbtn-inverse" ng-click="kbnTopNav.open('add'); toggleAddVisualization = !toggleAddVisualization" aria-label="Add visualization">Add</a> button in the menu bar above to add a visualization to the dashboard. <br/>If you haven't setup a visualization yet visit <a href="#/visualize" title="Visualize">"Visualize"</a> to create your first visualization.</p>
   </div>
 
   <div ng-show="getShouldShowViewHelp()" class="text-center start-screen">
-    <h2 class="kuiTitle kuiVerticalRhythm">
-      This dashboard is empty. Let&rsquo;s fill it up!
-    </h2>
-
-    <p class="kuiText kuiVerticalRhythm">
-      Click the <a kbn-accessible-click class="kuiButton kuiButton--primary kuiButton--small" ng-click="enterEditMode()">Edit</a> button in the menu bar above to start working on your new dashboard.
-    </p>
+    <h2>This dashboard is empty. Let's fill it up!</h2>
+    <p>Click the <a class="btn btn-xs navbtn-inverse" ng-click="kbnTopNav.click('edit');" aria-label="Edit">Edit</a> button in the menu bar above to start working on your new dashboard.
   </div>
 
   <dashboard-grid
@@ -120,22 +80,19 @@
     toggle-expand="toggleExpandPanel"
     create-child-ui-state="createChildUiState"
     toggle-expand="toggleExpandPanel"
-    register-panel-index-pattern="registerPanelIndexPattern"
     data-shared-items-count="{{panels.length}}"
   ></dashboard-grid>
 
-  <dashboard-panel
-    ng-if="hasExpandedPanel()"
-    panel="expandedPanel"
-    is-full-screen-mode="!chrome.getVisible()"
-    is-expanded="true"
-    dashboard-view-mode="dashboardViewMode"
-    get-vis-click-handler="getFilterBarClickHandler"
-    get-vis-brush-handler="getBrushEvent"
-    save-state="saveState"
-    register-panel-index-pattern="registerPanelIndexPattern"
-    create-child-ui-state="createChildUiState"
-    toggle-expand="toggleExpandPanel(expandedPanel.panelIndex)"
-  ></dashboard-panel>
+  <dashboard-panel ng-if="hasExpandedPanel()"
+                   panel="expandedPanel"
+                   is-full-screen-mode="!chrome.getVisible()"
+                   is-expanded="true"
+                   dashboard-view-mode="dashboardViewMode"
+                   get-vis-click-handler="getFilterBarClickHandler"
+                   get-vis-brush-handler="getBrushEvent"
+                   save-state="saveState"
+                   create-child-ui-state="createChildUiState"
+                   toggle-expand="toggleExpandPanel(expandedPanel.panelIndex)">
+  </dashboard-panel>
 
 </dashboard-app>

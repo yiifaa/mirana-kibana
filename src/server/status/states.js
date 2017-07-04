@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export const all = [
+exports.all = [
   {
     id: 'red',
     title: 'Red',
@@ -50,13 +50,13 @@ export const all = [
   }
 ];
 
-export const allById = _.indexBy(exports.all, 'id');
+exports.allById = _.indexBy(exports.all, 'id');
 
-export const defaults = {
+exports.defaults = {
   icon: 'question',
   severity: Infinity
 };
 
-export function get(id) {
+exports.get = function (id) {
   return exports.allById[id] || _.defaults({ id: id }, exports.defaults);
-}
+};

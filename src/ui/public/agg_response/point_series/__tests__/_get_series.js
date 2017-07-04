@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
-import { PointSeriesGetSeriesProvider } from 'ui/agg_response/point_series/_get_series';
-
+import AggResponsePointSeriesGetSeriesProvider from 'ui/agg_response/point_series/_get_series';
 describe('getSeries', function () {
   let getSeries;
 
@@ -10,7 +9,7 @@ describe('getSeries', function () {
 
   beforeEach(ngMock.module('kibana'));
   beforeEach(ngMock.inject(function (Private) {
-    getSeries = Private(PointSeriesGetSeriesProvider);
+    getSeries = Private(AggResponsePointSeriesGetSeriesProvider);
   }));
 
   function wrapRows(row) {

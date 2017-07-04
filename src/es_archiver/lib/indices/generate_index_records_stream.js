@@ -8,9 +8,8 @@ export function createGenerateIndexRecordsStream(client, stats) {
       try {
         const resp = await client.indices.get({
           index,
+          feature: ['_settings', '_mappings'],
           filterPath: [
-            '*.settings',
-            '*.mappings',
             // remove settings that aren't really settings
             '-*.settings.index.creation_date',
             '-*.settings.index.uuid',

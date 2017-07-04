@@ -14,7 +14,7 @@ function offsetSeries(response, offset) {
   return response;
 }
 
-export default class Datasource extends TimelionFunction {
+module.exports = class Datasource extends TimelionFunction {
   constructor(name, config) {
 
     // Additional arguments that every dataSource take
@@ -64,4 +64,4 @@ export default class Datasource extends TimelionFunction {
     Object.freeze(this);
   }
 
-}
+};

@@ -10,14 +10,13 @@ const SCRIPT = resolve(__dirname, '../../../../scripts/functional_test_runner.js
 const CONFIG = resolve(__dirname, '../fixtures/with_es_archiver/config.js');
 
 describe('single test that uses esArchiver', function () {
-  this.timeout(3 * 60 * 1000);
+  this.timeout(60 * 1000);
 
   let log;
   const cleanupWork = [];
 
   before(async () => {
-    log = createToolingLog('debug');
-    log.pipe(process.stdout);
+    log = createToolingLog('verbose', process.stdout);
     log.indent(6);
 
     const config = await readConfigFile(log, CONFIG);
@@ -39,8 +38,8 @@ describe('single test that uses esArchiver', function () {
     });
     log.indent(-2);
 
-    cleanupWork.push(() => kibana.close());
     cleanupWork.push(() => es.shutdown());
+    cleanupWork.push(() => kibana.close());
   });
 
   it('test', async () => {
@@ -66,9 +65,7 @@ describe('single test that uses esArchiver', function () {
     log.debug(stdout.toString('utf8'));
   });
 
-  after(async () => {
-    for (const work of cleanupWork.splice(0)) {
-      await work();
-    }
+  after(() => {
+    return Promise.all(cleanupWork.splice(0).map(fn => fn()));
   });
 });

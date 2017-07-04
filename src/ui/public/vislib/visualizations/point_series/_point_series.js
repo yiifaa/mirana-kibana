@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { InvalidLogScaleValues } from 'ui/errors';
 
-export function VislibVisualizationsPointSeriesProvider() {
+export default function PointSeriesProvider() {
 
   class PointSeries {
     constructor(handler, seriesEl, seriesData, seriesConfig) {

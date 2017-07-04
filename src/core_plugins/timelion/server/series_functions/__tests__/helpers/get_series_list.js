@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-export default function (list, overrides) {
+module.exports = function (list, overrides) {
   return _.merge({
     type: 'seriesList',
     list: list
   }, overrides);
-}
+};

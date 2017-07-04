@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-export function extractBuckets(bucket, agg) {
+export default function (bucket, agg) {
   if (bucket && _.isPlainObject(bucket.buckets)) {
     return _.map(bucket.buckets, function (value, key) {
       const item = _.cloneDeep(value);

@@ -1,11 +1,11 @@
-import { pluck, first, size, includes } from 'lodash';
-import sinon from 'sinon';
+import { pluck } from 'lodash';
+import _ from 'lodash';
+import sinon from 'auto-release-sinon';
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
 import moment from 'moment';
-import { IndexPatternsCalculateIndicesProvider } from 'ui/index_patterns/_calculate_indices';
-
-describe('IndexPatternsCalculateIndicesProvider', () => {
+import IndexPatternsCalculateIndicesProvider from 'ui/index_patterns/_calculate_indices';
+describe('ui/index_patterns/_calculate_indices', () => {
   let $rootScope;
   let calculateIndices;
   let es;
@@ -42,7 +42,7 @@ describe('IndexPatternsCalculateIndicesProvider', () => {
       indices = pluck(value, 'index');
     });
     $rootScope.$apply();
-    config = first(es.fieldStats.lastCall.args);
+    config = _.first(es.fieldStats.lastCall.args);
     constraints = config.body.index_constraints;
   }
 
@@ -57,11 +57,11 @@ describe('IndexPatternsCalculateIndicesProvider', () => {
     });
     it('includes time field', () => {
       run();
-      expect(includes(config.body.fields, '@something')).to.be(true);
+      expect(_.includes(config.body.fields, '@something')).to.be(true);
     });
     it('no constraints by default', () => {
       run();
-      expect(size(constraints['@something'])).to.equal(0);
+      expect(_.size(constraints['@something'])).to.equal(0);
     });
 
     describe('when given start', () => {
@@ -110,8 +110,8 @@ describe('IndexPatternsCalculateIndicesProvider', () => {
   describe('response filtering', () => {
     it('filters out any indices that have empty fields', () => {
       run();
-      expect(includes(indices, 'mock-*')).to.be(true);
-      expect(includes(indices, 'ignore-*')).to.be(false);
+      expect(_.includes(indices, 'mock-*')).to.be(true);
+      expect(_.includes(indices, 'ignore-*')).to.be(false);
     });
   });
 

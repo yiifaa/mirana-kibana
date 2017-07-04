@@ -1,5 +1,4 @@
 import React from 'react';
-import { renderToHtml } from '../../services';
 
 import {
   GuideDemo,
@@ -8,44 +7,33 @@ import {
   GuideSectionTypes,
 } from '../../components';
 
-import HeaderBar from './header_bar';
-const headerBarSource = require('!!raw!./header_bar');
-const headerBarHtml = renderToHtml(HeaderBar);
-
-import HeaderBarTwoSections from './header_bar_two_sections';
-const headerBarTwoSectionsSource = require('!!raw!./header_bar_two_sections');
-const headerBarTwoSectionsHtml = renderToHtml(HeaderBarTwoSections);
+const headerBarHtml = require('./header_bar.html');
+const twoSectionsHtml = require('./header_bar_two_sections.html');
 
 export default props => (
   <GuidePage title={props.route.name}>
     <GuideSection
       title="Header Bar"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: headerBarSource,
-      }, {
         type: GuideSectionTypes.HTML,
         code: headerBarHtml,
       }]}
     >
-      <GuideDemo>
-        <HeaderBar />
-      </GuideDemo>
+      <GuideDemo
+        html={headerBarHtml}
+      />
     </GuideSection>
 
     <GuideSection
       title="Two sections"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: headerBarTwoSectionsSource,
-      }, {
         type: GuideSectionTypes.HTML,
-        code: headerBarTwoSectionsHtml,
+        code: twoSectionsHtml,
       }]}
     >
-      <GuideDemo>
-        <HeaderBarTwoSections />
-      </GuideDemo>
+      <GuideDemo
+        html={twoSectionsHtml}
+      />
     </GuideSection>
   </GuidePage>
 );

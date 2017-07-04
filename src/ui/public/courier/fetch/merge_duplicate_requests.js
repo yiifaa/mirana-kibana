@@ -1,7 +1,7 @@
-import { IsRequestProvider } from './is_request';
-import { ReqStatusProvider } from './req_status';
+import IsRequestProvider from './is_request';
+import ReqStatusProvider from './req_status';
 
-export function MergeDuplicatesRequestProvider(Private) {
+export default function FetchMergeDuplicateRequests(Private) {
   const isRequest = Private(IsRequestProvider);
   const DUPLICATE = Private(ReqStatusProvider).DUPLICATE;
 

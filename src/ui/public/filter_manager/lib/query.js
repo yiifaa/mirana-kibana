@@ -1,4 +1,4 @@
-export function buildQueryFilter(query, index) {
+export default function buildQueryFilter(query, index) {
   return {
     query: query,
     meta: {

@@ -1,6 +1,6 @@
-import { EventsProvider } from 'ui/events';
+import EventsProvider from 'ui/events';
 
-export function SegmentedHandleProvider(Private) {
+export default function CourierSegmentedReqHandle(Private) {
   const Events = Private(EventsProvider);
 
   const segmentedRequest = Symbol('Actual Segmented Request');

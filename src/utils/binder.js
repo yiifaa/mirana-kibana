@@ -1,4 +1,4 @@
-export class BinderBase {
+export default class Binder {
   constructor() {
     this.disposal = [];
   }

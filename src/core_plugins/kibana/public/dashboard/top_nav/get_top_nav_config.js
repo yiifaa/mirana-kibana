@@ -11,11 +11,7 @@ import { TopNavIds } from './top_nav_ids';
 export function getTopNavConfig(dashboardMode, actions) {
   switch (dashboardMode) {
     case DashboardViewMode.VIEW:
-      return [
-        getFullScreenConfig(actions[TopNavIds.FULL_SCREEN]),
-        getShareConfig(),
-        getCloneConfig(actions[TopNavIds.CLONE]),
-        getEditConfig(actions[TopNavIds.ENTER_EDIT_MODE])];
+      return [getShareConfig(), getEditConfig(actions[TopNavIds.ENTER_EDIT_MODE])];
     case DashboardViewMode.EDIT:
       return [
         getSaveConfig(),
@@ -26,15 +22,6 @@ export function getTopNavConfig(dashboardMode, actions) {
     default:
       return [];
   }
-}
-
-function getFullScreenConfig(action) {
-  return {
-    key: 'full screen',
-    description: 'Full Screen Mode',
-    testId: 'dashboardFullScreenMode',
-    run: action
-  };
 }
 
 /**
@@ -56,7 +43,7 @@ function getSaveConfig() {
   return {
     key: 'save',
     description: 'Save your dashboard',
-    testId: 'dashboardSaveMenuItem',
+    testId: 'dashboardSaveButton',
     template: require('plugins/kibana/dashboard/top_nav/save.html')
   };
 }
@@ -69,18 +56,6 @@ function getViewConfig(action) {
     key: 'cancel',
     description: 'Cancel editing and switch to view-only mode',
     testId: 'dashboardViewOnlyMode',
-    run: action
-  };
-}
-
-/**
- * @returns {kbnTopNavConfig}
- */
-function getCloneConfig(action) {
-  return {
-    key: 'clone',
-    description: 'Create a copy of your dashboard',
-    testId: 'dashboardClone',
     run: action
   };
 }

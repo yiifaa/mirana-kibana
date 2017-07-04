@@ -1,15 +1,15 @@
 <td colspan="{{ columns.length + 2 }}">
   <div class="documentTableRow__actions">
     <a
-      class="kuiButton kuiButton--small kuiButton--secondary"
+      class="kuiLink documentTableRow__action"
       data-test-subj="docTableRowAction"
       ng-href="{{ getContextAppHref() }}"
-      ng-if="indexPattern.isTimeBased()"
+      ng-if="indexPattern.hasTimeField()"
     >
       View surrounding documents
     </a>
     <a
-      class="kuiButton kuiButton--small kuiButton--secondary"
+      class="kuiLink documentTableRow__action"
       data-test-subj="docTableRowAction"
       ng-href="#/doc/{{indexPattern.id}}/{{row._index}}/{{row._type}}/?id={{row._id | uriescape}}"
     >

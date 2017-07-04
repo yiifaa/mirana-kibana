@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default function argType(arg) {
+module.exports = function argType(arg) {
   if (_.isArray(arg)) {
     return _.chain(arg)
       .map(argType)
@@ -15,4 +15,4 @@ export default function argType(arg) {
     return 'null';
   }
   return typeof arg;
-}
+};

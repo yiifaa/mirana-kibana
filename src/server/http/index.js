@@ -12,7 +12,7 @@ import setupConnectionMixin from './setup_connection';
 import registerHapiPluginsMixin from './register_hapi_plugins';
 import xsrfMixin from './xsrf';
 
-export default async function (kbnServer, server, config) {
+module.exports = async function (kbnServer, server, config) {
   server = kbnServer.server = new Hapi.Server();
 
   const shortUrlLookup = shortUrlLookupProvider(server);
@@ -119,18 +119,7 @@ export default async function (kbnServer, server, config) {
       try {
         const url = await shortUrlLookup.getUrl(request.params.urlId, request);
         shortUrlAssertValid(url);
-
-        const uiSettings = request.getUiSettingsService();
-        const stateStoreInSessionStorage = await uiSettings.get('state:storeInSessionStorage');
-        if (!stateStoreInSessionStorage) {
-          reply().redirect(config.get('server.basePath') + url);
-          return;
-        }
-
-        const app = kbnServer.uiExports.apps.byId.stateSessionStorageRedirect;
-        reply.renderApp(app, {
-          redirectUrl: url,
-        });
+        reply().redirect(config.get('server.basePath') + url);
       } catch (err) {
         reply(handleShortUrlError(err));
       }

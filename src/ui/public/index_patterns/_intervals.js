@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
-import { IndexedArray } from 'ui/indexed_array';
-
-export function IndexPatternsIntervalsProvider(timefilter) {
+import IndexedArray from 'ui/indexed_array';
+export default function IndexNameIntervalsService(timefilter) {
 
   const intervals = new IndexedArray({
     index: ['name'],

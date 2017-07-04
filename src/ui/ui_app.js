@@ -1,6 +1,6 @@
 import { chain, get, noop, once, pick } from 'lodash';
 
-export default class UiApp {
+class UiApp {
   constructor(uiExports, spec) {
     this.uiExports = uiExports;
     this.spec = spec || {};
@@ -65,3 +65,5 @@ export default class UiApp {
     return pick(this, ['id', 'title', 'description', 'icon', 'main', 'navLink']);
   }
 }
+
+module.exports = UiApp;

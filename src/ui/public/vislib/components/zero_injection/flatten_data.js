@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-export function VislibComponentsZeroInjectionFlattenDataProvider() {
+export default function FlattenDataObjectUtilService() {
 
   /*
    * Accepts a Kibana data object, flattens the data.series values array,

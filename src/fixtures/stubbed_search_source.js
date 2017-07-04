@@ -1,4 +1,4 @@
-import sinon from 'sinon';
+import sinon from 'auto-release-sinon';
 import searchResponse from 'fixtures/search_response';
 import FixturesStubbedLogstashIndexPatternProvider from 'fixtures/stubbed_logstash_index_pattern';
 

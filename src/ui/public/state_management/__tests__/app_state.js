@@ -1,7 +1,8 @@
-import sinon from 'sinon';
+import sinon from 'auto-release-sinon';
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
-import { AppStateProvider } from 'ui/state_management/app_state';
+import 'ui/state_management/app_state';
+import StateManagementAppStateProvider from 'ui/state_management/app_state';
 
 describe('State Management', function () {
   let $rootScope;
@@ -10,7 +11,7 @@ describe('State Management', function () {
   beforeEach(ngMock.module('kibana'));
   beforeEach(ngMock.inject(function (_$rootScope_, _$location_, Private) {
     $rootScope = _$rootScope_;
-    AppState = Private(AppStateProvider);
+    AppState = Private(StateManagementAppStateProvider);
   }));
 
   describe('App State', function () {

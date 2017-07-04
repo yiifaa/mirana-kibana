@@ -5,7 +5,7 @@ import _ from 'lodash';
  * @param {?} current value of the setting
  * @returns {string} the type to use for determining the display and editor
  */
-export function getValType(def, value) {
+function getValType(def, value) {
   if (def.type) {
     return def.type;
   }
@@ -16,3 +16,5 @@ export function getValType(def, value) {
 
   return (def.value != null ? typeof def.value : typeof value);
 }
+
+export default getValType;

@@ -4,7 +4,7 @@ import Promise from 'bluebird';
 import { unlinkSync as unlink } from 'fs';
 const writeFile = Promise.promisify(require('fs').writeFile);
 
-export default Promise.method(function (kbnServer, server, config) {
+module.exports = Promise.method(function (kbnServer, server, config) {
   const path = config.get('pid.file');
   if (!path) return;
 

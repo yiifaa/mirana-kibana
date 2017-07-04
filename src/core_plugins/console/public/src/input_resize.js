@@ -1,7 +1,7 @@
-const $ = require('jquery');
-const storage = require('./storage');
+import $ from 'jquery';
+import storage from './storage';
 
-export default function (input, output) {
+module.exports = function (input, output) {
 
   const $left = input.$el.parent();
 

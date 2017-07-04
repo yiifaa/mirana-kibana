@@ -1,9 +1,7 @@
-import { uiModules } from 'ui/modules';
+import modules from 'ui/modules';
 import 'ui/state_management/app_state';
 import '../directives/visualization';
-import { FilterBarQueryFilterProvider } from 'ui/filter_bar/query_filter';
-
-const app = uiModules.get('kibana/metrics_vis');
+const app = modules.get('kibana/metrics_vis');
 
 app.controller('MetricsVisController', (
   $scope,
@@ -26,7 +24,7 @@ app.controller('MetricsVisController', (
     $scope.reversed = Boolean(newValue);
   });
 
-  const queryFilter = Private(FilterBarQueryFilterProvider);
+  const queryFilter = Private(require('ui/filter_bar/query_filter'));
   const createFetch = Private(require('../lib/fetch'));
   const fetch = () => {
     const fn = createFetch($scope);

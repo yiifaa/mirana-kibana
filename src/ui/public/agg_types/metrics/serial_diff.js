@@ -1,8 +1,8 @@
-import { AggTypesMetricsMetricAggTypeProvider } from 'ui/agg_types/metrics/metric_agg_type';
-import { ParentPipelineAggHelperProvider } from './lib/parent_pipeline_agg_helper';
+import AggTypesMetricsMetricAggTypeProvider from 'ui/agg_types/metrics/metric_agg_type';
+import ParentPipelineAggHelperProvider from './lib/parent_pipeline_agg_helper';
 import { makeNestedLabel } from './lib/make_nested_label';
 
-export function AggTypesMetricsSerialDiffProvider(Private) {
+export default function AggTypeMetricSerialDiffProvider(Private) {
   const MetricAggType = Private(AggTypesMetricsMetricAggTypeProvider);
   const parentPipelineAggHelper = Private(ParentPipelineAggHelperProvider);
 

@@ -1,5 +1,5 @@
 import expect from 'expect.js';
-import sinon from 'sinon';
+import sinon from 'auto-release-sinon';
 import cluster from 'cluster';
 import { sample } from 'lodash';
 
@@ -7,10 +7,9 @@ import ClusterManager from '../cluster_manager';
 import Worker from '../worker';
 
 describe('CLI cluster manager', function () {
-  const sandbox = sinon.sandbox.create();
 
-  beforeEach(function () {
-    sandbox.stub(cluster, 'fork', function () {
+  function setup() {
+    sinon.stub(cluster, 'fork', function () {
       return {
         process: {
           kill: sinon.stub(),
@@ -21,14 +20,13 @@ describe('CLI cluster manager', function () {
         send: sinon.stub()
       };
     });
-  });
 
-  afterEach(function () {
-    sandbox.restore();
-  });
+    const manager = new ClusterManager({});
+    return manager;
+  }
 
   it('has two workers', function () {
-    const manager = new ClusterManager({});
+    const manager = setup();
 
     expect(manager.workers).to.have.length(2);
     for (const worker of manager.workers) expect(worker).to.be.a(Worker);
@@ -38,7 +36,7 @@ describe('CLI cluster manager', function () {
   });
 
   it('delivers broadcast messages to other workers', function () {
-    const manager = new ClusterManager({});
+    const manager = setup();
 
     for (const worker of manager.workers) {
       Worker.prototype.start.call(worker);// bypass the debounced start method

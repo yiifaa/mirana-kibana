@@ -1,13 +1,12 @@
 import _ from 'lodash';
 import AggConfigResult from 'ui/vis/agg_config_result';
-import { AggResponseTabifyTableProvider } from 'ui/agg_response/tabify/_table';
-import { AggResponseTabifyTableGroupProvider } from 'ui/agg_response/tabify/_table_group';
-import { AggResponseGetColumnsProvider } from 'ui/agg_response/tabify/_get_columns';
-
-export function TabbedAggResponseWriterProvider(Private) {
+import AggResponseTabifyTableProvider from 'ui/agg_response/tabify/_table';
+import AggResponseTabifyTableGroupProvider from 'ui/agg_response/tabify/_table_group';
+import AggResponseTabifyGetColumnsProvider from 'ui/agg_response/tabify/_get_columns';
+export default function TabbedAggResponseWriterProvider(Private) {
   const Table = Private(AggResponseTabifyTableProvider);
   const TableGroup = Private(AggResponseTabifyTableGroupProvider);
-  const getColumns = Private(AggResponseGetColumnsProvider);
+  const getColumns = Private(AggResponseTabifyGetColumnsProvider);
 
 
   _.class(SplitAcr).inherits(AggConfigResult);

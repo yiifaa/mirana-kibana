@@ -25,9 +25,7 @@ export function TestSubjectsProvider({ getService }) {
 
     async click(selector) {
       return await retry.try(async () => {
-        const element = await this.find(selector);
-        await remote.moveMouseTo(element);
-        await element.click();
+        await this.find(selector).click();
       });
     }
 
@@ -51,13 +49,6 @@ export function TestSubjectsProvider({ getService }) {
       log.debug('in findAllTestSubjects: ' + testSubjSelector(selector));
       const all = await find.allByCssSelector(testSubjSelector(selector));
       return await filterAsync(all, el => el.isDisplayed());
-    }
-
-    async setValue(selector, value) {
-      const input = await retry.try(() => this.find(selector));
-      await retry.try(() => input.click());
-      await input.clearValue();
-      await input.type(value);
     }
   }
 

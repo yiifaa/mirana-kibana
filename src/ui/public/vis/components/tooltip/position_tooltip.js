@@ -10,7 +10,7 @@ const propDirs = {
   left: 'west'
 };
 
-export function positionTooltip(opts, html) {
+function positionTooltip(opts, html) {
   if (!opts) return;
   const $chart = $(opts.$chart);
   const $el = $(opts.$el);
@@ -60,19 +60,13 @@ function getBounds($el) {
   bounds.left += $el.scrollLeft();
   bounds.bottom = bounds.top + $el.outerHeight();
   bounds.right = bounds.left + $el.outerWidth();
-  bounds.area = (bounds.bottom - bounds.top) * (bounds.right - bounds.left);
   return bounds;
 }
 
 function getOverflow(size, pos, containers) {
   const overflow = {};
 
-  containers.map(getBounds)
-  .sort(function (a, b) {
-    // ensure smallest containers are merged first
-    return a.area - b.area;
-  })
-  .forEach(function (bounds) {
+  containers.map(getBounds).forEach(function (bounds) {
     // number of pixels that the toolip would overflow it's far
     // side, if we placed it that way. (negative === no overflow)
     mergeOverflows(overflow, {
@@ -88,21 +82,11 @@ function getOverflow(size, pos, containers) {
 }
 
 function mergeOverflows(dest, src) {
-  _.merge(dest, src, function (a, b) {
+  return _.merge(dest, src, function (a, b) {
     if (a == null || b == null) return a || b;
     if (a < 0 && b < 0) return Math.min(a, b);
     return Math.max(a, b);
   });
-
-  // When tooltip overflows both sides of smaller container,
-  // remove overflow on one side if the outer container can contain tooltip.
-  if (dest.east && dest.west && dest.east > 0 && dest.west > 0 && (src.east < 0 || src.west < 0)) {
-    if (src.east < src.west) {
-      dest.east = src.east;
-    } else {
-      dest.west = src.west;
-    }
-  }
 }
 
 function pickPlacement(prop, pos, overflow, prev, pref, fallback, placement) {
@@ -159,3 +143,4 @@ positionTooltip.removeClone = function () {
   $clone = null;
 };
 
+module.exports = positionTooltip;

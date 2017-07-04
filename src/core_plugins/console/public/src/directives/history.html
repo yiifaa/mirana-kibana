@@ -9,7 +9,7 @@
       ng-mouseenter="history.viewingReq = req"
       ng-mouseleave="history.viewingReq = history.selectedReq"
       ng-dblclick="history.restore(req)"
-      aria-label="{{:: 'Request: ' + history.describeReq(req) }}"
+      title="{{ req.description }}"
       class="list-group-item history-req"
     >
       {{ history.describeReq(req) }}
@@ -21,12 +21,11 @@
 </div>
 
 <div class="history-footer">
-  <button class="kuiButton kuiButton--danger" ng-click="history.clear()">Clear</button>
+  <button class="btn btn-danger" ng-click="history.clear()">Clear</button>
   <button
-    class="kuiButton kuiButton--primary"
+    class="btn btn-primary"
     ng-disabled="!history.selectedReq"
-    ng-click="history.restore()"
-  >
+    ng-click="history.restore()">
     Apply
   </button>
 </div>

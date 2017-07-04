@@ -1,20 +1,15 @@
-import { has, get } from 'lodash';
-
-export function FilterBarLibMapRangeProvider(Promise, courier) {
+import { has } from 'lodash';
+export default function mapRangeProvider(Promise, courier) {
   return function (filter) {
-    const isScriptedRangeFilter = isScriptedRange(filter);
-    if (!filter.range && !isScriptedRangeFilter) {
-      return Promise.reject(filter);
-    }
+    if (!filter.range) return Promise.reject(filter);
 
     return courier
     .indexPatterns
     .get(filter.meta.index)
     .then(function (indexPattern) {
-      const type = 'range';
-      const key = isScriptedRangeFilter ? filter.meta.field : Object.keys(filter.range)[0];
+      const key = Object.keys(filter.range)[0];
       const convert = indexPattern.fields.byName[key].format.getConverterFor('text');
-      const range = isScriptedRangeFilter ? filter.script.script.params : filter.range[key];
+      const range = filter.range[key];
 
       let left = has(range, 'gte') ? range.gte : range.gt;
       if (left == null) left = -Infinity;
@@ -22,15 +17,11 @@ export function FilterBarLibMapRangeProvider(Promise, courier) {
       let right = has(range, 'lte') ? range.lte : range.lt;
       if (right == null) right = Infinity;
 
-      const value = `${convert(left)} to ${convert(right)}`;
-
-      return { type, key, value };
+      return {
+        key: key,
+        value: `${convert(left)} to ${convert(right)}`
+      };
     });
 
   };
-}
-
-function isScriptedRange(filter) {
-  const params = get(filter, ['script', 'script', 'params']);
-  return params && Object.keys(params).find(key => ['gte', 'gt', 'lte', 'lt'].includes(key));
 }

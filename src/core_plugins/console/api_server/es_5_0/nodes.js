@@ -1,4 +1,4 @@
-export default function (api) {
+module.exports = function (api) {
   api.addEndpointDescription('_nodes/hot_threads', {
     methods: ['GET'],
     patterns: [
@@ -75,4 +75,4 @@ export default function (api) {
       ]
     }
   });
-}
+};

@@ -1,5 +1,5 @@
 import expect from 'expect.js';
-import { KibanaMap } from 'ui/vis_maps/kibana_map';
+import KibanaMap from 'ui/vis_maps/kibana_map';
 
 describe('kibana_map tests', function () {
 
@@ -40,13 +40,13 @@ describe('kibana_map tests', function () {
       teardownDOM();
     });
 
-    it('should instantiate at zoom level 2', function () {
+    it('should instantiate with world in view', function () {
       const bounds = kibanaMap.getBounds();
-      expect(bounds.bottom_right.lon).to.equal(90);
-      expect(bounds.top_left.lon).to.equal(-90);
+      expect(bounds.bottom_right.lon).to.equal(180);
+      expect(bounds.top_left.lon).to.equal(-180);
       expect(kibanaMap.getCenter().lon).to.equal(0);
       expect(kibanaMap.getCenter().lat).to.equal(0);
-      expect(kibanaMap.getZoomLevel()).to.equal(2);
+      expect(kibanaMap.getZoomLevel()).to.equal(1);
     });
 
     it('should resize to fit container', function () {
@@ -109,28 +109,30 @@ describe('kibana_map tests', function () {
       });
     });
 
-    it('WMS - should handle empty settings', async function () {
+    it('WMS', async function () {
 
-      const invalidOptions = {
-        url: undefined,
-        version: undefined,
-        layers: undefined,
+      const options = {
+        url: 'https://basemap.nationalmap.gov/arcgis/services/USGSTopo/ MapServer/WMSServer',
+        version: '1.3.0',
+        layers: '0',
         format: 'image/png',
         transparent: true,
-        attribution: undefined,
+        attribution: 'Maps provided by USGS',
         styles: '',
         minZoom: 1,
         maxZoom: 18
       };
 
-      kibanaMap.setBaseLayer({
-        baseLayerType: 'wms',
-        options: invalidOptions
+
+      return new Promise(function (resolve) {
+        kibanaMap.on('baseLayer:loaded', () => {
+          resolve();
+        });
+        kibanaMap.setBaseLayer({
+          baseLayerType: 'wms',
+          options: options
+        });
       });
-
-      expect(kibanaMap.getLeafletBaseLayer()).to.eql(null);
-
-
     });
 
   });

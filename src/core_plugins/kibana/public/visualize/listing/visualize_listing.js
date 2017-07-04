@@ -1,17 +1,15 @@
-import { SavedObjectRegistryProvider } from 'ui/saved_objects/saved_object_registry';
+import SavedObjectRegistryProvider from 'ui/saved_objects/saved_object_registry';
 import 'ui/pager_control';
 import 'ui/pager';
+import _ from 'lodash';
 
-import { SortableProperties } from 'ui_framework/services';
-
-export function VisualizeListingController($injector) {
+export function VisualizeListingController($injector, $scope) {
   const $filter = $injector.get('$filter');
   const confirmModal = $injector.get('confirmModal');
   const Notifier = $injector.get('Notifier');
   const pagerFactory = $injector.get('pagerFactory');
   const Private = $injector.get('Private');
   const timefilter = $injector.get('timefilter');
-  const config = $injector.get('config');
 
   timefilter.enabled = false;
 
@@ -22,22 +20,23 @@ export function VisualizeListingController($injector) {
   const notify = new Notifier({ location: 'Visualize' });
 
   let selectedItems = [];
-  const sortableProperties = new SortableProperties([
-    {
-      name: 'title',
-      getValue: item => item.title,
-      isAscending: true,
-    },
-    {
-      name: 'type',
-      getValue: item => item.type.title,
-      isAscending: true,
-    }
-  ],
-  'title');
+
+  /**
+   * Sorts hits either ascending or descending
+   * @param  {Array} hits Array of saved finder object hits
+   * @return {Array} Array sorted either ascending or descending
+   */
+  const sortItems = () => {
+    const sortProperty = this.getSortProperty();
+
+    this.items =
+      sortProperty.isAscending
+      ? _.sortBy(this.items, sortProperty.getValue)
+      : _.sortBy(this.items, sortProperty.getValue).reverse();
+  };
 
   const calculateItemsOnPage = () => {
-    this.items = sortableProperties.sortItems(this.items);
+    sortItems();
     this.pager.setTotalItems(this.items.length);
     this.pageOfItems = limitTo(this.items, this.pager.pageSize, this.pager.startIndex);
   };
@@ -45,13 +44,10 @@ export function VisualizeListingController($injector) {
   const fetchItems = () => {
     this.isFetchingItems = true;
 
-    visualizationService.find(this.filter, config.get('savedObjects:listingLimit'))
+    visualizationService.find(this.filter)
       .then(result => {
         this.isFetchingItems = false;
         this.items = result.hits;
-        this.totalItems = result.total;
-        this.showLimitError = result.total > config.get('savedObjects:listingLimit');
-        this.listingLimit = config.get('savedObjects:listingLimit');
         calculateItemsOnPage();
       });
   };
@@ -64,15 +60,6 @@ export function VisualizeListingController($injector) {
     selectedItems = this.pageOfItems.slice(0);
   };
 
-  this.isAscending = (name) => sortableProperties.isAscendingByName(name);
-  this.getSortedProperty = () => sortableProperties.getSortedProperty();
-
-  this.sortOn = function sortOn(propertyName) {
-    sortableProperties.sortOn(propertyName);
-    deselectAll();
-    calculateItemsOnPage();
-  };
-
   this.isFetchingItems = false;
   this.items = [];
   this.pageOfItems = [];
@@ -80,12 +67,52 @@ export function VisualizeListingController($injector) {
 
   this.pager = pagerFactory.create(this.items.length, 20, 1);
 
-  this.onFilter = (newFilter) => {
-    this.filter = newFilter;
+  $scope.$watch(() => this.filter, () => {
     deselectAll();
     fetchItems();
+  });
+
+  /**
+   * Remember sort direction per property.
+   */
+  this.sortProperties = [{
+    name: 'title',
+    getValue: item => item.title,
+    isSelected: true,
+    isAscending: true,
+  }, {
+    name: 'type',
+    getValue: item => item.type.title,
+    isSelected: false,
+    isAscending: true,
+  }];
+
+  this.getSortProperty = function getSortProperty() {
+    return this.sortProperties.find(property => property.isSelected);
   };
-  fetchItems();
+
+  this.getSortPropertyByName = function getSortPropertyByName(name) {
+    return this.sortProperties.find(property => property.name === name);
+  };
+
+  this.isAscending = function isAscending() {
+    const sortProperty = this.getSortProperty();
+    return sortProperty.isAscending;
+  };
+
+  this.sortOn = function sortOn(propertyName) {
+    const sortProperty = this.getSortProperty();
+
+    if (sortProperty.name === propertyName) {
+      sortProperty.isAscending = !sortProperty.isAscending;
+    } else {
+      sortProperty.isSelected = false;
+      this.getSortPropertyByName(propertyName).isSelected = true;
+    }
+
+    deselectAll();
+    calculateItemsOnPage();
+  };
 
   this.toggleAll = function toggleAll() {
     if (this.areAllItemsChecked()) {

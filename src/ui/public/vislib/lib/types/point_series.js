@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export function VislibTypesPointSeries() {
+export default function ColumnHandler() {
 
   const createSerieFromParams = (cfg, seri) => {
     const matchingSeriParams = cfg.seriesParams ? cfg.seriesParams.find(seriConfig => {

@@ -1,9 +1,10 @@
-export default function (server) {
+module.exports = function (server) {
   server.route({
     method: 'GET',
     path: '/api/timelion/validate/es',
     handler: function (request, reply) {
-      return request.getUiSettingsService().getAll().then((uiSettings) => {
+      return server.uiSettings().getAll(request).then((uiSettings) => {
+
         const { callWithRequest } = server.plugins.elasticsearch.getCluster('data');
 
         const timefield = uiSettings['timelion:es.timefield'];
@@ -30,4 +31,4 @@ export default function (server) {
 
     }
   });
-}
+};

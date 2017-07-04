@@ -3,7 +3,7 @@ import glob from 'glob';
 import path from 'path';
 import processFunctionDefinition from './process_function_definition';
 
-export default function (directory) {
+module.exports = function (directory) {
 
   function getTuple(directory, name) {
     return [name, require('../' + directory + '/' + name)];
@@ -33,4 +33,4 @@ export default function (directory) {
   });
 
   return functions;
-}
+};

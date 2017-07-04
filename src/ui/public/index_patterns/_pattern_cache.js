@@ -1,4 +1,4 @@
-export function IndexPatternsPatternCacheProvider() {
+export default function PatternCache() {
 
   const vals = {};
 

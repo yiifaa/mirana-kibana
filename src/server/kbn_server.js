@@ -16,15 +16,13 @@ import pluginsCheckEnabledMixin from './plugins/check_enabled';
 import pluginsCheckVersionMixin from './plugins/check_version';
 import configCompleteMixin from './config/complete';
 import uiMixin from '../ui';
+import uiSettingsMixin from '../ui/settings';
 import optimizeMixin from '../optimize';
 import pluginsInitializeMixin from './plugins/initialize';
-import { indexPatternsMixin } from './index_patterns';
-import { savedObjectsMixin } from './saved_objects';
-import { statsMixin } from './stats';
 
 const rootDir = fromRoot('.');
 
-export default class KbnServer {
+module.exports = class KbnServer {
   constructor(settings) {
     this.name = pkg.name;
     this.version = pkg.version;
@@ -40,13 +38,8 @@ export default class KbnServer {
       loggingMixin,
       warningsMixin,
       statusMixin,
-
-      // set up stats route
-      statsMixin,
-
       // writes pid file
       pidMixin,
-
       // find plugins and set this.plugins
       pluginsScanMixin,
 
@@ -58,18 +51,15 @@ export default class KbnServer {
 
       // tell the config we are done loading plugins
       configCompleteMixin,
-
       // setup this.uiExports and this.bundles
       uiMixin,
-      indexPatternsMixin,
 
-      // setup saved object routes
-      savedObjectsMixin,
+      // setup server.uiSettings
+      uiSettingsMixin,
 
       // ensure that all bundles are built, or that the
       // lazy bundle server is running
       optimizeMixin,
-
       // finally, initialize the plugins
       pluginsInitializeMixin,
       () => {
@@ -84,7 +74,7 @@ export default class KbnServer {
   }
 
   /**
-   * Extend the KbnServer outside of the constraints of a plugin. This allows access
+   * Extend the KbnServer outside of the constraits of a plugin. This allows access
    * to APIs that are not exposed (intentionally) to the plugins and should only
    * be used when the code will be kept up to date with Kibana.
    *
@@ -151,4 +141,4 @@ export default class KbnServer {
     this.server.log(['info', 'config'], 'New logging configuration:\n' + plain);
     this.server.plugins['even-better'].monitor.reconfigure(loggingOptions);
   }
-}
+};

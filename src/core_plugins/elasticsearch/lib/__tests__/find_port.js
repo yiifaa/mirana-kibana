@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import portscanner from 'portscanner';
 
-export default function findPort(start, end, host) {
+module.exports = function findPort(start, end, host) {
   host = host || 'localhost';
   return new Promise(function (resolve, reject) {
     portscanner.findAPortNotInUse(start, end, host, function (err, port) {
@@ -9,5 +9,5 @@ export default function findPort(start, end, host) {
       resolve(port);
     });
   });
-}
+};
 

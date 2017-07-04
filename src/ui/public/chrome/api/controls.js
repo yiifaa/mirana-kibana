@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
-// eslint-disable-next-line kibana-custom/no-default-export
-export default function (chrome, internals) {
+module.exports = function (chrome, internals) {
   /**
    * ui/chrome Controls API
    *
@@ -30,4 +29,4 @@ export default function (chrome, internals) {
     if (_.isUndefined(internals.visible)) return def;
     return internals.visible;
   };
-}
+};

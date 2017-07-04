@@ -1,7 +1,6 @@
 import d3 from 'd3';
 import _ from 'lodash';
-
-export function VislibGridProvider() {
+export default function ChartTitleFactory() {
 
   const defaults = {
     style: {

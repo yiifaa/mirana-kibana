@@ -1,7 +1,7 @@
-import { SearchStrategyProvider } from '../strategy/search';
-import { AbstractRequestProvider } from './request';
+import SearchStrategyProvider from '../strategy/search';
+import AbstractRequestProvider from './request';
 
-export function SearchRequestProvider(Private) {
+export default function SearchReqProvider(Private) {
 
   const searchStrategy = Private(SearchStrategyProvider);
   const AbstractRequest = Private(AbstractRequestProvider);

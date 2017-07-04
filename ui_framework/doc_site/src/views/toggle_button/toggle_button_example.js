@@ -10,8 +10,6 @@ import {
 
 const toggleButtonHtml = require('./toggle_button.html');
 const toggleButtonJs = require('raw!./toggle_button.js');
-const togglePanelHtml = require('./toggle_panel.html');
-const togglePanelJs = require('raw!./toggle_panel.js');
 
 export default props => (
   <GuidePage title={props.route.name}>
@@ -29,19 +27,6 @@ export default props => (
       <GuideDemo
         html={toggleButtonHtml}
         js={toggleButtonJs}
-      />
-    </GuideSection>
-
-    <GuideSection
-      title="TogglePanel"
-      source={[{
-        type: GuideSectionTypes.HTML,
-        code: togglePanelHtml,
-      }]}
-    >
-      <GuideDemo
-        html={togglePanelHtml}
-        js={togglePanelJs}
       />
     </GuideSection>
   </GuidePage>

@@ -6,14 +6,14 @@ import {
 
 export default () => (
   <div>
-    <KuiButton buttonType="hollow">
+    <KuiButton type="hollow">
       Hollow button
     </KuiButton>
 
     <br />
 
     <KuiButton
-      buttonType="hollow"
+      type="hollow"
       disabled
     >
       Hollow button, disabled

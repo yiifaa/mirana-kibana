@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-export function AggTypesMetricsGetResponseAggConfigClassProvider() {
+export default function ResponseAggConfigProvider() {
 
   /**
    * Get the ResponseAggConfig class for an aggConfig,

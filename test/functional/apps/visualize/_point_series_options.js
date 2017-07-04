@@ -2,10 +2,8 @@ import expect from 'expect.js';
 
 export default function ({ getService, getPageObjects }) {
   const log = getService('log');
-  const screenshots = getService('screenshots');
-  const PageObjects = getPageObjects(['common', 'visualize', 'header', 'pointSeries']);
-  const pointSeriesVis = PageObjects.pointSeries;
-
+  const pointSeriesVis = getService('pointSeriesVis');
+  const PageObjects = getPageObjects(['common', 'visualize', 'header']);
 
   describe('visualize app', function describeIndexTests() {
     before(function () {
@@ -97,12 +95,12 @@ export default function ({ getService, getPageObjects }) {
         // try sleeping a bit before getting that data
         return PageObjects.common.sleep(2000)
           .then(function () {
-            return PageObjects.visualize.getLineChartData('fill="#00a69b"');
+            return PageObjects.visualize.getLineChartData('fill="#6eadc1"');
           })
           .then(function showData(data) {
             log.debug('count data=' + data);
             log.debug('data.length=' + data.length);
-            screenshots.take('Visualize-secondary-value-axis');
+            PageObjects.common.saveScreenshot('Visualize-secondary-value-axis');
             expect(data).to.eql(expectedChartValues[0]);
           })
           .then(function () {

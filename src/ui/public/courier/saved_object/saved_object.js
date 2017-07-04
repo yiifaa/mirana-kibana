@@ -13,18 +13,18 @@ import angular from 'angular';
 import _ from 'lodash';
 
 import { SavedObjectNotFound } from 'ui/errors';
+import uuid from 'node-uuid';
 import MappingSetupProvider from 'ui/utils/mapping_setup';
 
-import { SearchSourceProvider } from '../data_source/search_source';
+import DocSourceProvider from '../data_source/admin_doc_source';
+import SearchSourceProvider from '../data_source/search_source';
 import { getTitleAlreadyExists } from './get_title_already_exists';
-import { SavedObjectsClientProvider } from 'ui/saved_objects';
 
 /**
  * An error message to be used when the user rejects a confirm overwrite.
  * @type {string}
  */
 const OVERWRITE_REJECTED = 'Overwrite confirmation was rejected';
-
 /**
  * An error message to be used when the user rejects a confirm save with duplicate title.
  * @type {string}
@@ -40,8 +40,9 @@ function isErrorNonFatal(error) {
   return error.message === OVERWRITE_REJECTED || error.message === SAVE_DUPLICATE_REJECTED;
 }
 
-export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifier, confirmModalPromise, indexPatterns) {
-  const savedObjectsClient = Private(SavedObjectsClientProvider);
+export default function SavedObjectFactory(esAdmin, kbnIndex, Promise, Private, Notifier, confirmModalPromise, indexPatterns) {
+
+  const DocSource = Private(DocSourceProvider);
   const SearchSource = Private(SearchSourceProvider);
   const mappingSetup = Private(MappingSetupProvider);
 
@@ -51,6 +52,8 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
     /************
      * Initialize config vars
      ************/
+    // the doc which is used to store this object
+    const docSource = new DocSource();
 
     // type name for this object, used as the ES-type
     const esType = config.type;
@@ -73,6 +76,11 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
      */
     this.isSaving = false;
     this.defaults = config.defaults || {};
+
+    // Create a notifier for sending alerts
+    const notify = new Notifier({
+      location: 'Saved ' + this.getDisplayName()
+    });
 
     // mapping definition for the fields that this object will expose
     const mapping = mappingSetup.expandShorthand(config.mapping);
@@ -138,9 +146,10 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
 
       // At this point index will either be an IndexPattern, if cached, or a promise that
       // will return an IndexPattern, if not cached.
-      return Promise.resolve(index).then(indexPattern => {
-        this.searchSource.set('index', indexPattern);
-      });
+      return Promise.resolve(index)
+        .then((indexPattern) => {
+          this.searchSource.set('index', indexPattern);
+        });
     };
 
     /**
@@ -154,9 +163,14 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
       // ensure that the esType is defined
       if (!esType) throw new Error('You must define a type name to use SavedObject objects.');
 
+      // tell the docSource where to find the doc
+      docSource
+        .index(kbnIndex)
+        .type(esType)
+        .id(this.id);
       // check that the mapping for this esType is defined
       return mappingSetup.isDefined(esType)
-        .then(function (defined) {
+        .then((defined) => {
           // if it is already defined skip this step
           if (defined) return true;
 
@@ -164,7 +178,7 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
             properties: {
               // setup the searchSource mapping, even if it is not used but this type yet
               searchSourceJSON: {
-                type: 'text'
+                type: 'string'
               }
             }
           };
@@ -183,20 +197,7 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
           }
 
           // fetch the object from ES
-          return savedObjectsClient.get(esType, this.id)
-            .then(resp => {
-              // temporary compatability for savedObjectsClient
-
-              return {
-                _id: resp.id,
-                _type: resp.type,
-                _source: _.cloneDeep(resp.attributes),
-                found: resp._version ? true : false
-              };
-            })
-            .then(this.applyESResp)
-            .catch(this.applyEsResp);
-
+          return docSource.fetch().then(this.applyESResp);
         })
         .then(() => {
           return customInit.call(this);
@@ -237,9 +238,14 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
       return Promise.try(() => {
         parseSearchSource(meta.searchSourceJSON);
         return hydrateIndexPattern();
-      }).then(() => {
-        return Promise.cast(afterESResp.call(this, resp));
-      });
+      })
+        .then(() => {
+          return Promise.cast(afterESResp.call(this, resp));
+        })
+        .then(() => {
+          // Any time obj is updated, re-call applyESResp
+          docSource.onUpdate().then(this.applyESResp, notify.fatal);
+        });
     };
 
     /**
@@ -276,6 +282,14 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
     };
 
     /**
+     * Queries es to refresh the index.
+     * @returns {Promise}
+     */
+    function refreshIndex() {
+      return esAdmin.indices.refresh({ index: kbnIndex });
+    }
+
+    /**
      * Attempts to create the current object using the serialized source. If an object already
      * exists, a warning message requests an overwrite confirmation.
      * @param source - serialized version of this object (return value from this.serialize())
@@ -284,17 +298,17 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
      * successfully indexed. If the overwrite confirmation was rejected, an error is thrown with
      * a confirmRejected = true parameter so that case can be handled differently than
      * a create or index error.
-     * @resolved {SavedObject}
+     * @resolved {String} - The id of the doc
      */
     const createSource = (source) => {
-      return savedObjectsClient.create(esType, source, { id: this.id })
-        .catch(err => {
+      return docSource.doCreate(source)
+        .catch((err) => {
           // record exists, confirm overwriting
-          if (_.get(err, 'statusCode') === 409) {
+          if (_.get(err, 'origError.status') === 409) {
             const confirmMessage = `Are you sure you want to overwrite ${this.title}?`;
 
             return confirmModalPromise(confirmMessage, { confirmButtonText: `Overwrite ${this.getDisplayName()}` })
-              .then(() => savedObjectsClient.create(esType, source, { id: this.id, overwrite: true }))
+              .then(() => docSource.doIndex(source))
               .catch(() => Promise.reject(new Error(OVERWRITE_REJECTED)));
           }
           return Promise.reject(err);
@@ -312,10 +326,9 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
         return Promise.resolve();
       }
 
-      return getTitleAlreadyExists(this, savedObjectsClient)
-        .then(duplicateTitle => {
+      return getTitleAlreadyExists(this, esAdmin)
+        .then((duplicateTitle) => {
           if (!duplicateTitle) return true;
-
           const confirmMessage =
             `A ${this.getDisplayName()} with the title '${duplicateTitle}' already exists. Would you like to save anyway?`;
 
@@ -325,15 +338,19 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
     };
 
     /**
+     * @typedef {Object} SaveOptions
+     * @property {boolean} confirmOverwrite - If true, attempts to create the source so it
+     * can confirm an overwrite if a document with the id already exists.
+     */
+
+    /**
      * Saves this object.
      *
-     * @param {object} [options={}]
-     * @property {boolean} [options.confirmOverwrite=false] - If true, attempts to create the source so it
-     * can confirm an overwrite if a document with the id already exists.
+     * @param {SaveOptions} saveOptions?
      * @return {Promise}
      * @resolved {String} - The id of the doc
      */
-    this.save = ({ confirmOverwrite } = {}) => {
+    this.save = (saveOptions = {}) => {
       // Save the original id in case the save fails.
       const originalId = this.id;
       // Read https://github.com/elastic/kibana/issues/9056 and
@@ -346,21 +363,23 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
         this.id = null;
       }
 
+      // Create a unique id for this object if it doesn't have one already.
+      this.id = this.id || uuid.v1();
+      // ensure that the docSource has the current id
+      docSource.id(this.id);
+
       const source = this.serialize();
 
       this.isSaving = true;
 
       return warnIfDuplicateTitle()
         .then(() => {
-          if (confirmOverwrite) {
-            return createSource(source);
-          } else {
-            return savedObjectsClient.create(esType, source, { id: this.id, overwrite: true });
-          }
+          return saveOptions.confirmOverwrite ? createSource(source) : docSource.doIndex(source);
         })
-        .then((resp) => {
-          this.id = resp.id;
+        .then((id) => {
+          this.id = id;
         })
+        .then(refreshIndex)
         .then(() => {
           this.isSaving = false;
           this.lastSavedTitle = this.title;
@@ -377,6 +396,7 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
     };
 
     this.destroy = () => {
+      docSource.cancelQueued();
       if (this.searchSource) {
         this.searchSource.cancelQueued();
       }
@@ -387,7 +407,15 @@ export function SavedObjectProvider(esAdmin, kbnIndex, Promise, Private, Notifie
      * @return {promise}
      */
     this.delete = () => {
-      return savedObjectsClient.delete(esType, this.id);
+      return esAdmin.delete(
+        {
+          index: kbnIndex,
+          type: esType,
+          id: this.id
+        })
+        .then(() => {
+          return refreshIndex();
+        });
     };
   }
 

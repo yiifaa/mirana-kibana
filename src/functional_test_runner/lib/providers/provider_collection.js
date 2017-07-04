@@ -2,8 +2,7 @@ import { loadTracer } from '../load_tracer';
 import { createAsyncInstance, isAsyncInstance } from './async_instance';
 
 export class ProviderCollection {
-  constructor(log, providers) {
-    this._log = log;
+  constructor(providers) {
     this._instances = new Map();
     this._providers = providers;
   }
@@ -27,8 +26,7 @@ export class ProviderCollection {
   }
 
   async loadAll() {
-    const asyncInitFailures = [];
-
+    const asyncInitErrors = [];
     await Promise.all(
       this._providers.map(async ({ type, name }) => {
         try {
@@ -37,15 +35,16 @@ export class ProviderCollection {
             await instance.init();
           }
         } catch (err) {
-          this._log.warning('Failure loading service %j', name);
-          this._log.error(err);
-          asyncInitFailures.push(name);
+          asyncInitErrors.push(err);
         }
       })
     );
 
-    if (asyncInitFailures.length) {
-      throw new Error(`Failure initializing ${asyncInitFailures.length} service(s)`);
+    if (asyncInitErrors.length) {
+      // just throw the first, it probably caused the others and if not they
+      // will show up once we fix the first, but creating an AggregateError or
+      // something seems like overkill
+      throw asyncInitErrors[0];
     }
   }
 

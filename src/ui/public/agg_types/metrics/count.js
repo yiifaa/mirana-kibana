@@ -1,7 +1,7 @@
-import { AggTypesMetricsMetricAggTypeProvider } from 'ui/agg_types/metrics/metric_agg_type';
-import { RegistryFieldFormatsProvider } from 'ui/registry/field_formats';
+import AggTypesMetricsMetricAggTypeProvider from 'ui/agg_types/metrics/metric_agg_type';
+import RegistryFieldFormatsProvider from 'ui/registry/field_formats';
 
-export function AggTypesMetricsCountProvider(Private) {
+export default function AggTypeMetricCountProvider(Private) {
   const MetricAggType = Private(AggTypesMetricsMetricAggTypeProvider);
   const fieldFormats = Private(RegistryFieldFormatsProvider);
 

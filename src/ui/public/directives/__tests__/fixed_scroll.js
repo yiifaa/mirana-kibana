@@ -3,10 +3,9 @@ import expect from 'expect.js';
 import ngMock from 'ng_mock';
 import 'ui/fixed_scroll';
 import $ from 'jquery';
-import sinon from 'sinon';
+import sinon from 'auto-release-sinon';
 
 describe('FixedScroll directive', function () {
-  const sandbox = sinon.sandbox.create();
 
   let compile;
   let flushPendingTasks;
@@ -55,14 +54,13 @@ describe('FixedScroll directive', function () {
         $scroller: $parent.find('.fixed-scroll-scroller')
       };
     };
+
   }));
 
   afterEach(function () {
     trash.splice(0).forEach(function ($el) {
       $el.remove();
     });
-
-    sandbox.restore();
   });
 
   it('does nothing when not needed', function () {
@@ -90,8 +88,8 @@ describe('FixedScroll directive', function () {
 
   describe('scroll event handling / tug of war prevention', function () {
     it('listens when needed, unlistens when not needed', function () {
-      const on = sandbox.spy($.fn, 'on');
-      const off = sandbox.spy($.fn, 'off');
+      const on = sinon.spy($.fn, 'on');
+      const off = sinon.spy($.fn, 'off');
 
       const els = compile(1.5);
       expect(on.callCount).to.be(2);
@@ -125,7 +123,7 @@ describe('FixedScroll directive', function () {
         let $to;
 
         beforeEach(function () {
-          spy = sandbox.spy($.fn, 'scrollLeft');
+          spy = sinon.spy($.fn, 'scrollLeft');
           els = compile(1.5);
           $from = els[names.from];
           $to = els[names.to];

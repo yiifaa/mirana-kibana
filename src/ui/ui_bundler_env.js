@@ -1,9 +1,9 @@
-import { fromRoot } from '../utils';
+import fromRoot from '../utils/from_root';
 import { includes } from 'lodash';
 
 const arr = v => [].concat(v || []);
 
-export default class UiBundlerEnv {
+module.exports = class UiBundlerEnv {
   constructor(workingDir) {
 
     // the location that bundle entry files and all compiles files will
@@ -81,4 +81,4 @@ export default class UiBundlerEnv {
   addNoParse(regExp) {
     this.noParse.push(regExp);
   }
-}
+};

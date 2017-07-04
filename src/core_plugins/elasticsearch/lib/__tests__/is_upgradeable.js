@@ -2,7 +2,7 @@ import _ from 'lodash';
 import expect from 'expect.js';
 
 import isUpgradeable from '../is_upgradeable';
-import { pkg } from '../../../../utils';
+import pkg from '../../../../utils/package_json';
 let version = pkg.version;
 
 describe('plugins/elasticsearch', function () {

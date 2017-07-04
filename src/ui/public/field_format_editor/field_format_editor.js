@@ -1,15 +1,10 @@
-import 'ui/field_format_editor/pattern/pattern';
-import 'ui/field_format_editor/samples/samples';
 import _ from 'lodash';
 import $ from 'jquery';
-import { uiModules } from 'ui/modules';
-import { RegistryFieldFormatEditorsProvider } from 'ui/registry/field_format_editors';
+import uiModules from 'ui/modules';
 
 uiModules
 .get('app/management')
 .directive('fieldFormatEditor', function (Private, $compile) {
-  const fieldFormatEditors = Private(RegistryFieldFormatEditorsProvider);
-
   return {
     restrict: 'A',
     scope: {
@@ -26,36 +21,47 @@ uiModules
       $scope.$bind('editor.formatParams', 'getFormatParams()', $scope);
 
       /**
-       * Retrieve editor directive def object from registry and convert it into
+       * Read the FieldFormat's editor property and convert it into
        * a "pseudoDirective". For clarity I'm reusing the directive def
        * object api, but for simplicity not implementing the entire thing.
        *
-       * directive def object, with support for the following opts:
-       *   - template
-       *   - compile or link
-       *   - scope (creates isolate, reads from parent scope, not attributes)
-       *   - controller
-       *   - controllerAs
+       * possible configs:
+       *   string:
+       *     - used as an angular template
+       *   directive def object, with support for the following opts:
+       *     - template
+       *     - compile or link
+       *     - scope (creates isolate, reads from parent scope, not attributes)
+       *     - controller
+       *     - controllerAs
        *
+       * @param  {angular.element} $el - template
        * @param  {object} directiveDef - the directive definition object
        * @return {undefined}
        */
       $scope.$watch('editor.field.format.type', function (FieldFormat) {
-        const fieldFormatEditor = FieldFormat && fieldFormatEditors.getEditor(FieldFormat.id);
+        const opts = FieldFormat && FieldFormat.editor;
 
-        if (!fieldFormatEditor) {
+        if (!opts) {
           delete self.$$pseudoDirective;
           return;
         }
 
+        if (typeof opts === 'string') {
+          self.$$pseudoDirective = {
+            template: opts
+          };
+          return;
+        }
+
         self.$$pseudoDirective = {
-          template: fieldFormatEditor.template,
-          compile: fieldFormatEditor.compile || function () {
-            return fieldFormatEditor.link;
+          template: opts.template,
+          compile: opts.compile || function () {
+            return opts.link;
           },
-          scope: fieldFormatEditor.scope || false,
-          controller: fieldFormatEditor.controller,
-          controllerAs: fieldFormatEditor.controllerAs
+          scope: opts.scope || false,
+          controller: opts.controller,
+          controllerAs: opts.controllerAs
         };
       });
 

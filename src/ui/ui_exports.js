@@ -3,22 +3,18 @@ import minimatch from 'minimatch';
 
 import UiAppCollection from './ui_app_collection';
 import UiNavLinkCollection from './ui_nav_link_collection';
-import { MappingsCollection } from './ui_mappings';
 
-export default class UiExports {
+class UiExports {
   constructor({ urlBasePath }) {
     this.navLinks = new UiNavLinkCollection(this);
     this.apps = new UiAppCollection(this);
-    this.aliases = {
-      fieldFormatEditors: ['ui/field_format_editor/register']
-    };
+    this.aliases = {};
     this.urlBasePath = urlBasePath;
     this.exportConsumer = _.memoize(this.exportConsumer);
     this.consumers = [];
     this.bundleProviders = [];
     this.defaultInjectedVars = {};
     this.injectedVarsReplacers = [];
-    this.mappings = new MappingsCollection();
   }
 
   consumePlugin(plugin) {
@@ -92,7 +88,6 @@ export default class UiExports {
 
       case 'visTypes':
       case 'fieldFormats':
-      case 'fieldFormatEditors':
       case 'spyModes':
       case 'chromeNavControls':
       case 'navbarExtensions':
@@ -127,11 +122,6 @@ export default class UiExports {
           plugin.extendInit(async (server, options) => {
             _.merge(this.defaultInjectedVars, await injector.call(plugin, server, options));
           });
-        };
-
-      case 'mappings':
-        return (plugin, mappings) => {
-          this.mappings.register(mappings, { plugin: plugin.id });
         };
 
       case 'replaceInjectedVars':
@@ -174,3 +164,5 @@ export default class UiExports {
     return this.bundleProviders;
   }
 }
+
+module.exports = UiExports;

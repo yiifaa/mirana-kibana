@@ -1,5 +1,4 @@
 import React from 'react';
-import { renderToHtml } from '../../services';
 
 import {
   GuideDemo,
@@ -9,22 +8,14 @@ import {
   GuideText,
 } from '../../components';
 
-import Event from './event';
-const eventSource = require('!!raw!./event');
-const eventHtml = renderToHtml(Event);
-
-import EventMenu from './event_menu';
-const eventMenuSource = require('!!raw!./event_menu');
-const eventMenuHtml = renderToHtml(EventMenu);
+const eventHtml = require('./event.html');
+const eventMenuHtml = require('./event_menu.html');
 
 export default props => (
   <GuidePage title={props.route.name}>
     <GuideSection
       title="Event"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: eventSource,
-      }, {
         type: GuideSectionTypes.HTML,
         code: eventHtml,
       }]}
@@ -33,17 +24,14 @@ export default props => (
         Events can represent updates, logs, notifications, and status changes.
       </GuideText>
 
-      <GuideDemo>
-        <Event />
-      </GuideDemo>
+      <GuideDemo
+        html={eventHtml}
+      />
     </GuideSection>
 
     <GuideSection
       title="Event Menu"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: eventMenuSource,
-      }, {
         type: GuideSectionTypes.HTML,
         code: eventMenuHtml,
       }]}
@@ -52,9 +40,9 @@ export default props => (
         You&rsquo;ll typically want to present them within a Menu.
       </GuideText>
 
-      <GuideDemo>
-        <EventMenu />
-      </GuideDemo>
+      <GuideDemo
+        html={eventMenuHtml}
+      />
     </GuideSection>
   </GuidePage>
 );

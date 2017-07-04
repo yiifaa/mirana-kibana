@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const engine = require('./engine');
+import _ from 'lodash';
+import engine from './engine';
 
 function CompilingContext(endpoint_id, parametrizedComponentFactories) {
   this.parametrizedComponentFactories = parametrizedComponentFactories;
@@ -378,9 +378,9 @@ GlobalOnlyComponent.prototype = _.create(
 
 
 // a list of component that match anything but give auto complete suggestions based on global API entries.
-export function globalsOnlyAutocompleteComponents() {
+module.exports.globalsOnlyAutocompleteComponents = function () {
   return [new GlobalOnlyComponent("__global__")];
-}
+};
 
 /**
  * @param endpoint_id id of the endpoint being compiled.
@@ -395,6 +395,6 @@ export function globalsOnlyAutocompleteComponents() {
    *   }
    * }
  */
-export function compileBodyDescription(endpoint_id, description, parametrizedComponentFactories) {
+module.exports.compileBodyDescription = function (endpoint_id, description, parametrizedComponentFactories) {
   return compileDescription(description, new CompilingContext(endpoint_id, parametrizedComponentFactories));
-}
+};

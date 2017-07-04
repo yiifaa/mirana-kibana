@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default {
+module.exports = {
   'rows': [
     {
       'label': '0.0-1000.0: bytes',

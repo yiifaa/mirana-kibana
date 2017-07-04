@@ -1,3 +1,5 @@
-export default function savedSearchObjectFn(savedSheets) {
-  return savedSheets;
-}
+define(function () {
+  return function savedSearchObjectFn(savedSheets) {
+    return savedSheets;
+  };
+});

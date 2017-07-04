@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import editorHtml from 'ui/agg_types/controls/regular_expression.html';
-import { AggTypesParamTypesBaseProvider } from 'ui/agg_types/param_types/base';
-
-export function AggTypesParamTypesRegexProvider(Private) {
+import AggTypesParamTypesBaseProvider from 'ui/agg_types/param_types/base';
+export default function RegexAggParamFactory(Private) {
 
   const BaseAggParam = Private(AggTypesParamTypesBaseProvider);
 

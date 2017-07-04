@@ -6,9 +6,8 @@
  */
 
 import _ from 'lodash';
-import { RegistryFieldFormatsProvider } from 'ui/registry/field_formats';
-
-export function VisAggConfigProvider(Private) {
+import RegistryFieldFormatsProvider from 'ui/registry/field_formats';
+export default function AggConfigFactory(Private, fieldTypeFilter) {
   const fieldFormats = Private(RegistryFieldFormatsProvider);
 
   function AggConfig(vis, opts) {
@@ -153,7 +152,13 @@ export function VisAggConfigProvider(Private) {
     const fieldOptions = this.getFieldOptions();
 
     if (fieldOptions) {
-      field = fieldOptions.byName[this.fieldName()] || null;
+      const prevField = fieldOptions.byName[this.fieldName()] || null;
+      let filters = fieldOptions.filterFieldTypes;
+      if (_.isFunction(fieldOptions.filterFieldTypes)) {
+        filters = fieldOptions.filterFieldTypes.bind(this, this.vis);
+      }
+      const fieldOpts = fieldTypeFilter(this.vis.indexPattern.fields, filters);
+      field = _.contains(fieldOpts, prevField) ? prevField : null;
     }
 
     return this.fillDefaults({ row: this.params.row, field: field });
@@ -163,12 +168,8 @@ export function VisAggConfigProvider(Private) {
     return this.type.params.write(this);
   };
 
-  AggConfig.prototype.isFilterable = function () {
-    return _.isFunction(this.type.createFilter);
-  };
-
   AggConfig.prototype.createFilter = function (key) {
-    if (!this.isFilterable()) {
+    if (!_.isFunction(this.type.createFilter)) {
       throw new TypeError('The "' + this.type.title + '" aggregation does not support filtering.');
     }
 

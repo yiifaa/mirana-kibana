@@ -1,21 +1,21 @@
 import $ from 'jquery';
 import _ from 'lodash';
-import { VisRenderbotProvider } from 'ui/vis/renderbot';
-import { VislibVisTypeBuildChartDataProvider } from 'ui/vislib_vis_type/build_chart_data';
-import { FilterBarPushFilterProvider } from 'ui/filter_bar/push_filter';
-import { KibanaMap } from './kibana_map';
-import { GeohashLayer } from './geohash_layer';
-import './lib/service_settings';
+import VisRenderbotProvider from 'ui/vis/renderbot';
+import MapsVisTypeBuildChartDataProvider from 'ui/vislib_vis_type/build_chart_data';
+import FilterBarPushFilterProvider from 'ui/filter_bar/push_filter';
+import KibanaMap from './kibana_map';
+import GeohashLayer from './geohash_layer';
+import './lib/tilemap_settings';
 import './styles/_tilemap.less';
 import { ResizeCheckerProvider } from 'ui/resize_checker';
 
-// eslint-disable-next-line kibana-custom/no-default-export
-export default function MapsRenderbotFactory(Private, $injector, serviceSettings, Notifier, courier, getAppState) {
+
+module.exports = function MapsRenderbotFactory(Private, $injector, tilemapSettings, Notifier, courier, getAppState) {
 
   const ResizeChecker = Private(ResizeCheckerProvider);
   const Renderbot = Private(VisRenderbotProvider);
-  const buildChartData = Private(VislibVisTypeBuildChartDataProvider);
-  const notify = new Notifier({ location: 'Coordinate Map' });
+  const buildChartData = Private(MapsVisTypeBuildChartDataProvider);
+  const notify = new Notifier({ location: 'Tilemap' });
 
   class MapsRenderbot extends Renderbot {
 
@@ -26,9 +26,12 @@ export default function MapsRenderbotFactory(Private, $injector, serviceSettings
       this._kibanaMap = null;
       this._$container = $el;
       this._kibanaMapReady = this._makeKibanaMap($el);
+
       this._baseLayerDirty = true;
       this._dataDirty = true;
       this._paramsDirty = true;
+
+
       this._resizeChecker = new ResizeChecker($el);
       this._resizeChecker.on('resize', () => {
         if (this._kibanaMap) {
@@ -39,19 +42,19 @@ export default function MapsRenderbotFactory(Private, $injector, serviceSettings
 
     async _makeKibanaMap() {
 
-      try {
-        this._tmsService = await serviceSettings.getTMSService();
-        this._tmsError = null;
-      } catch (e) {
-        this._tmsService = null;
-        this._tmsError = e;
-        notify.warning(e.message);
+      if (!tilemapSettings.isInitialized()) {
+        await tilemapSettings.loadSettings();
+      }
+
+      if (tilemapSettings.getError()) {
+        //Still allow the visualization to be built, but show a toast that there was a problem retrieving map settings
+        //Even though the basemap will not display, the user will at least still see the overlay data
+        notify.warning(tilemapSettings.getError().message);
       }
 
       if (this._kibanaMap) {
         this._kibanaMap.destroy();
       }
-
       const containerElement = $(this._$container)[0];
       const options = _.clone(this._getMinMaxZoom());
       const uiState = this.vis.getUiState();
@@ -93,9 +96,6 @@ export default function MapsRenderbotFactory(Private, $injector, serviceSettings
       this._kibanaMap.on('drawCreated:rectangle', event => {
         addSpatialFilter(_.get(this._chartData, 'geohashGridAgg'), 'geo_bounding_box', event.bounds);
       });
-      this._kibanaMap.on('drawCreated:polygon', event => {
-        addSpatialFilter(_.get(this._chartData, 'geohashGridAgg'), 'geo_polygon', { points: event.points });
-      });
       this._kibanaMap.on('baseLayer:loaded', () => {
         this._baseLayerDirty = false;
         this._doRenderComplete();
@@ -107,11 +107,7 @@ export default function MapsRenderbotFactory(Private, $injector, serviceSettings
 
     _getMinMaxZoom() {
       const mapParams = this._getMapsParams();
-      if (this._tmsError) {
-        return serviceSettings.getFallbackZoomSettings(mapParams.wms.enabled);
-      } else {
-        return this._tmsService.getMinMaxZoom(mapParams.wms.enabled);
-      }
+      return tilemapSettings.getMinMaxZoom(mapParams.wms.enabled);
     }
 
     _recreateGeohashLayer() {
@@ -184,9 +180,9 @@ export default function MapsRenderbotFactory(Private, $injector, serviceSettings
             this._kibanaMap.setZoomLevel(maxZoom);
           }
 
-          if (!this._tmsError) {
-            const url = this._tmsService.getUrl();
-            const options = this._tmsService.getTMSOptions();
+          if (!tilemapSettings.hasError()) {
+            const url = tilemapSettings.getUrl();
+            const options = tilemapSettings.getTMSOptions();
             this._kibanaMap.setBaseLayer({
               baseLayerType: 'tms',
               options: { url, ...options }
@@ -213,7 +209,10 @@ export default function MapsRenderbotFactory(Private, $injector, serviceSettings
       return _.assign(
         {},
         this.vis.type.params.defaults,
-        { type: this.vis.type.name },
+        {
+          type: this.vis.type.name,
+          hasTimeField: this.vis.indexPattern && this.vis.indexPattern.hasTimeField()// Add attribute which determines whether an index is time based or not.
+        },
         this.vis.params
       );
     }
@@ -228,6 +227,7 @@ export default function MapsRenderbotFactory(Private, $injector, serviceSettings
           heatBlur: newParams.heatBlur,
           heatMaxZoom: newParams.heatMaxZoom,
           heatMinOpacity: newParams.heatMinOpacity,
+          heatNormalizeData: newParams.heatNormalizeData,
           heatRadius: newParams.heatRadius
         }
       };
@@ -259,4 +259,4 @@ export default function MapsRenderbotFactory(Private, $injector, serviceSettings
 
 
   return MapsRenderbot;
-}
+};

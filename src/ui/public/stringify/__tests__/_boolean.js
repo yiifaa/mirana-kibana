@@ -1,6 +1,6 @@
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
-import { RegistryFieldFormatsProvider } from 'ui/registry/field_formats';
+import RegistryFieldFormatsProvider from 'ui/registry/field_formats';
 
 describe('Boolean Format', function () {
 
@@ -53,11 +53,6 @@ describe('Boolean Format', function () {
     it(`convert ${test.input} to boolean`, ()=> {
       expect(boolean.convert(test.input)).to.be(test.expected);
     });
-  });
-
-  it('does not convert non-boolean values, instead returning original value', ()=> {
-    const s = 'non-boolean value!!';
-    expect(boolean.convert(s)).to.be(s);
   });
 
 });

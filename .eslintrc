@@ -1,8 +1,2 @@
 ---
 extends: '@elastic/kibana'
-
-settings:
-  import/resolver:
-    '@elastic/eslint-import-resolver-kibana':
-      rootPackageName: 'kibana'
-      kibanaPath: .

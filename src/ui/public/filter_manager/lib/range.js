@@ -1,13 +1,11 @@
 import _ from 'lodash';
 const OPERANDS_IN_RANGE = 2;
 
-export function buildRangeFilter(field, params, indexPattern, formattedValue) {
+export default function buildRangeFilter(field, params, indexPattern, formattedValue) {
   const filter = { meta: { index: indexPattern.id } };
   if (formattedValue) filter.meta.formattedValue = formattedValue;
 
-  params = _.mapValues(params, (value) => {
-    return (field.type === 'number') ? parseFloat(value) : value;
-  });
+  params = _.clone(params);
 
   if ('gte' in params && 'gt' in params) throw new Error('gte and gt are mutually exclusive');
   if ('lte' in params && 'lt' in params) throw new Error('lte and lt are mutually exclusive');

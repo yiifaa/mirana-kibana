@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export function VislibComponentsLabelsPieRemoveZeroSlicesProvider() {
+export default function RemoveZeroSlices() {
   return function removeZeroSlices(slices) {
     if (!slices.children) return slices;
 

@@ -1,11 +1,11 @@
 import { includes, mapValues } from 'lodash';
-import { Notifier } from 'ui/notify/notifier';
+import Notifier from 'ui/notify/notifier';
 
 /*
  * Caches notification attempts so each one is only actually sent to the
  * notifier service once per route.
  */
-export function RouteBasedNotifierProvider($rootScope) {
+export default function routeBasedNotifierProvider($rootScope) {
   const notifier = new Notifier();
 
   let notifications = {

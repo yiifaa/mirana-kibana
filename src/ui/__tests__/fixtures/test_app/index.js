@@ -1,4 +1,4 @@
-export default kibana => new kibana.Plugin({
+module.exports = kibana => new kibana.Plugin({
   uiExports: {
     app: {
       name: 'test_app',

@@ -67,11 +67,11 @@ function sortColumn(column) {
 sortColumn(demoSortableColumns[0]);
 
 $(demoSortableColumns).on('click', event => {
-  sortColumn(event.currentTarget);
+  sortColumn(event.target);
 });
 
 $(demoSortableColumns).on('mouseover', event => {
-  const column = event.currentTarget;
+  const column = event.target;
   if (column !== sortedColumn) {
     const icon =
       isSortAscending
@@ -82,7 +82,7 @@ $(demoSortableColumns).on('mouseover', event => {
 });
 
 $(demoSortableColumns).on('mouseout', event => {
-  const column = event.currentTarget;
+  const column = event.target;
   if (column !== sortedColumn) {
     const icon =
       isSortAscending

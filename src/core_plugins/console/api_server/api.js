@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import _ from "lodash";
 
 'use strict';
 
@@ -42,4 +42,4 @@ function Api(name) {
 
 }(Api.prototype));
 
-export default Api;
+module.exports = Api;

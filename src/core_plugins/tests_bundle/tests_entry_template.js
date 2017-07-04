@@ -1,4 +1,4 @@
-export default function ({ env, bundle }) {
+module.exports = function ({ env, bundle }) {
 
   const pluginSlug = env.pluginInfo.sort()
     .map(p => ' *  - ' + p)
@@ -26,22 +26,21 @@ window.__KBN__ = {
   vars: {
     kbnIndex: '.kibana',
     esShardTimeout: 1500,
-    esApiVersion: 'master',
+    esApiVersion: '5.x',
     esRequestTimeout: '300000',
     tilemapsConfig: {
       deprecated: {
-        isOverridden: false,
-        config: {          
-          options: {                                   
+        isOverridden: true,
+        config: {
+          url: 'https://tiles.elastic.co/v1/default/{z}/{x}/{y}.png?my_app_name=kibana&my_app_version=1.2.3&elastic_tile_service_tos=agree',
+          options: {
+            minZoom: 1,
+            maxZoom: 10,
+            attribution: '© [Elastic Tile Service](https://www.elastic.co/elastic_tile_service)'
           }
         }        
-      }      
-    },
-    regionmapsConfig: {
-      layers: []
-    },
-    mapConfig: {
-      manifestServiceUrl: 'https://geo.elastic.co/v1/manifest'      
+      },
+      manifestServiceUrl: 'https://proxy-tiles.elastic.co/v1/manifest'
     }
   },
   uiSettings: {
@@ -55,4 +54,4 @@ ${requires}
 require('ui/test_harness').bootstrap(/* go! */);
 `;
 
-}
+};

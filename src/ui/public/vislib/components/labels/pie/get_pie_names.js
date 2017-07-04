@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import VislibComponentsLabelsPieReturnPieNamesProvider from './return_pie_names';
 
-export function VislibComponentsLabelsPieGetPieNamesProvider(Private) {
+export default function GetPieNames(Private) {
   const returnNames = Private(VislibComponentsLabelsPieReturnPieNamesProvider);
 
   return function (data, columns) {

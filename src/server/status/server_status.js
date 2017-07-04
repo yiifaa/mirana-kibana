@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import * as states from './states';
+import states from './states';
 import Status from './status';
 import { version } from '../../../package.json';
 
-export default class ServerStatus {
+module.exports = class ServerStatus {
   constructor(server) {
     this.server = server;
     this._created = {};
@@ -93,4 +93,4 @@ export default class ServerStatus {
       statuses: _.values(this._created)
     };
   }
-}
+};

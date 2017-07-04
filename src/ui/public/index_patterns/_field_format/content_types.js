@@ -1,65 +1,72 @@
 import _ from 'lodash';
-import { asPrettyString } from 'ui/utils/as_pretty_string';
+import angular from 'angular';
 import { getHighlightHtml } from 'ui/highlight';
+export default function contentTypesProvider() {
 
-const types = {
-  html: function (format, convert) {
-    function recurse(value, field, hit) {
-      if (value == null) {
-        return asPrettyString(value);
+  const types = {
+    html: function (format, convert) {
+      function recurse(value, field, hit) {
+        if (value == null) {
+          return _.asPrettyString(value);
+        }
+
+        if (!value || typeof value.map !== 'function') {
+          return convert.call(format, value, field, hit);
+        }
+
+        const subVals = value.map(function (v) {
+          return recurse(v, field, hit);
+        });
+        const useMultiLine = subVals.some(function (sub) {
+          return sub.indexOf('\n') > -1;
+        });
+
+        return subVals.join(',' + (useMultiLine ? '\n' : ' '));
       }
 
-      if (!value || typeof value.map !== 'function') {
-        return convert.call(format, value, field, hit);
-      }
+      return function (...args) {
+        return `<span ng-non-bindable>${recurse(...args)}</span>`;
+      };
+    },
 
-      const subVals = value.map(v => {
-        return recurse(v, field, hit);
-      });
-      const useMultiLine = subVals.some(sub => {
-        return sub.indexOf('\n') > -1;
-      });
+    text: function (format, convert) {
+      return function recurse(value) {
+        if (!value || typeof value.map !== 'function') {
+          return convert.call(format, value);
+        }
 
-      return subVals.join(',' + (useMultiLine ? '\n' : ' '));
+        // format a list of values. In text contexts we just use JSON encoding
+        return angular.toJson(value.map(recurse), true);
+      };
     }
+  };
 
-    return function (...args) {
-      return `<span ng-non-bindable>${recurse(...args)}</span>`;
-    };
-  },
-
-  text: function (format, convert) {
-    return function recurse(value) {
-      if (!value || typeof value.map !== 'function') {
-        return convert.call(format, value);
-      }
-
-      // format a list of values. In text contexts we just use JSON encoding
-      return JSON.stringify(value.map(recurse));
-    };
+  function fallbackText(value) {
+    return _.asPrettyString(value);
   }
-};
 
-function fallbackText(value) {
-  return asPrettyString(value);
-}
+  function fallbackHtml(value, field, hit) {
+    const formatted = _.escape(this.convert(value, 'text'));
 
-function fallbackHtml(value, field, hit) {
-  const formatted = _.escape(this.convert(value, 'text'));
-
-  if (!hit || !hit.highlight || !hit.highlight[field.name]) {
-    return formatted;
-  } else {
-    return getHighlightHtml(formatted, hit.highlight[field.name]);
+    if (!hit || !hit.highlight || !hit.highlight[field.name]) {
+      return formatted;
+    } else {
+      return getHighlightHtml(formatted, hit.highlight[field.name]);
+    }
   }
-}
 
-export function contentTypesSetup(format) {
-  const src = format._convert || {};
-  const converters = format._convert = {};
+  function setup(format) {
+    const src = format._convert || {};
+    const converters = format._convert = {};
 
-  converters.text = types.text(format, src.text || fallbackText);
-  converters.html = types.html(format, src.html || fallbackHtml);
+    converters.text = types.text(format, src.text || fallbackText);
+    converters.html = types.html(format, src.html || fallbackHtml);
 
-  return format._convert;
+    return format._convert;
+  }
+
+  return {
+    types: types,
+    setup: setup
+  };
 }

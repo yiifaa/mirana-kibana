@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import 'ui/filters/short_dots';
 import headerHtml from 'ui/doc_table/components/table_header.html';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 const module = uiModules.get('app/discover');
 
 
@@ -95,17 +95,6 @@ module.directive('kbnTableHeader', function (shortDotsFilter) {
         );
 
         $scope.onChangeSortOrder(columnName, newDirection);
-      };
-
-      $scope.getAriaLabelForColumn = function getAriaLabelForColumn(name) {
-        if (!isSortableColumn(name)) return null;
-
-        const [currentColumnName, currentDirection = 'asc'] = $scope.sortOrder;
-        if(name === currentColumnName && currentDirection === 'asc') {
-          return `Sort ${name} descending`;
-        }
-
-        return `Sort ${name} ascending`;
       };
     }
   };

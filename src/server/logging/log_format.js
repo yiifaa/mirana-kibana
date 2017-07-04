@@ -26,7 +26,7 @@ const levelColor = function (code) {
 };
 
 
-export default class TransformObjStream extends Stream.Transform {
+module.exports = class TransformObjStream extends Stream.Transform {
   constructor(config) {
     super({
       readableObjectMode: false,
@@ -137,4 +137,4 @@ export default class TransformObjStream extends Stream.Transform {
     }
     return data;
   }
-}
+};

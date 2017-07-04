@@ -1,7 +1,7 @@
 import { get, isUndefined, noop, set } from 'lodash';
 import { unset } from '../../utils';
 
-export function rename(oldKey, newKey) {
+export default function (oldKey, newKey) {
   return (settings, log = noop) => {
     const value = get(settings, oldKey);
     if (isUndefined(value)) {

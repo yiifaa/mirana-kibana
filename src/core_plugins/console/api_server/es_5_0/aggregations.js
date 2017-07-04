@@ -435,9 +435,8 @@ var rules = {
     }
   }
 };
-
-export default function (api) {
+module.exports = function (api) {
 
   api.addGlobalAutocompleteRules('aggregations', rules);
   api.addGlobalAutocompleteRules('aggs', rules);
-}
+};

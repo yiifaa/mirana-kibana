@@ -13,7 +13,7 @@ function sum(set) {
   return _.reduce(set, function (sum, num) { return sum + num; }, 0);
 }
 
-export default function scale(dataTuples, targetTuples) {
+module.exports = function (dataTuples, targetTuples) {
 
   let i = 0;
   let j = 0;
@@ -70,4 +70,4 @@ export default function scale(dataTuples, targetTuples) {
   }
 
   return result;
-}
+};

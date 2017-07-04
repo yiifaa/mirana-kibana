@@ -27,7 +27,7 @@ const _RE_NUMBER = '(\\-?(?:\\d+(?:\\.\\d+)?|Infinity))';
  */
 const RANGE_RE = new RegExp('^\\s*([\\[|\\(])\\s*' + _RE_NUMBER + '\\s*,\\s*' + _RE_NUMBER + '\\s*([\\]|\\)])\\s*$');
 
-export function parseRange(input) {
+function parse(input) {
 
   const match = String(input).match(RANGE_RE);
   if (!match) {
@@ -62,4 +62,5 @@ Range.prototype.within = function (n) {
   return true;
 };
 
+export default parse;
 

@@ -2,7 +2,6 @@ import expect from 'expect.js';
 
 export default function ({ getService, getPageObjects }) {
   const retry = getService('retry');
-  const screenshots = getService('screenshots');
   const testSubjects = getService('testSubjects');
   const PageObjects = getPageObjects(['common']);
 
@@ -16,7 +15,7 @@ export default function ({ getService, getPageObjects }) {
         return testSubjects.find('statusBreakdown')
         .getVisibleText()
         .then(function (text) {
-          screenshots.take('Status');
+          PageObjects.common.saveScreenshot('Status');
           expect(text.indexOf('plugin:kibana')).to.be.above(-1);
         });
       });

@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import moment from 'moment';
 import Datasource from '../lib/classes/datasource';
 
-export default new Datasource ('worldbank', {
+module.exports = new Datasource ('worldbank', {
   args: [
     {
       name: 'code', // countries/all/indicators/SP.POP.TOTL

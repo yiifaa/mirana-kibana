@@ -11,19 +11,17 @@ import 'plugins/kibana/visualize/editor/agg_params';
 import 'plugins/kibana/visualize/editor/nesting_indicator';
 import 'plugins/kibana/visualize/editor/sidebar';
 import 'plugins/kibana/visualize/editor/vis_options';
-import 'ui/draggable/draggable_container';
-import 'ui/draggable/draggable_item';
-import 'ui/draggable/draggable_handle';
+import 'plugins/kibana/visualize/editor/draggable_container';
+import 'plugins/kibana/visualize/editor/draggable_item';
+import 'plugins/kibana/visualize/editor/draggable_handle';
 import 'plugins/kibana/visualize/saved_visualizations/_saved_vis';
 import 'plugins/kibana/visualize/saved_visualizations/saved_visualizations';
-import 'ui/directives/scroll_bottom';
-import 'ui/filters/sort_prefix_first';
 import uiRoutes from 'ui/routes';
 import visualizeListingTemplate from './listing/visualize_listing.html';
 import { VisualizeListingController } from './listing/visualize_listing';
 import { VisualizeConstants } from './visualize_constants';
-import { SavedObjectRegistryProvider } from 'ui/saved_objects/saved_object_registry';
-import { savedVisualizationProvider } from 'plugins/kibana/visualize/saved_visualizations/saved_visualization_register';
+import savedObjectRegistry from 'ui/saved_objects/saved_object_registry';
+import savedVisusalizationProvider from 'plugins/kibana/visualize/saved_visualizations/saved_visualization_register';
 
 uiRoutes
 .defaults(/visualize/, {
@@ -37,4 +35,4 @@ uiRoutes
 
 // preloading
 
-SavedObjectRegistryProvider.register(savedVisualizationProvider);
+savedObjectRegistry.register(savedVisusalizationProvider);

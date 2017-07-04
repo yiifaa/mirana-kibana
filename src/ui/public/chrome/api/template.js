@@ -1,5 +1,4 @@
-// eslint-disable-next-line kibana-custom/no-default-export
-export default function (chrome, internals) {
+module.exports = function (chrome, internals) {
 
   /**
    * ui/chrome Template API
@@ -56,4 +55,4 @@ export default function (chrome, internals) {
   };
 
 
-}
+};

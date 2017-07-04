@@ -1,4 +1,4 @@
-export default function (api) {
+module.exports = function (api) {
   api.addEndpointDescription('_cluster/nodes/stats');
   api.addEndpointDescription('_cluster/state', {
     patterns: [
@@ -139,4 +139,4 @@ export default function (api) {
       dry_run: { __one_of: [true, false] }
     }
   });
-}
+};

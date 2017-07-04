@@ -1,6 +1,6 @@
 import { execFileSync } from 'child_process';
 
-export default function exec(cmd, args, opts) {
+function exec(cmd, args, opts) {
   console.log(' >', cmd, args.join(' '));
   exec.silent(cmd, args, opts);
 }
@@ -22,3 +22,5 @@ exec.silent = function (cmd, args, opts) {
     throw e;
   }
 };
+
+module.exports = exec;

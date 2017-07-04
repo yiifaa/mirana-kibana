@@ -1,4 +1,4 @@
-import sinon from 'sinon';
+import sinon from 'auto-release-sinon';
 import ngMock from 'ng_mock';
 import expect from 'expect.js';
 

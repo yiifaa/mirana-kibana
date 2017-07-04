@@ -16,14 +16,7 @@ export default (grunt) => {
     if (/windows/.test(name)) {
       await exec('zip', ['-rq', '-ll', zipPath, buildName]);
     } else {
-      const tarArguments = ['-zchf', tarPath, buildName];
-
-      // Add a flag to handle filepaths with colons (i.e. C://...) on windows
-      if (/^win/.test(process.platform)) {
-        tarArguments.push('--force-local');
-      }
-
-      await exec('tar', tarArguments);
+      await exec('tar', ['-zchf', tarPath, buildName]);
     }
   }
 

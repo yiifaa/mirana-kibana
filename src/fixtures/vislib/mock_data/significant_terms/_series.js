@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default {
+module.exports = {
   'label': '',
   'xAxisLabel': 'Top 5 unusual terms in @tags',
   'yAxisLabel': 'Count of documents',

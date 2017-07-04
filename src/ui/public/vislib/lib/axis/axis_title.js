@@ -1,7 +1,6 @@
 import d3 from 'd3';
 import $ from 'jquery';
-
-export function VislibLibAxisTitleProvider() {
+export default function AxisTitleFactory() {
 
   class AxisTitle {
     constructor(axisConfig) {

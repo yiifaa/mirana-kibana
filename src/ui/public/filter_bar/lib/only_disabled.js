@@ -8,7 +8,7 @@ const pluckDisabled = function (filter) {
  * Checks to see if only disabled filters have been changed
  * @returns {bool} Only disabled filters
  */
-export function onlyDisabled(newFilters, oldFilters) {
+export default function (newFilters, oldFilters) {
   return _.every(newFilters.concat(oldFilters), function (newFilter) {
     return pluckDisabled(newFilter);
   });

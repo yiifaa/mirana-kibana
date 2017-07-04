@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-export function filterAppliedAndUnwrap(filters) {
+export default function (filters) {
   return _.filter(filters, 'meta.apply');
 }
 

@@ -2,15 +2,14 @@ import _ from 'lodash';
 import $ from 'jquery';
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
-import { PointSeriesTooltipFormatter } from 'ui/agg_response/point_series/_tooltip_formatter';
-
+import AggResponsePointSeriesTooltipFormatterProvider from 'ui/agg_response/point_series/_tooltip_formatter';
 describe('tooltipFormatter', function () {
 
   let tooltipFormatter;
 
   beforeEach(ngMock.module('kibana'));
   beforeEach(ngMock.inject(function (Private) {
-    tooltipFormatter = Private(PointSeriesTooltipFormatter);
+    tooltipFormatter = Private(AggResponsePointSeriesTooltipFormatterProvider);
   }));
 
   function agg(name) {

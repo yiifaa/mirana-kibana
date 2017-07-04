@@ -1,6 +1,5 @@
-import { uiRegistry } from 'ui/registry/_registry';
-
-export const SavedObjectRegistryProvider = uiRegistry({
+import uiRegistry from 'ui/registry/_registry';
+export default uiRegistry({
   name: 'savedObjects',
   index: ['loaderProperties.name'],
   order: ['loaderProperties.name']

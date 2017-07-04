@@ -64,7 +64,6 @@ export function ConsoleReporterProvider({ getService }) {
 
     onPending = test => {
       log.write('-> ' + colors.pending(test.title));
-      log.indent(2);
     }
 
     onPass = test => {

@@ -72,7 +72,7 @@ function readServerSettings(opts, extraCliOptions) {
   return settings;
 }
 
-export default function (program) {
+module.exports = function (program) {
   const command = program.command('serve');
 
   command
@@ -170,7 +170,7 @@ export default function (program) {
 
     return kbnServer;
   });
-}
+};
 
 function logFatal(message, server) {
   if (server) {

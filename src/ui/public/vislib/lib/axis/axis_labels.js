@@ -1,7 +1,6 @@
 import d3 from 'd3';
 import $ from 'jquery';
-
-export function VislibAxisLabelsProvider() {
+export default function AxisLabelsFactory() {
   class AxisLabels {
     constructor(axisConfig, scale) {
       this.axisConfig = axisConfig;

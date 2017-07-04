@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import L from 'leaflet';
 import $ from 'jquery';
 import _ from 'lodash';
-import { zoomToPrecision } from 'ui/utils/zoom_to_precision';
+import zoomToPrecision from 'ui/utils/zoom_to_precision';
 
 function makeFitControl(fitContainer, kibanaMap) {
 
@@ -17,7 +17,7 @@ function makeFitControl(fitContainer, kibanaMap) {
     },
     onAdd: function (leafletMap) {
       this._leafletMap = leafletMap;
-      $(this._fitContainer).html('<a class="kuiIcon fa-crop" href="#" aria-label="Fit Data Bounds"></a>')
+      $(this._fitContainer).html('<a class="fa fa-crop" href="#" title="Fit Data Bounds"></a>')
         .on('click', e => {
           e.preventDefault();
           this._kibanaMap.fitToData();
@@ -77,7 +77,7 @@ function makeLegedControl(container, kibanaMap, position) {
  * Collects map functionality required for Kibana.
  * Serves as simple abstraction for leaflet as well.
  */
-export class KibanaMap extends EventEmitter {
+class KibanaMap extends EventEmitter {
 
   constructor(containerNode, options) {
 
@@ -101,7 +101,7 @@ export class KibanaMap extends EventEmitter {
       minZoom: options.minZoom,
       maxZoom: options.maxZoom,
       center: options.center ? options.center : [0, 0],
-      zoom: options.zoom ? options.zoom : 2
+      zoom: options.zoom ? options.zoom : 0
     };
 
     this._leafletMap = L.map(containerNode, leafletOptions);
@@ -352,19 +352,18 @@ export class KibanaMap extends EventEmitter {
   }
 
   addDrawControl() {
-    const shapeOptions = {
-      shapeOptions: {
-        stroke: false,
-        color: '#000'
-      }
-    };
     const drawOptions = {
       draw: {
         polyline: false,
         marker: false,
         circle: false,
-        rectangle: shapeOptions,
-        polygon: shapeOptions
+        polygon: false,
+        rectangle: {
+          shapeOptions: {
+            stroke: false,
+            color: '#000'
+          }
+        }
       }
     };
     this._leafletDrawControl = new L.Control.Draw(drawOptions);
@@ -417,10 +416,6 @@ export class KibanaMap extends EventEmitter {
   }
 
 
-  getLeafletBaseLayer() {
-    return this._leafletBaseLayer;
-  }
-
   setBaseLayer(settings) {
 
     if (_.isEqual(settings, this._baseLayerSettings)) {
@@ -448,23 +443,17 @@ export class KibanaMap extends EventEmitter {
       baseLayer = this._getTMSBaseLayer((settings.options));
     }
 
-    if (baseLayer) {
-      baseLayer.on('tileload', () => this._updateDesaturation());
-      baseLayer.on('load', () => {
-        this.emit('baseLayer:loaded');
-      });
-      baseLayer.on('loading', () => {
-        this.emit('baseLayer:loading');
-      });
+    baseLayer.on('tileload', () => this._updateDesaturation());
+    baseLayer.on('load', () => { this.emit('baseLayer:loaded');});
+    baseLayer.on('loading', () => {this.emit('baseLayer:loading');});
 
-      this._leafletBaseLayer = baseLayer;
-      this._leafletBaseLayer.addTo(this._leafletMap);
-      this._leafletBaseLayer.bringToBack();
-      if (settings.options.minZoom > this._leafletMap.getZoom()) {
-        this._leafletMap.setZoom(settings.options.minZoom);
-      }
-      this.resize();
+    this._leafletBaseLayer = baseLayer;
+    this._leafletBaseLayer.addTo(this._leafletMap);
+    this._leafletBaseLayer.bringToBack();
+    if (settings.options.minZoom > this._leafletMap.getZoom()) {
+      this._leafletMap.setZoom(settings.options.minZoom);
     }
+    this.resize();
 
   }
 
@@ -504,18 +493,16 @@ export class KibanaMap extends EventEmitter {
   }
 
   _getWMSBaseLayer(options) {
-    const wmsOptions = {
-      attribution: options.attribution || '',
-      format: options.format || '',
-      layers: options.layers || '',
+    return L.tileLayer.wms(options.url, {
+      attribution: options.attribution,
+      format: options.format,
+      layers: options.layers,
       minZoom: options.minZoom,
       maxZoom: options.maxZoom,
-      styles: options.styles || '',
+      styles: options.styles,
       transparent: options.transparent,
-      version: options.version || '1.3.0'
-    };
-
-    return (typeof options.url === 'string' && options.url.length) ? L.tileLayer.wms(options.url, wmsOptions) : null;
+      version: options.version
+    });
   }
 
   _updateExtent() {
@@ -560,6 +547,12 @@ export class KibanaMap extends EventEmitter {
       this.setCenter(centerFromUIState[0], centerFromUIState[1]);
     }
   }
+
+
 }
 
+
+
+
+export default KibanaMap;
 

@@ -4,7 +4,6 @@ export default function ({ getService, getPageObjects }) {
   const log = getService('log');
   const esArchiver = getService('esArchiver');
   const kibanaServer = getService('kibanaServer');
-  const screenshots = getService('screenshots');
   const PageObjects = getPageObjects(['common', 'discover', 'header']);
 
   describe('discover tab', function describeIndexTests() {
@@ -37,7 +36,7 @@ export default function ({ getService, getPageObjects }) {
 
     describe('field data', function () {
       it('should initially be expanded', function () {
-        screenshots.take('Discover-sidebar-expanded');
+        PageObjects.common.saveScreenshot('Discover-sidebar-expanded');
         return PageObjects.discover.getSidebarWidth()
           .then(function (width) {
             log.debug('expanded sidebar width = ' + width);
@@ -48,7 +47,7 @@ export default function ({ getService, getPageObjects }) {
       it('should collapse when clicked', function () {
         return PageObjects.discover.toggleSidebarCollapse()
           .then(function () {
-            screenshots.take('Discover-sidebar-collapsed');
+            PageObjects.common.saveScreenshot('Discover-sidebar-collapsed');
             log.debug('PageObjects.discover.getSidebarWidth()');
             return PageObjects.discover.getSidebarWidth();
           })

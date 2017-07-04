@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const timeNavigation = {
+export default {
   // travel forward in time based on the interval between from and to
   stepForward({ min, max }) {
     const diff = max.diff(min);

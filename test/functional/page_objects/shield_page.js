@@ -14,7 +14,7 @@ export function ShieldPageProvider({ getService }) {
         .type(pwd);
       })
       .then(function () {
-        return remote.findByCssSelector('button')
+        return remote.findByCssSelector('.btn')
         .click();
       });
     }

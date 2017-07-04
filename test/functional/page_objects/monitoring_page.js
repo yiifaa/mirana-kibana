@@ -1,6 +1,4 @@
 export function MonitoringPageProvider({ getService }) {
-  const testSubjects = getService('testSubjects');
-
   const getRemote = (timeout) =>
     getService('remote')
       .setFindTimeout(
@@ -15,7 +13,9 @@ export function MonitoringPageProvider({ getService }) {
     }
 
     dismissWelcome() {
-      return testSubjects.click('notifierDismissButton');
+      return getRemote(3000)
+      .findDisplayedByCssSelector('button.btn-banner')
+      .click();
     }
 
     getToasterContents() {

@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { AggTypesBucketsBucketAggTypeProvider } from 'ui/agg_types/buckets/_bucket_agg_type';
-import { VisAggConfigProvider } from 'ui/vis/agg_config';
+import AggTypesBucketsBucketAggTypeProvider from 'ui/agg_types/buckets/_bucket_agg_type';
+import VisAggConfigProvider from 'ui/vis/agg_config';
 import precisionTemplate from 'ui/agg_types/controls/precision.html';
 import { geohashColumns } from 'ui/utils/decode_geo_hash';
 
-export function AggTypesBucketsGeoHashProvider(Private, config) {
+export default function GeoHashAggDefinition(Private, config) {
   const BucketAggType = Private(AggTypesBucketsBucketAggTypeProvider);
   const AggConfig = Private(VisAggConfigProvider);
 

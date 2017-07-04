@@ -6,7 +6,7 @@ import { makeRe } from 'minimatch';
 
 const mkdirp = promisify(require('mkdirp'));
 
-export default class UiBundleCollection {
+class UiBundleCollection {
   constructor(bundlerEnv, filter) {
     this.each = [];
     this.env = bundlerEnv;
@@ -95,3 +95,5 @@ export default class UiBundleCollection {
     return this.each;
   }
 }
+
+module.exports = UiBundleCollection;

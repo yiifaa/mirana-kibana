@@ -1,14 +1,14 @@
 import _ from 'lodash';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 import TagCloud from 'plugins/tagcloud/tag_cloud';
 import AggConfigResult from 'ui/vis/agg_config_result';
-import { FilterBarClickHandlerProvider } from 'ui/filter_bar/filter_bar_click_handler';
+import FilterBarFilterBarClickHandlerProvider from 'ui/filter_bar/filter_bar_click_handler';
 
 const module = uiModules.get('kibana/tagcloud', ['kibana']);
 module.controller('KbnTagCloudController', function ($scope, $element, Private, getAppState) {
 
   const containerNode = $element[0];
-  const filterBarClickHandler = Private(FilterBarClickHandlerProvider);
+  const filterBarClickHandler = Private(FilterBarFilterBarClickHandlerProvider);
   const maxTagCount = 200;
   let truncated = false;
 
@@ -45,8 +45,6 @@ module.controller('KbnTagCloudController', function ($scope, $element, Private, 
     } else if (TagCloud.STATUS.INCOMPLETE === status) {
       incompleteMessage.style.display = 'block';
     }
-
-
     $element.trigger('renderComplete');
   });
 

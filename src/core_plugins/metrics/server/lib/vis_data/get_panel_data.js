@@ -6,11 +6,13 @@ export default function getPanelData(req) {
   const { callWithRequest } = req.server.plugins.elasticsearch.getCluster('data');
   return panel => {
 
-    const bodies = panel.series.map(series => getRequestParams(req, panel, series));
-    const params = {
-      body: bodies.reduce((acc, items) => acc.concat(items), [])
-    };
-    return callWithRequest(req, 'msearch', params)
+    return Promise.all(panel.series.map(series => getRequestParams(req, panel, series)))
+      .then((bodies) => {
+        const params = {
+          body: bodies.reduce((acc, items) => acc.concat(items), [])
+        };
+        return callWithRequest(req, 'msearch', params);
+      })
       .then(resp => {
         const series = resp.responses.map(handleResponseBody(panel));
         return {

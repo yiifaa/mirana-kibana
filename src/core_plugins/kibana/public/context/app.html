@@ -2,7 +2,7 @@
   <div class="kuiLocalNavRow">
     <div class="kuiLocalNavRow__section">
       <div class="kuiLocalTitle">
-        Surrounding Documents in {{ contextApp.state.queryParameters.indexPatternId }}
+        Surrounding Documents in {{ contextApp.state.queryParameters.indexPattern.id }}
       </div>
     </div>
   </div>
@@ -12,8 +12,6 @@
     </div>
   </div>
 </div>
-
-<filter-bar index-patterns="[contextApp.indexPattern]"></filter-bar>
 
 <!-- Error feedback -->
 <div
@@ -100,7 +98,7 @@
     ].includes(contextApp.state.loadingStatus.anchor.status)"
     class="kuiPanel kuiPanel--centered kuiVerticalRhythm"
   >
-    <div class="kuiTableInfo">
+    <div class="kuiLoadingItems">
       Loading&hellip;
     </div>
   </div>
@@ -112,9 +110,8 @@
   >
     <div class="discover-table" fixed-scroll>
       <doc-table
-        filter="contextApp.actions.addFilter"
         hits="contextApp.state.rows.all"
-        index-pattern="contextApp.indexPattern"
+        index-pattern="contextApp.state.queryParameters.indexPattern"
         sorting="contextApp.state.queryParameters.sort"
         columns="contextApp.state.queryParameters.columns"
         infinite-scroll="true"

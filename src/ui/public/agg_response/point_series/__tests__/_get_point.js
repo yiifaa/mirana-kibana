@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
-import { PointSeriesGetPointProvider } from 'ui/agg_response/point_series/_get_point';
+import AggResponsePointSeriesGetPointProvider from 'ui/agg_response/point_series/_get_point';
 
 describe('getPoint', function () {
 
@@ -12,7 +12,7 @@ describe('getPoint', function () {
 
   beforeEach(ngMock.module('kibana'));
   beforeEach(ngMock.inject(function (Private) {
-    getPoint = Private(PointSeriesGetPointProvider);
+    getPoint = Private(AggResponsePointSeriesGetPointProvider);
   }));
 
   describe('Without series aspect', function () {

@@ -2,23 +2,32 @@
   position: relative;
   padding: 10px $localNavSideSpacing 14px;
   background-color: $localDropdownBackgroundColor;
-  border-bottom: solid 1px $globalColorLightGray;
-  border-top: solid 1px $globalColorLightGray;
-  margin-bottom: 10px;
   line-height: 20px;
 
   @include darkTheme {
     background-color: $localDropdownBackgroundColor--darkTheme;
-    border-color: darken($localNavBackgroundColor--darkTheme, 10%);
   }
 }
 
+/**
+ * 1. Override Bootstrap styles.
+ */
 .kuiLocalDropdownCloseButton {
-  @include collapseButton;
-
+  appearance: none;
+  background-color: transparent;
+  padding: 4px;
+  border: none;
   position: absolute;
   top: 1px;
   right: 5px;
+  font-size: 16px;
+  color: $localNavTextColor !important; /* 1 */
+  cursor: pointer;
+  opacity: 0.35;
+
+  &:hover {
+    opacity: 1;
+  }
 
   @include darkTheme {
     color: $localNavTextColor--darkTheme !important; /* 1 */
@@ -113,21 +122,13 @@
   font-size: 14px;
   color: $globalInputTextColor;
   background-color: $globalInputBackgroundColor;
-  border: 1px solid $globalInputBorderColor;
+  border: 2px solid $globalInputBorderColor;
   border-radius: 4px;
-
-  &:focus {
-    border-color: $globalFocusColor;
-  }
 
   @include darkTheme {
     color: $globalInputTextColor--darkTheme;
     background-color: $globalInputBackgroundColor--darkTheme;
     border-color: $globalInputBorderColor--darkTheme;
-
-    &:focus {
-      border-color: $globalFocusColor;
-    }
   }
 }
 

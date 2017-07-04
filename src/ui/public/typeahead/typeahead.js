@@ -2,12 +2,19 @@ import _ from 'lodash';
 import 'ui/typeahead/typeahead.less';
 import 'ui/typeahead/_input';
 import 'ui/typeahead/_items';
-import { uiModules } from 'ui/modules';
-import { comboBoxKeyCodes } from 'ui_framework/services';
-
+import uiModules from 'ui/modules';
 const typeahead = uiModules.get('kibana/typeahead');
 
+
 typeahead.directive('kbnTypeahead', function () {
+  const keyMap = {
+    ESC: 27,
+    UP: 38,
+    DOWN: 40,
+    TAB: 9,
+    ENTER: 13
+  };
+
   return {
     restrict: 'A',
     scope: {
@@ -130,21 +137,21 @@ typeahead.directive('kbnTypeahead', function () {
         }
 
         // hide on escape
-        if (_.contains([comboBoxKeyCodes.ESC], keyCode)) {
+        if (_.contains([keyMap.ESC], keyCode)) {
           self.hidden = true;
           self.active = false;
         }
 
         // change selection with arrow up/down
         // on down key, attempt to load all items if none are loaded
-        if (_.contains([comboBoxKeyCodes.DOWN], keyCode) && $scope.filteredItems.length === 0) {
+        if (_.contains([keyMap.DOWN], keyCode) && $scope.filteredItems.length === 0) {
           $scope.filteredItems = $scope.items;
           $scope.$digest();
-        } else if (_.contains([comboBoxKeyCodes.UP, comboBoxKeyCodes.DOWN], keyCode)) {
+        } else if (_.contains([keyMap.UP, keyMap.DOWN], keyCode)) {
           if (self.isVisible() && $scope.filteredItems.length) {
             ev.preventDefault();
 
-            if (keyCode === comboBoxKeyCodes.DOWN) {
+            if (keyCode === keyMap.DOWN) {
               self.activateNext();
             } else {
               self.activatePrev();
@@ -153,14 +160,14 @@ typeahead.directive('kbnTypeahead', function () {
         }
 
         // persist selection on enter, when not selecting from the list
-        if (_.contains([comboBoxKeyCodes.ENTER], keyCode)) {
+        if (_.contains([keyMap.ENTER], keyCode)) {
           if (!self.active) {
             self.persistEntry();
           }
         }
 
         // select on enter or tab
-        if (_.contains([comboBoxKeyCodes.ENTER, comboBoxKeyCodes.TAB], keyCode)) {
+        if (_.contains([keyMap.ENTER, keyMap.TAB], keyCode)) {
           self.selectActive();
           self.hidden = true;
         }

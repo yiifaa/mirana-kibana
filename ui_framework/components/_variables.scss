@@ -7,43 +7,15 @@
 // variables should be declared at the top of those documents prefixed with $componentName.
 
 
-// True colors
-
-$globalColorBlue: #0079a5;
-$globalColorTeal: #00A69B;
-$globalColorRed: #A30000;
-$globalColorLightestGray: #F5F5F5;
-$globalColorLightGray: #D9D9D9;
-$globalColorMediumGray: #999;
-$globalColorDarkGray: #666;
-$globalColorDarkestGray: #3F3F3F;
-$globalColorBlack: #000;
-$globalColorWhite: #FFF;
-
-
 // Normal colors
-
 $globalTextColor: #2d2d2d;
-$globalLinkColor: $globalColorBlue;
-$globalLinkColor-isHover: darken($globalLinkColor, 10%);
+$globalLinkColor: #3CAED2;
+$globalLinkColor-isHover: #105A73;
 $globalInputTextColor: $globalTextColor;
-$globalInputBackgroundColor: $globalColorWhite;
-$globalInputBorderColor: $globalColorLightGray;
-
-
-// Animations
-
-$globalAnimSlightBounce: cubic-bezier(0.34,1.61,0.7,1);
-$globalAnimSlightResistance: cubic-bezier(0.694, 0.0482, 0.335, 1);
-$globalAnimSpeedVeryFast: 90ms;
-$globalAnimSpeedFast: 150ms;
-$globalAnimSpeedNormal: 250ms;
-$globalAnimSpeedSlow: 350ms;
-$globalAnimSpeedVerySlow: 500ms;
-
+$globalInputBackgroundColor: #ffffff;
+$globalInputBorderColor: $globalInputBackgroundColor;
 
 // Dark theme colors
-
 $globalTextColor--darkTheme: #cecece;
 $globalBackgroundColor--darkTheme: #777777;
 $globalLinkColor--darkTheme: #b7e2ea;
@@ -53,60 +25,39 @@ $globalInputBackgroundColor--darkTheme: #444444;
 $globalInputBorderColor--darkTheme: $globalInputBackgroundColor--darkTheme;
 
 // Font
-
 $globalFontFamily: "Open Sans", Helvetica, Arial, sans-serif;
 $globalFontSize: 14px;
 $globalLineHeight: 1.5;
-$globalSubTextFontSize: 12px;
 $globalTitleFontSize: 18px;
 $globalFontWeightRegular: 400;
 $globalFontWeightBold: 700;
 
 // Colors
-
 $globalInfoColor: #3fa8c7;
 $globalInactiveColor: #c3c3c3;
 $globalSuccessColor: #417505;
 $globalWarningColor: #ec9800;
-$globalDangerColor: $globalColorRed;
-$globalFocusColor: $globalColorBlue;
+$globalDangerColor: #D86051;
+$globalFocusColor: #6EADC1;
 $globalFocusDangerColor: #ff523c;
-$globalFocusWarningColor: #ffa500;
 $globalFocusBackgroundColor: #ffffff;
 $globalFontColor: #191E23;
-$globalSubduedTextColor: $globalColorDarkGray;
+$globalSubduedTextColor: #9fa3a7;
 $globalLinkHoverColor: #006E8A;
-$globalSelectedBorderColor: $globalColorBlue;
+$globalSelectedBorderColor: #6EADC1;
 $globalDangerBorderColor: $globalDangerColor;
-$globalFormControlBorderColor: #DEDEDE;
 
 // Borders
-
-$globalBorderColor: $globalColorLightGray;
+$globalBorderColor: #E4E4E4;
 $globalBorderRadius: 4px;
 $globalBorderThick: 2px solid $globalBorderColor;
 $globalBorderThin: 1px solid $globalBorderColor;
 
-// Shadows
-
-$globalBoxShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-
 // Timing
-
 $globalInputTransitionTiming: 0.1s linear;
 
 // Bar
-
 $toolBarHeight: 50px;
 $toolBarPadding: 10px;
 $toolBarSectionSpacing: 50px;
 $toolBarItsemSpacing: 10px;
-
-// Form
-
-$globalFormControlHorizontalPadding: 12px;
-$globalFormControlPadding: 3px $globalFormControlHorizontalPadding 4px;
-$globalFormInputHeight: 30px;
-$globalFormFieldDefaultWidth: 180px;
-$globalFormFieldSmallWidth: 60px;
-$globalFormFieldLargeWidth: 400px;

@@ -1,3 +1,3 @@
-export function savedVisualizationProvider(savedVisualizations) {
+export default function savedVisualizationFn(savedVisualizations) {
   return savedVisualizations;
 }

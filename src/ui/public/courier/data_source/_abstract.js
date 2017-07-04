@@ -3,20 +3,19 @@ import angular from 'angular';
 
 import 'ui/promises';
 
-import { RequestQueueProvider } from '../_request_queue';
-import { ErrorHandlersProvider } from '../_error_handlers';
-import { FetchProvider } from '../fetch';
-import { DecorateQueryProvider } from './_decorate_query';
-import { FieldWildcardProvider } from '../../field_wildcard';
-import { getHighlightRequest } from '../../highlight';
-import { migrateFilter } from './_migrate_filter';
+import RequestQueueProvider from '../_request_queue';
+import ErrorHandlersProvider from '../_error_handlers';
+import FetchProvider from '../fetch';
+import DecorateQueryProvider from './_decorate_query';
+import FieldWildcardProvider from '../../field_wildcard';
+import { getHighlightRequestProvider } from '../../highlight';
 
-export function AbstractDataSourceProvider(Private, Promise, PromiseEmitter, config) {
+export default function SourceAbstractFactory(Private, Promise, PromiseEmitter) {
   const requestQueue = Private(RequestQueueProvider);
   const errorHandlers = Private(ErrorHandlersProvider);
   const courierFetch = Private(FetchProvider);
   const { fieldWildcardFilter } = Private(FieldWildcardProvider);
-  const getConfig = (...args) => config.get(...args);
+  const getHighlightRequest = Private(getHighlightRequestProvider);
 
   function SourceAbstract(initialState, strategy) {
     const self = this;
@@ -190,31 +189,6 @@ export function AbstractDataSourceProvider(Private, Promise, PromiseEmitter, con
   };
 
   /**
-   * Fetch this source and reject the returned Promise on error
-   *
-   * Otherwise behaves like #fetch()
-   *
-   * @async
-   */
-  SourceAbstract.prototype.fetchAsRejectablePromise = function () {
-    const self = this;
-    let req = _.first(self._myStartableQueued());
-
-    if (!req) {
-      req = self._createRequest();
-    }
-
-    req.setErrorHandler((request, error) => {
-      request.defer.reject(error);
-      request.abort();
-    });
-
-    courierFetch.these([req]);
-
-    return req.getCompletePromise();
-  };
-
-  /**
    * Fetch all pending requests for this source ASAP
    * @async
    */
@@ -312,31 +286,20 @@ export function AbstractDataSourceProvider(Private, Promise, PromiseEmitter, con
           };
         }
 
-        const computedFields = flatState.index.getComputedFields();
-        flatState.body.stored_fields = computedFields.storedFields;
-        flatState.body.script_fields = flatState.body.script_fields || {};
-        flatState.body.docvalue_fields = flatState.body.docvalue_fields || [];
+        if (flatState.body.size > 0) {
+          const computedFields = flatState.index.getComputedFields();
+          flatState.body.stored_fields = computedFields.storedFields;
+          flatState.body.script_fields = flatState.body.script_fields || {};
+          flatState.body.docvalue_fields = flatState.body.docvalue_fields || [];
 
-        _.extend(flatState.body.script_fields, computedFields.scriptFields);
-        flatState.body.docvalue_fields = _.union(flatState.body.docvalue_fields, computedFields.docvalueFields);
+          _.extend(flatState.body.script_fields, computedFields.scriptFields);
+          flatState.body.docvalue_fields = _.union(flatState.body.docvalue_fields, computedFields.docvalueFields);
 
-        if (flatState.body._source) {
-          // exclude source fields for this index pattern specified by the user
-          const filter = fieldWildcardFilter(flatState.body._source.excludes);
-          flatState.body.docvalue_fields = flatState.body.docvalue_fields.filter(filter);
-        }
-
-        // if we only want to search for certain fields
-        const fields = flatState.fields;
-        if (fields) {
-          // filter out the docvalue_fields, and script_fields to only include those that we are concerned with
-          flatState.body.docvalue_fields = _.intersection(flatState.body.docvalue_fields, fields);
-          flatState.body.script_fields = _.pick(flatState.body.script_fields, fields);
-
-          // request the remaining fields from both stored_fields and _source
-          const remainingFields = _.difference(fields, _.keys(flatState.body.script_fields));
-          flatState.body.stored_fields = remainingFields;
-          _.set(flatState.body, '_source.includes', remainingFields);
+          if (flatState.body._source) {
+            // exclude source fields for this index pattern specified by the user
+            const filter = fieldWildcardFilter(flatState.body._source.excludes);
+            flatState.body.docvalue_fields = flatState.body.docvalue_fields.filter(filter);
+          }
         }
 
         decorateQuery(flatState.body.query);
@@ -396,7 +359,6 @@ export function AbstractDataSourceProvider(Private, Promise, PromiseEmitter, con
                     .filter(filterNegate(false))
                     .map(translateToQuery)
                     .map(cleanFilter)
-                    .map(migrateFilter)
                   )
                 ),
                 must_not: (
@@ -404,7 +366,6 @@ export function AbstractDataSourceProvider(Private, Promise, PromiseEmitter, con
                   .filter(filterNegate(true))
                   .map(translateToQuery)
                   .map(cleanFilter)
-                  .map(migrateFilter)
                 )
               }
             };
@@ -414,7 +375,7 @@ export function AbstractDataSourceProvider(Private, Promise, PromiseEmitter, con
 
         if (flatState.highlightAll != null) {
           if (flatState.highlightAll && flatState.body.query) {
-            flatState.body.highlight = getHighlightRequest(flatState.body.query, getConfig);
+            flatState.body.highlight = getHighlightRequest(flatState.body.query);
           }
           delete flatState.highlightAll;
         }

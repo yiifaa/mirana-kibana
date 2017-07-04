@@ -1,7 +1,7 @@
 import L from 'leaflet';
-import { ScaledCirclesMarkers } from './scaled_circles';
+import ScaledCircles from './scaled_circles';
 
-export class GeohashGridMarkers extends ScaledCirclesMarkers {
+export default class GeohashGrid extends ScaledCircles {
   getMarkerFunction() {
     return function (feature) {
       const geohashRect = feature.properties.rectangle;

@@ -1,4 +1,3 @@
-@import "~ui/styles/local_search.less";
 
 @vis-editor-sidebar-basis: (100/12) * 2%; // two of twelve columns
 @vis-editor-sidebar-min-width: 350px;
@@ -14,22 +13,23 @@
     height: 100%;
   }
 
+  .btn-xs {
+    line-height: 1.3;
+  }
+
   .collapsible-sidebar {
     .flex-parent(0, 0, auto);
     margin-right: 10px;
   }
 
   .visualization-options {
+    padding: @vis-editor-agg-editor-spacing;
 
     .form-group {
       margin-bottom: @vis-editor-agg-editor-spacing;
     }
     .form-horizontal .control-label {
       text-align: left;
-    }
-
-    .kuiSideBarSelect {
-      width: 100%;
     }
   }
 
@@ -77,17 +77,12 @@
 
     .index-pattern,
     nav {
-      min-height: auto;
+      min-height: @app-icon-height;
       border-radius: 0px;
     }
 
     .sidebar-item {
       border-top: 0 !important;
-      padding: 10px;
-      border-radius: 4px;
-      margin-bottom: 10px;
-      background: @globalColorWhite;
-
     }
 
     .sidebar-container {
@@ -98,7 +93,6 @@
         .flex-parent(1, 1, auto);
 
         > div.vis-editor-config {
-          padding: 10px;
           @media (min-width: @screen-md-min) {
             .flex-parent(1, 1, 1px);
             overflow: auto;
@@ -120,11 +114,11 @@
     }
 
     .sidebar-item-title {
-      font-size: 18px;
+      font-size: 14px;
+      font-weight: bold;
       border: inherit !important;
-      margin-bottom: 10px !important;
-      padding: 0px !important;
-      text-transform: capitalize;
+      margin-bottom: @vis-editor-agg-editor-spacing;
+      padding: 2px 5px !important;
     }
 
     .hintbox {
@@ -138,7 +132,6 @@
       text-overflow: ellipsis;
       overflow: hidden;
       margin-bottom: 0;
-      font-size: 12px;
     }
   }
 
@@ -154,6 +147,7 @@
 
     //IE10/11 - prevent flex item from overflowing
     flex-basis: 100%;
+    padding: @vis-editor-agg-editor-spacing;
   }
 
     // wraps the .vis-editor-agg and nesting-indicator ^^
@@ -176,9 +170,6 @@
       .vis-editor-agg-header-toggle {
         flex: 0 0 auto;
         margin-right: @vis-editor-agg-editor-spacing;
-        min-width: 22px;
-        min-height: 22px;
-        text-align: center;
       }
 
       .vis-editor-agg-header-subagg-icon {
@@ -238,6 +229,10 @@
           margin-right: 0px;
         }
       }
+
+      > .btn {
+        align-self: center;
+      }
     }
 
     .vis-editor-agg-form-value {
@@ -273,8 +268,14 @@
       .flex-parent();
     }
 
+      .vis-editor-agg-add-subagg {
+        margin-bottom: -@vis-editor-agg-editor-spacing - 1; // extra one pixel covers the aggs bottom border
+        margin-right: -@vis-editor-agg-editor-spacing;
+        margin-left: -@vis-editor-agg-editor-spacing;
+      }
+
       .vis-editor-agg-add-schemas {
-        margin-bottom: 10px;
+        margin: @vis-editor-agg-editor-spacing * 3;
       }
 
     .vis-editor-agg-order-agg {
@@ -285,33 +286,6 @@
       margin: @vis-editor-agg-editor-spacing;
       padding: @vis-editor-agg-editor-spacing;
     }
-
-  /**
-  * 1. Make ui-select input match other inputs.
-  * 2. Show invalid state if the user has interacted with the input without selecting an option.
-  */
-  .vis-editor-field-ui-select {
-    .ui-select-match {
-      .btn {
-        border: 1px solid @globalColorLightGray; /* 1 */
-        background-color: @white; /* 1 */
-        color: @kibanaGray1; /* 1 */
-
-        .ui-select-placeholder {
-          color: @input-color-placeholder; /* 1 */
-        }
-      }
-    }
-
-    &.ng-invalid.ng-dirty,
-    &.ng-invalid.ng-touched {
-      .ui-select-match {
-        .btn {
-          border-color: @globalColorRed; /* 2 */
-        }
-      }
-    }
-  }
 
   .vis-editor-canvas {
     flex: 1 0 (@screen-md-min - @vis-editor-sidebar-basis);
@@ -361,12 +335,12 @@ vis-editor-vis-options > * {
    */
 .vis-editor-subnav-link {
   padding: 4px 10px 5px 10px !important; /* 1 */
-  color: @globalColorDarkGray !important; /* 1 */
+  color: @kibanaGray2 !important; /* 1 */
 
   &.is-vis-editor-sub-nav-link-selected {
-    border-bottom: 2px solid @globalColorBlue;
-    border-color: @globalColorBlue !important;
-    color: @globalColorBlue !important;
+    border-bottom: 2px solid @kibanaGray2;
+    color: @kibanaGray1;
+    background-color: #f6f6f6;
 
     &:before {
       display: none;

@@ -4,8 +4,8 @@ import expect from 'expect.js';
 import ngMock from 'ng_mock';
 import 'ui/private';
 
-import { DocViewsRegistryProvider } from 'ui/registry/doc_views';
-import { uiRegistry } from 'ui/registry/_registry';
+import docViewsRegistry from 'ui/registry/doc_views';
+import Registry from 'ui/registry/_registry';
 import 'ui/doc_viewer';
 
 describe('docViewer', function () {
@@ -15,7 +15,7 @@ describe('docViewer', function () {
 
   beforeEach(function () {
     ngMock.module('kibana', function (PrivateProvider) {
-      stubRegistry = uiRegistry({
+      stubRegistry = new Registry({
         index: ['name'],
         order: ['order'],
         constructor() {
@@ -26,7 +26,7 @@ describe('docViewer', function () {
         }
       });
 
-      PrivateProvider.swap(DocViewsRegistryProvider, stubRegistry);
+      PrivateProvider.swap(docViewsRegistry, stubRegistry);
     });
 
     // Create the scope

@@ -2,11 +2,10 @@ import _ from 'lodash';
 import moment from 'moment';
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
-import { VisProvider } from 'ui/vis';
-import { VisAggConfigProvider } from 'ui/vis/agg_config';
-import { PointSeriesGetAspectsProvider } from 'ui/agg_response/point_series/_get_aspects';
+import VisProvider from 'ui/vis';
+import VisAggConfigProvider from 'ui/vis/agg_config';
+import AggResponsePointSeriesGetAspectsProvider from 'ui/agg_response/point_series/_get_aspects';
 import FixturesStubbedLogstashIndexPatternProvider from 'fixtures/stubbed_logstash_index_pattern';
-
 describe('getAspects', function () {
   let Vis;
   let AggConfig;
@@ -17,7 +16,7 @@ describe('getAspects', function () {
   beforeEach(ngMock.inject(function (Private) {
     Vis = Private(VisProvider);
     AggConfig = Private(VisAggConfigProvider);
-    getAspects = Private(PointSeriesGetAspectsProvider);
+    getAspects = Private(AggResponsePointSeriesGetAspectsProvider);
     indexPattern = Private(FixturesStubbedLogstashIndexPatternProvider);
   }));
 
@@ -46,7 +45,7 @@ describe('getAspects', function () {
   }
 
   function init(group, x, y) {
-    // map args to indices that should be removed
+    // map args to indicies that should be removed
     const filter = filterByIndex([
       x > 0,
       x > 1,

@@ -1,13 +1,10 @@
-import sinon from 'sinon';
+import sinon from 'auto-release-sinon';
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
 
-import { CallClientProvider } from 'ui/courier/fetch/call_client';
-import { CallResponseHandlersProvider } from 'ui/courier/fetch/call_response_handlers';
-import { ContinueIncompleteProvider } from 'ui/courier/fetch/continue_incomplete';
-import { FetchTheseProvider } from '../fetch_these';
+import FetchTheseProvider from '../fetch_these';
 
-describe('FetchTheseProvider', () => {
+describe('ui/courier/fetch/_fetch_these', () => {
 
   let Promise;
   let $rootScope;
@@ -26,9 +23,9 @@ describe('FetchTheseProvider', () => {
       return fakeResponses;
     }
 
-    PrivateProvider.swap(CallClientProvider, FakeResponsesProvider);
-    PrivateProvider.swap(CallResponseHandlersProvider, FakeResponsesProvider);
-    PrivateProvider.swap(ContinueIncompleteProvider, FakeResponsesProvider);
+    PrivateProvider.swap(require('ui/courier/fetch/call_client'), FakeResponsesProvider);
+    PrivateProvider.swap(require('ui/courier/fetch/call_response_handlers'), FakeResponsesProvider);
+    PrivateProvider.swap(require('ui/courier/fetch/continue_incomplete'), FakeResponsesProvider);
   }));
 
   beforeEach(ngMock.inject((Private, $injector) => {

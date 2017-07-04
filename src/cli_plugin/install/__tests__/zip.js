@@ -54,12 +54,12 @@ describe('kibana cli', function () {
       });
     });
 
-    it('handles a corrupt zip archive', async () => {
+    it('handles a corrupt zip archive', async (done) => {
       try {
         await extractArchive(path.resolve(repliesPath, 'corrupt.zip'));
-        throw new Error('This should have failed');
+        done(false);
       } catch(e) {
-        return;
+        done();
       }
     });
   });

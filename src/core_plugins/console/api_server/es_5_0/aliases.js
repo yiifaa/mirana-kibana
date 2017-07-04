@@ -1,4 +1,4 @@
-export default function (api) {
+module.exports = function (api) {
   api.addEndpointDescription('_post_aliases', {
     methods: ['POST'],
     patterns: [
@@ -68,4 +68,4 @@ export default function (api) {
   api.addGlobalAutocompleteRules('aliases', {
     '*': aliasRules
   });
-}
+};

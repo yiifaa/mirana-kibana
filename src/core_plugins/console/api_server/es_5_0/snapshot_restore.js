@@ -1,4 +1,4 @@
-export default function (api) {
+module.exports = function (api) {
   api.addEndpointDescription('restore_snapshot', {
     methods: ['POST'],
     patterns: [
@@ -126,4 +126,4 @@ export default function (api) {
       }
     }
   });
-}
+};

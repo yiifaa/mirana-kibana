@@ -1,6 +1,5 @@
-import { uiRegistry } from 'ui/registry/_registry';
-
-export const VisTypesRegistryProvider = uiRegistry({
+import uiRegistry from 'ui/registry/_registry';
+export default uiRegistry({
   name: 'visTypes',
   index: ['name'],
   order: ['title']

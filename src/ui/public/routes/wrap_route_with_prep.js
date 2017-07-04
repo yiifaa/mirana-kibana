@@ -1,8 +1,9 @@
 import angular from 'angular';
 import _ from 'lodash';
-import { WorkQueue } from 'ui/routes/work_queue';
+import WorkQueue from 'ui/routes/work_queue';
 
-export function wrapRouteWithPrep(route, setup) {
+
+function wrapRouteWithPrep(route, setup) {
   if (!route.resolve && route.redirectTo) return;
 
   const userWork = new WorkQueue();
@@ -31,3 +32,4 @@ export function wrapRouteWithPrep(route, setup) {
   route.resolve = resolve;
 }
 
+export default wrapRouteWithPrep;

@@ -9,15 +9,15 @@ import {
 export default () => (
   <div>
     <KuiButtonGroup isUnited>
-      <KuiButton buttonType="basic">
+      <KuiButton type="basic">
         Option A
       </KuiButton>
 
-      <KuiButton buttonType="basic">
+      <KuiButton type="basic">
         Option B
       </KuiButton>
 
-      <KuiButton buttonType="basic">
+      <KuiButton type="basic">
         Option C
       </KuiButton>
     </KuiButtonGroup>
@@ -26,12 +26,12 @@ export default () => (
 
     <KuiButtonGroup isUnited>
       <KuiButton
-        buttonType="basic"
+        type="basic"
         icon={<KuiButtonIcon type="previous" />}
       />
 
       <KuiButton
-        buttonType="basic"
+        type="basic"
         icon={<KuiButtonIcon type="next" />}
       />
     </KuiButtonGroup>

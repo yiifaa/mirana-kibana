@@ -67,7 +67,7 @@ var DECAY_FUNC_DESC = {
     }
   };
 
-export default function (api) {
+module.exports = function (api) {
   api.addGlobalAutocompleteRules('query', {
     match: {
       __template: {
@@ -141,7 +141,7 @@ export default function (api) {
       filter: {
         __scope_link: 'GLOBAL.filter'
       },
-      minimum_should_match: 1,
+      minimum_number_should_match: 1,
       boost: 1.0
     },
     boosting: {
@@ -624,4 +624,4 @@ export default function (api) {
 
 
   });
-}
+};

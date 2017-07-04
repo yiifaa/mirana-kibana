@@ -1,19 +1,17 @@
 import _ from 'lodash';
-import { FilterBarLibGenerateMappingChainProvider } from './generate_mapping_chain';
-import { FilterBarLibMapMatchAllProvider } from './map_match_all';
-import { FilterBarLibMapPhraseProvider } from './map_phrase';
-import { FilterBarLibMapPhrasesProvider } from './map_phrases';
-import { FilterBarLibMapRangeProvider } from './map_range';
-import { FilterBarLibMapExistsProvider } from './map_exists';
-import { FilterBarLibMapMissingProvider } from './map_missing';
-import { FilterBarLibMapQueryStringProvider } from './map_query_string';
-import { FilterBarLibMapGeoBoundingBoxProvider } from './map_geo_bounding_box';
-import { FilterBarLibMapScriptProvider } from './map_script';
-import { FilterBarLibMapDefaultProvider } from './map_default';
+import GenerateMappingChainProvider from './generate_mapping_chain';
+import MapMatchAllProvider from './map_match_all';
+import MapTermsProvider from './map_terms';
+import MapRangeProvider from './map_range';
+import MapExistsProvider from './map_exists';
+import MapMissingProvider from './map_missing';
+import MapQueryStringProvider from './map_query_string';
+import MapGeoBoundingBoxProvider from './map_geo_bounding_box';
+import MapScriptProvider from './map_script';
+import MapDefaultProvider from './map_default';
+export default function mapFilterProvider(Promise, Private) {
 
-export function FilterBarLibMapFilterProvider(Promise, Private) {
-
-  const generateMappingChain = Private(FilterBarLibGenerateMappingChainProvider);
+  const generateMappingChain = Private(GenerateMappingChainProvider);
 
   /** Mappers **/
 
@@ -32,16 +30,15 @@ export function FilterBarLibMapFilterProvider(Promise, Private) {
   // that either handles the mapping operation or not
   // and add it here. ProTip: These are executed in order listed
   const mappers = [
-    Private(FilterBarLibMapMatchAllProvider),
-    Private(FilterBarLibMapRangeProvider),
-    Private(FilterBarLibMapPhraseProvider),
-    Private(FilterBarLibMapPhrasesProvider),
-    Private(FilterBarLibMapExistsProvider),
-    Private(FilterBarLibMapMissingProvider),
-    Private(FilterBarLibMapQueryStringProvider),
-    Private(FilterBarLibMapGeoBoundingBoxProvider),
-    Private(FilterBarLibMapScriptProvider),
-    Private(FilterBarLibMapDefaultProvider)
+    Private(MapMatchAllProvider),
+    Private(MapTermsProvider),
+    Private(MapRangeProvider),
+    Private(MapExistsProvider),
+    Private(MapMissingProvider),
+    Private(MapQueryStringProvider),
+    Private(MapGeoBoundingBoxProvider),
+    Private(MapScriptProvider),
+    Private(MapDefaultProvider)
   ];
 
   const noop = function () {
@@ -65,7 +62,6 @@ export function FilterBarLibMapFilterProvider(Promise, Private) {
     // Apply the mapping function
     return mapFn(filter).then(function (result) {
       filter.meta = filter.meta || {};
-      filter.meta.type = result.type;
       filter.meta.key = result.key;
       filter.meta.value = result.value;
       filter.meta.disabled = !!(filter.meta.disabled);

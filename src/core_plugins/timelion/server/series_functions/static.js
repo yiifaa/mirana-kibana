@@ -3,7 +3,7 @@ import Datasource from '../lib/classes/datasource';
 import Promise from 'bluebird';
 
 
-export default new Datasource ('static', {
+module.exports = new Datasource ('static', {
   aliases: ['value'],
   args: [
     {

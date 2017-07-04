@@ -4,7 +4,7 @@ import moment from 'moment';
 const units = ['y', 'M', 'w', 'd', 'h', 'm', 's'];
 
 /* This is a simplified version of elasticsearch's date parser */
-export default function parse(text, roundUp) {
+function parse(text, roundUp) {
   if (!text) {
     return undefined;
   }
@@ -102,3 +102,5 @@ function parseDateMath(mathString, time, roundUp) {
   }
   return dateTime;
 }
+
+module.exports = parse;

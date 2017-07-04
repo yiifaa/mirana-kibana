@@ -41,7 +41,7 @@ export function DiscoverPageProvider({ getService, getPageObjects }) {
       })
       .then(() => {
         log.debug('--find save button');
-        return testSubjects.click('discoverSaveSearchButton');
+        return testSubjects.click('discover-save-search-btn');
       });
     }
 
@@ -222,7 +222,8 @@ export function DiscoverPageProvider({ getService, getPageObjects }) {
     }
 
     toggleSidebarCollapse() {
-      return testSubjects.find('collapseSideBarButton').click();
+      return getRemote().findDisplayedByCssSelector('.sidebar-collapser .chevron-cont')
+      .click();
     }
 
     getAllFieldNames() {
@@ -257,7 +258,8 @@ export function DiscoverPageProvider({ getService, getPageObjects }) {
     }
 
     clickFieldListItem(field) {
-      return testSubjects.click(`field-${field}`);
+      return getRemote()
+      .findByCssSelector('li[attr-field="' + field + '"]').click();
     }
 
     async clickFieldListItemAdd(field) {
@@ -268,7 +270,7 @@ export function DiscoverPageProvider({ getService, getPageObjects }) {
 
     async clickFieldListItemVisualize(field) {
       return await retry.try(async () => {
-        await testSubjects.click(`fieldVisualize-${field}`);
+        await testSubjects.click('fieldVisualize-' + field);
       });
     }
 
@@ -276,7 +278,7 @@ export function DiscoverPageProvider({ getService, getPageObjects }) {
       // this method requires the field details to be open from clickFieldListItem()
       // testSubjects.find doesn't handle spaces in the data-test-subj value
       return getRemote()
-      .findByCssSelector(`[data-test-subj="plus-${field}-${value}"]`)
+      .findByCssSelector('i[data-test-subj="plus-' + field + '-' + value + '"]')
       .click();
     }
 
@@ -284,7 +286,7 @@ export function DiscoverPageProvider({ getService, getPageObjects }) {
       // this method requires the field details to be open from clickFieldListItem()
       // testSubjects.find doesn't handle spaces in the data-test-subj value
       return getRemote()
-      .findByCssSelector('[data-test-subj="minus-' + field + '-' + value + '"]')
+      .findByCssSelector('i[data-test-subj="minus-' + field + '-' + value + '"]')
       .click();
     }
 

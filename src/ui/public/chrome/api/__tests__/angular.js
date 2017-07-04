@@ -1,4 +1,4 @@
-import { initAngularApi } from '../angular';
+import kbnAngular from '../angular';
 import { noop } from 'lodash';
 
 describe('Chrome API :: Angular', () => {
@@ -8,7 +8,7 @@ describe('Chrome API :: Angular', () => {
         getInjected: noop,
         addBasePath: noop
       };
-      initAngularApi(chrome, {
+      kbnAngular(chrome, {
         devMode: true
       });
     });

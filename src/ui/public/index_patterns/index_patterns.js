@@ -1,19 +1,19 @@
 import 'ui/filters/short_dots';
 import { IndexPatternMissingIndices } from 'ui/errors';
-import { IndexPatternProvider } from 'ui/index_patterns/_index_pattern';
-import { IndexPatternsPatternCacheProvider } from 'ui/index_patterns/_pattern_cache';
-import { IndexPatternsGetIdsProvider } from 'ui/index_patterns/_get_ids';
-import { IndexPatternsIntervalsProvider } from 'ui/index_patterns/_intervals';
-import { FieldsFetcherProvider } from './fields_fetcher_provider';
-import { RegistryFieldFormatsProvider } from 'ui/registry/field_formats';
-import { uiModules } from 'ui/modules';
+import IndexPatternsIndexPatternProvider from 'ui/index_patterns/_index_pattern';
+import IndexPatternsPatternCacheProvider from 'ui/index_patterns/_pattern_cache';
+import IndexPatternsGetIdsProvider from 'ui/index_patterns/_get_ids';
+import IndexPatternsIntervalsProvider from 'ui/index_patterns/_intervals';
+import IndexPatternsMapperProvider from 'ui/index_patterns/_mapper';
+import IndexPatternsPatternToWildcardProvider from 'ui/index_patterns/_pattern_to_wildcard';
+import RegistryFieldFormatsProvider from 'ui/registry/field_formats';
+import uiModules from 'ui/modules';
 const module = uiModules.get('kibana/index_patterns');
 
-export { IndexPatternsApiClientProvider } from './index_patterns_api_client_provider';
-export function IndexPatternsProvider(esAdmin, Notifier, Private, Promise, kbnIndex) {
+function IndexPatternsProvider(esAdmin, Notifier, Private, Promise, kbnIndex) {
   const self = this;
 
-  const IndexPattern = Private(IndexPatternProvider);
+  const IndexPattern = Private(IndexPatternsIndexPatternProvider);
   const patternCache = Private(IndexPatternsPatternCacheProvider);
 
   self.get = function (id) {
@@ -45,9 +45,11 @@ export function IndexPatternsProvider(esAdmin, Notifier, Private, Promise, kbnIn
   self.cache = patternCache;
   self.getIds = Private(IndexPatternsGetIdsProvider);
   self.intervals = Private(IndexPatternsIntervalsProvider);
-  self.fieldsFetcher = Private(FieldsFetcherProvider);
+  self.mapper = Private(IndexPatternsMapperProvider);
+  self.patternToWildcard = Private(IndexPatternsPatternToWildcardProvider);
   self.fieldFormats = Private(RegistryFieldFormatsProvider);
   self.IndexPattern = IndexPattern;
 }
 
 module.service('indexPatterns', Private => Private(IndexPatternsProvider));
+export default IndexPatternsProvider;

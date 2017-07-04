@@ -1,4 +1,4 @@
-export default function Panel(name, config) {
+module.exports = function Panel(name, config) {
 
   this.name = name;
 
@@ -9,4 +9,4 @@ export default function Panel(name, config) {
   if (!config.render) throw new Error ('Panel must have a rendering function');
 
 
-}
+};

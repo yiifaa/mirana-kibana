@@ -1,7 +1,6 @@
-import { VislibLibLayoutSplitsPieChartChartSplitProvider } from '../splits/pie_chart/chart_split';
-import { VislibLibLayoutSplitsPieChartChartTitleSplitProvider } from '../splits/pie_chart/chart_title_split';
-
-export function VislibLibLayoutTypesPieLayoutProvider(Private) {
+import VislibLibLayoutSplitsPieChartChartSplitProvider from '../splits/pie_chart/chart_split';
+import VislibLibLayoutSplitsPieChartChartTitleSplitProvider from '../splits/pie_chart/chart_title_split';
+export default function ColumnLayoutFactory(Private) {
   const chartSplit = Private(VislibLibLayoutSplitsPieChartChartSplitProvider);
   const chartTitleSplit = Private(VislibLibLayoutSplitsPieChartChartTitleSplitProvider);
 

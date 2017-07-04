@@ -1,7 +1,6 @@
 import alter from '../lib/alter.js';
 import Chainable from '../lib/classes/chainable';
-
-export default new Chainable('legend', {
+module.exports = new Chainable('legend', {
   args: [
     {
       name: 'inputSeries',

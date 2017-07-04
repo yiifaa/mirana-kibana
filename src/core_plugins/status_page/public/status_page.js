@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { notify } from 'ui/notify';
+import notify from 'ui/notify';
 import 'ui/autoload/styles';
 import 'plugins/status_page/status_page_metric';
 import 'plugins/status_page/status_page.less';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 
 
 const chrome = require('ui/chrome')
@@ -27,38 +27,36 @@ const chrome = require('ui/chrome')
 
       const data = resp.data;
       const metrics = data.metrics;
-      if (metrics) {
-        ui.metrics = [{
-          name: 'Heap Total',
-          value: _.get(metrics, 'process.mem.heap_max_in_bytes'),
-          type: 'byte'
-        }, {
-          name: 'Heap Used',
-          value: _.get(metrics, 'process.mem.heap_used_in_bytes'),
-          type: 'byte'
-        }, {
-          name: 'Load',
-          value: [
+      const v6Timestamp = _.get(metrics, 'last_updated');
+      if (v6Timestamp) {
+        const timestamp = new Date(v6Timestamp).getTime();
+        ui.metrics = {
+          heapTotal: [
+            [timestamp, _.get(metrics, 'process.mem.heap_max_in_bytes')]
+          ],
+          heapUsed: [
+            [timestamp, _.get(metrics, 'process.mem.heap_used_in_bytes')]
+          ],
+          load: [[timestamp, [
             _.get(metrics, 'os.cpu.load_average.1m'),
             _.get(metrics, 'os.cpu.load_average.5m'),
             _.get(metrics, 'os.cpu.load_average.15m')
+          ]]],
+          responseTimeAvg: [
+            [timestamp, _.get(metrics, 'response_times.avg_in_millis')]
           ],
-          type: 'float'
-        }, {
-          name: 'Response Time Avg',
-          value: _.get(metrics, 'response_times.avg_in_millis'),
-          type: 'ms'
-        }, {
-          name: 'Response Time Max',
-          value: _.get(metrics, 'response_times.max_in_millis'),
-          type: 'ms'
-        }, {
-          name: 'Requests Per Second',
-          value: _.get(metrics, 'requests.total') * 1000 / _.get(metrics, 'collection_interval_in_millis')
-        }];
+          responseTimeMax: [
+            [timestamp, _.get(metrics, 'response_times.max_in_millis')]
+          ],
+          requestsPerSecond: [
+            [timestamp, _.get(metrics, 'requests.total') * 1000 / _.get(metrics, 'collection_interval_in_millis')]
+          ]
+        };
+      } else {
+        ui.metrics = data.metrics;
       }
-
       ui.name = data.name;
+
       ui.statuses = data.status.statuses;
 
       const overall = data.status.overall;

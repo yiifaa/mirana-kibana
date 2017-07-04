@@ -1,13 +1,13 @@
-const _ = require('lodash');
+let _ = require('lodash');
 
-export function AutocompleteComponent(name) {
+module.exports.AutocompleteComponent = function (name) {
   this.name = name;
-}
+};
 
 /** called to get the possible suggestions for tokens, when this object is at the end of
  * the resolving chain (and thus can suggest possible continuation paths)
  */
-AutocompleteComponent.prototype.getTerms = function () {
+module.exports.AutocompleteComponent.prototype.getTerms = function () {
   return [];
 };
 
@@ -21,14 +21,14 @@ AutocompleteComponent.prototype.getTerms = function () {
  priority: optional priority to solve collisions between multiple paths. Min value is used across entire chain
  }
  */
-AutocompleteComponent.prototype.match = function () {
+module.exports.AutocompleteComponent.prototype.match = function () {
   return {
     next: this.next
   };
 };
 
 function SharedComponent(name, parent) {
-  AutocompleteComponent.call(this, name);
+  module.exports.AutocompleteComponent.call(this, name);
   this._nextDict = {};
   if (parent) {
     parent.addComponent(this);
@@ -38,8 +38,10 @@ function SharedComponent(name, parent) {
 }
 
 SharedComponent.prototype = _.create(
-  AutocompleteComponent.prototype,
+  module.exports.AutocompleteComponent.prototype,
   { 'constructor': SharedComponent });
+
+module.exports.SharedComponent = SharedComponent;
 
 (function (cls) {
   /* return the first component with a given name */
@@ -67,6 +69,7 @@ function ListComponent(name, list, parent, multi_valued, allow_non_valid_values)
 }
 
 ListComponent.prototype = _.create(SharedComponent.prototype, { "constructor": ListComponent });
+module.exports.ListComponent = ListComponent;
 
 
 (function (cls) {
@@ -139,6 +142,7 @@ function SimpleParamComponent(name, parent) {
 }
 
 SimpleParamComponent.prototype = _.create(SharedComponent.prototype, { "constructor": SimpleParamComponent });
+module.exports.SimpleParamComponent = SimpleParamComponent;
 
 (function (cls) {
   cls.match = function (token, context, editor) {
@@ -159,8 +163,7 @@ function ConstantComponent(name, parent, options) {
 }
 
 ConstantComponent.prototype = _.create(SharedComponent.prototype, { "constructor": ConstantComponent });
-
-export { SharedComponent, ListComponent, SimpleParamComponent, ConstantComponent };
+module.exports.ConstantComponent = ConstantComponent;
 
 (function (cls) {
   cls.getTerms = function () {
@@ -185,7 +188,7 @@ export { SharedComponent, ListComponent, SimpleParamComponent, ConstantComponent
   }
 })(ConstantComponent.prototype);
 
-export function wrapComponentWithDefaults(component, defaults) {
+module.exports.wrapComponentWithDefaults = function (component, defaults) {
   function Wrapper() {
 
   }
@@ -211,7 +214,7 @@ export function wrapComponentWithDefaults(component, defaults) {
     return result;
   };
   return new Wrapper();
-}
+};
 
 let tracer = function () {
   if (window.engine_trace) {
@@ -301,13 +304,13 @@ function walkTokenPath(tokenPath, walkingStates, context, editor) {
   return walkTokenPath(tokenPath.slice(1), nextWalkingStates, context, editor);
 }
 
-export function resolvePathToComponents(tokenPath, context, editor, components) {
+module.exports.resolvePathToComponents = function (tokenPath, context, editor, components) {
   var walkStates = walkTokenPath(tokenPath, [new WalkingState("ROOT", components, [])], context, editor);
   var result = [].concat.apply([], _.pluck(walkStates, 'components'));
   return result;
-}
+};
 
-export function populateContext(tokenPath, context, editor, includeAutoComplete, components) {
+module.exports.populateContext = function (tokenPath, context, editor, includeAutoComplete, components) {
 
   var walkStates = walkTokenPath(tokenPath, [new WalkingState("ROOT", components, [])], context, editor);
   if (includeAutoComplete) {
@@ -350,4 +353,4 @@ export function populateContext(tokenPath, context, editor, includeAutoComplete,
       _.assign(context, extension);
     });
   }
-}
+};

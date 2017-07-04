@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export function NormalizeSortRequestProvider(config) {
+export default function normalizeSortRequest(config) {
   const defaultSortOptions = config.get('sort:options');
 
   /**

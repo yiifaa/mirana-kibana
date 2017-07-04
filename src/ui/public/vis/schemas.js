@@ -1,8 +1,7 @@
 import _ from 'lodash';
-import { IndexedArray } from 'ui/indexed_array';
-import { AggTypesAggParamsProvider } from 'ui/agg_types/agg_params';
-
-export function VisSchemasProvider(Private) {
+import IndexedArray from 'ui/indexed_array';
+import AggTypesAggParamsProvider from 'ui/agg_types/agg_params';
+export default function VisTypeSchemasFactory(Private) {
   const AggParams = Private(AggTypesAggParamsProvider);
 
   function Schemas(schemas) {
@@ -61,4 +60,3 @@ export function VisSchemasProvider(Private) {
 
   return Schemas;
 }
-

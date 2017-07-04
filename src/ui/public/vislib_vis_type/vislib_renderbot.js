@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import VislibProvider from 'ui/vislib';
-import { VisRenderbotProvider } from 'ui/vis/renderbot';
-import { VislibVisTypeBuildChartDataProvider } from 'ui/vislib_vis_type/build_chart_data';
-
-// eslint-disable-next-line kibana-custom/no-default-export
-export default function VislibRenderbotFactory(Private, $injector) {
+import VisRenderbotProvider from 'ui/vis/renderbot';
+import VislibVisTypeBuildChartDataProvider from 'ui/vislib_vis_type/build_chart_data';
+module.exports = function VislibRenderbotFactory(Private, $injector) {
   const AngularPromise = $injector.get('Promise');
   const vislib = Private(VislibProvider);
   const Renderbot = Private(VisRenderbotProvider);
@@ -39,7 +37,11 @@ export default function VislibRenderbotFactory(Private, $injector) {
     return _.assign(
       {},
       self.vis.type.params.defaults,
-      { type: self.vis.type.name },
+      {
+        type: self.vis.type.name,
+        // Add attribute which determines whether an index is time based or not.
+        hasTimeField: self.vis.indexPattern && self.vis.indexPattern.hasTimeField()
+      },
       self.vis.params
     );
   };
@@ -76,4 +78,4 @@ export default function VislibRenderbotFactory(Private, $injector) {
   };
 
   return VislibRenderbot;
-}
+};

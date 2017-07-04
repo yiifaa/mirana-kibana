@@ -23,8 +23,8 @@ export function createGenerateDocRecordsStream(client, stats) {
             remainingHits = resp.hits.total;
           } else {
             resp = await client.scroll({
+              scroll: SCROLL_TIMEOUT,
               scrollId: resp._scroll_id,
-              scroll: SCROLL_TIMEOUT
             });
           }
 

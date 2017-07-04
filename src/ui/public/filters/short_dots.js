@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { shortenDottedString } from 'ui/utils/shorten_dotted_string';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 // Shorts dot notated strings
 // eg: foo.bar.baz becomes f.b.baz
 // 'foo.bar.baz'.replace(/(.+?\.)/g,function(v) {return v[0]+'.';});
@@ -19,9 +18,11 @@ function shortDotsFilterProvider(config) {
   return wrapper;
 
   function updateFilter(enabled) {
-    filter = enabled ? shortenDottedString : _.identity;
+    filter = enabled ? _.shortenDottedString : _.identity;
   }
   function wrapper(str) {
     return filter(str);
   }
 }
+
+export default shortDotsFilterProvider;

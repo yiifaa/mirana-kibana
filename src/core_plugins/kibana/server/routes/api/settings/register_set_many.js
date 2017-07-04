@@ -6,12 +6,11 @@ export default function registerSet(server) {
     method: 'POST',
     handler: function (req, reply) {
       const { changes } = req.payload;
-      const uiSettings = req.getUiSettingsService();
-
+      const uiSettings = server.uiSettings();
       uiSettings
-        .setMany(changes)
+        .setMany(req, changes)
         .then(() => uiSettings
-          .getUserProvided()
+          .getUserProvided(req)
           .then(settings => reply({ settings }).type('application/json'))
         )
         .catch(err => reply(Boom.wrap(err, err.statusCode)));

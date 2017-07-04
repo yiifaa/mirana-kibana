@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { renderToHtml } from '../../services';
-
 import {
   GuideDemo,
   GuidePage,
@@ -10,22 +8,14 @@ import {
   GuideText,
 } from '../../components';
 
-import Card from './card';
-const cardSource = require('!!raw!./card');
-const cardHtml = renderToHtml(Card);
-
-import CardGroup from './card_group';
-const cardGroupSource = require('!!raw!./card_group');
-const cardGroupHtml = renderToHtml(CardGroup);
+const cardHtml = require('./card.html');
+const cardGroupHtml = require('./card_group.html');
 
 export default props => (
   <GuidePage title={props.route.name}>
     <GuideSection
       title="Card"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: cardSource,
-      }, {
         type: GuideSectionTypes.HTML,
         code: cardHtml,
       }]}
@@ -35,24 +25,21 @@ export default props => (
         container.
       </GuideText>
 
-      <GuideDemo>
-        <Card />
-      </GuideDemo>
+      <GuideDemo
+        html={cardHtml}
+      />
     </GuideSection>
 
     <GuideSection
       title="CardGroup"
       source={[{
-        type: GuideSectionTypes.JS,
-        code: cardGroupSource,
-      }, {
         type: GuideSectionTypes.HTML,
         code: cardGroupHtml,
       }]}
     >
-      <GuideDemo>
-        <CardGroup />
-      </GuideDemo>
+      <GuideDemo
+        html={cardGroupHtml}
+      />
     </GuideSection>
   </GuidePage>
 );

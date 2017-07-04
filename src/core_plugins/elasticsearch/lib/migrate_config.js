@@ -1,9 +1,10 @@
-import { get } from 'lodash';
 import upgrade from './upgrade_config';
+import { mappings } from './kibana_index_mappings';
 
-export default function (server, { mappings }) {
+module.exports = function (server) {
   const config = server.config();
   const { callWithInternalUser } = server.plugins.elasticsearch.getCluster('admin');
+
   const options =  {
     index: config.get('kibana.index'),
     type: 'config',
@@ -13,7 +14,7 @@ export default function (server, { mappings }) {
         {
           buildNum: {
             order: 'desc',
-            unmapped_type: get(mappings, 'config.properties.buildNum.type') || 'keyword'
+            unmapped_type: mappings.config.properties.buildNum.type
           }
         }
       ]
@@ -21,4 +22,4 @@ export default function (server, { mappings }) {
   };
 
   return callWithInternalUser('search', options).then(upgrade(server));
-}
+};

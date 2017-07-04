@@ -1,4 +1,4 @@
-export default function ($elem, fn, frequency) {
+module.exports = function ($elem, fn, frequency) {
 
   frequency = frequency || 500;
   let currentHeight = $elem.height();
@@ -25,4 +25,4 @@ export default function ($elem, fn, frequency) {
   };
 
 
-}
+};

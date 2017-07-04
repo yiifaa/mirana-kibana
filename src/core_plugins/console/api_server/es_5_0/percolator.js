@@ -1,4 +1,4 @@
-export default function (api) {
+module.exports = function (api) {
   api.addEndpointDescription('_put_percolator', {
     priority: 10, // to override doc
     methods: ['PUT', 'POST'],
@@ -87,4 +87,4 @@ export default function (api) {
       filter: {}
     }
   });
-}
+};

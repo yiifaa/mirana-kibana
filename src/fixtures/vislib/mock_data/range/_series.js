@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default {
+module.exports = {
   'label': '',
   'xAxisLabel': 'bytes ranges',
   'yAxisLabel': 'Count of documents',

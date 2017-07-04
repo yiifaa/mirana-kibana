@@ -15,7 +15,7 @@ import {
  *  @return {ProviderCollection}
  */
 export function createProviderCollection(lifecycle, log, config) {
-  return new ProviderCollection(log, [
+  return new ProviderCollection([
     ...readProviderSpec('Service', {
       // base level services that functional_test_runner exposes
       lifecycle: () => lifecycle,

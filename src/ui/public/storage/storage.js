@@ -1,7 +1,7 @@
-import { uiModules } from 'ui/modules';
+import modules from 'ui/modules';
 import angular from 'angular';
 
-export function Storage(store) {
+function Storage(store) {
   const self = this;
   self.store = store;
 
@@ -36,6 +36,6 @@ const createService = function (type) {
   };
 };
 
-uiModules.get('kibana/storage')
+modules.get('kibana/storage')
   .service('localStorage', createService('localStorage'))
   .service('sessionStorage', createService('sessionStorage'));

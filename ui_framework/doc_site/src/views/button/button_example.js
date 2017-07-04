@@ -22,17 +22,9 @@ import Primary from './button_primary';
 const primarySource = require('!!raw!./button_primary');
 const primaryHtml = renderToHtml(Primary);
 
-import Secondary from './button_secondary';
-const secondarySource = require('!!raw!./button_secondary');
-const secondaryHtml = renderToHtml(Secondary);
-
 import Danger from './button_danger';
 const dangerSource = require('!!raw!./button_danger');
 const dangerHtml = renderToHtml(Danger);
-
-import Warning from './button_warning';
-const warningSource = require('!!raw!./button_danger');
-const warningHtml = renderToHtml(Warning);
 
 import Loading from './button_loading';
 const loadingSource = require('!!raw!./button_loading');
@@ -58,8 +50,6 @@ import Elements from './button_elements';
 const elementsSource = require('!!raw!./button_elements');
 const elementsHtml = renderToHtml(Elements);
 
-const sizesHtml = require('./button_sizes.html');
-
 export default props => (
   <GuidePage title={props.route.name}>
     <GuideSection
@@ -73,7 +63,7 @@ export default props => (
       }]}
     >
       <GuideText>
-        Use the basic button for navigation elements or controls that are not the primary focus of the page (ex: pagination, toggles...etc).
+        Use the basic Button in most situations.
       </GuideText>
 
       <GuideDemo>
@@ -125,25 +115,6 @@ export default props => (
     </GuideSection>
 
     <GuideSection
-      title="Secondary Button"
-      source={[{
-        type: GuideSectionTypes.JS,
-        code: secondarySource,
-      }, {
-        type: GuideSectionTypes.HTML,
-        code: secondaryHtml,
-      }]}
-    >
-      <GuideText>
-        Secondary buttons are usually used for actions ("do this") that are optional actions on a page.
-      </GuideText>
-
-      <GuideDemo>
-        <Secondary />
-      </GuideDemo>
-    </GuideSection>
-
-    <GuideSection
       title="Danger Button"
       source={[{
         type: GuideSectionTypes.JS,
@@ -159,25 +130,6 @@ export default props => (
 
       <GuideDemo>
         <Danger />
-      </GuideDemo>
-    </GuideSection>
-
-    <GuideSection
-      title="Warning Button"
-      source={[{
-        type: GuideSectionTypes.JS,
-        code: warningSource,
-      }, {
-        type: GuideSectionTypes.HTML,
-        code: warningHtml,
-      }]}
-    >
-      <GuideText>
-        Warning Buttons represent potentially notable actions.
-      </GuideText>
-
-      <GuideDemo>
-        <Warning />
       </GuideDemo>
     </GuideSection>
 
@@ -292,18 +244,6 @@ export default props => (
       <GuideDemo>
         <Elements />
       </GuideDemo>
-    </GuideSection>
-
-    <GuideSection
-      title="Sizes"
-      source={[{
-        type: GuideSectionTypes.HTML,
-        code: sizesHtml,
-      }]}
-    >
-      <GuideDemo
-        html={sizesHtml}
-      />
     </GuideSection>
   </GuidePage>
 );

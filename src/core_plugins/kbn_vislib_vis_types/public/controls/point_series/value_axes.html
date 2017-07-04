@@ -5,13 +5,12 @@
     </div>
 
     <button
-      data-test-subj="visualizeAddYAxisButton"
-      aria-label="Add Y axis"
+      aria-label="Add value axis"
       ng-click="addValueAxis()"
-      tooltip="Add Y axis"
+      tooltip="Add value axis"
       tooltip-append-to-body="true"
       type="button"
-      class="kuiIcon fa-plus kuiSideBarSectionTitle__action"
+      class="fa fa-plus kuiSideBarSectionTitle__action"
     ></button>
   </div>
 
@@ -23,12 +22,11 @@
       <div
         class="kuiSideBarCollapsibleTitle__label"
         ng-click="isValueAxisOpen = !isValueAxisOpen"
-        kbn-accessible-click
       >
         <span
           aria-hidden="true"
           ng-class="{ 'fa-caret-down': isValueAxisOpen, 'fa-caret-right': !isValueAxisOpen }"
-          class="kuiIcon fa-caret-right kuiSideBarCollapsibleTitle__caret"
+          class="fa fa-caret-right kuiSideBarCollapsibleTitle__caret"
         ></span>
         <span class="kuiSideBarCollapsibleTitle__text">
           {{axis.name}}
@@ -39,12 +37,12 @@
 
       <button
         ng-hide="vis.params.valueAxes.length === 1"
-        aria-label="Remove Y axis"
+        aria-label="Remove value axis"
         ng-click="removeValueAxis(axis)"
-        tooltip="Remove Y axis"
+        tooltip="Remove value axis"
         tooltip-append-to-body="true"
         type="button"
-        class="kuiIcon fa-remove kuiSideBarCollapsibleTitle__action"
+        class="fa fa-remove kuiSideBarCollapsibleTitle__action"
       ></button>
     </div>
 
@@ -121,14 +119,14 @@
       <!-- Advanced options -->
       <div class="kuiSideBarSection">
         <a
+          href=""
           class="kuiSideBarOptionsLink"
           ng-click="isValueAxisAdvancedOptionsOpen = !isValueAxisAdvancedOptionsOpen"
-          kbn-accessible-click
         >
           <span
             aria-hidden="true"
             ng-class="{ 'fa-caret-down': isValueAxisAdvancedOptionsOpen, 'fa-caret-right': !isValueAxisAdvancedOptionsOpen }"
-            class="kuiIcon fa-caret-right kuiSideBarOptionsLink__caret"
+            class="fa fa-caret-right kuiSideBarOptionsLink__caret"
           ></span>
           <span class="kuiSideBarOptionsLink__text">
             <span ng-show="!isValueAxisAdvancedOptionsOpen">
@@ -226,12 +224,11 @@
                   Max
                 </label>
                 <div class="kuiSideBarFormRow__control">
-                  <input
-                    name="yMax"
-                    class="kuiInput kuiSideBarInput"
-                    type="number"
-                    step="0.1"
-                    ng-model="axis.scale.max"
+                  <input name="yMax"
+                         class="kuiInput kuiSideBarInput"
+                         type="number"
+                         step="0.1"
+                         ng-model="axis.scale.max"
                   >
                 </div>
               </div>
@@ -241,13 +238,12 @@
                   Min
                 </label>
                 <div class="kuiSideBarFormRow__control">
-                  <input
-                    name="yMin"
-                    class="kuiInput kuiSideBarInput"
-                    type="number"
-                    step="0.1"
-                    greater-than="{{axis.scale.type === 'log' ? 0 : ''}}"
-                    ng-model="axis.scale.min"
+                  <input name="yMin"
+                         class="kuiInput kuiSideBarInput"
+                         type="number"
+                         step="0.1"
+                         greater-than="{{axis.scale.type === 'log' ? 0 : ''}}"
+                         ng-model="axis.scale.min"
                   >
                 </div>
               </div>

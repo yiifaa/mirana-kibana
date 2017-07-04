@@ -26,5 +26,7 @@ function findFile(paths) {
   return availablePath || paths[0];
 }
 
-export const getConfig = () => findFile(CONFIG_PATHS);
-export const getData = () => findFile(DATA_PATHS);
+export default {
+  getConfig: () => findFile(CONFIG_PATHS),
+  getData: () => findFile(DATA_PATHS)
+};

@@ -1,9 +1,8 @@
 import d3 from 'd3';
 import _ from 'lodash';
 import $ from 'jquery';
-import { VislibVisualizationsPointSeriesProvider } from './_point_series';
-
-export function VislibVisualizationsAreaChartProvider(Private) {
+import VislibVisualizationsPointSeriesProvider from './_point_series';
+export default function AreaChartFactory(Private) {
 
   const PointSeries = Private(VislibVisualizationsPointSeriesProvider);
 

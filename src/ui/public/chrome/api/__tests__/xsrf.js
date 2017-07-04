@@ -1,32 +1,26 @@
 import $ from 'jquery';
 import expect from 'expect.js';
-import sinon from 'sinon';
+import { stub } from 'auto-release-sinon';
 import ngMock from 'ng_mock';
 
-import { initChromeXsrfApi } from '../xsrf';
+import xsrfChromeApi from '../xsrf';
 import { version } from '../../../../../../package.json';
 
 const xsrfHeader = 'kbn-version';
 
 describe('chrome xsrf apis', function () {
-  const sandbox = sinon.sandbox.create();
-
-  afterEach(function () {
-    sandbox.restore();
-  });
-
   describe('#getXsrfToken()', function () {
     it('exposes the token', function () {
       const chrome = {};
-      initChromeXsrfApi(chrome, { version });
+      xsrfChromeApi(chrome, { version });
       expect(chrome.getXsrfToken()).to.be(version);
     });
   });
 
   describe('jQuery support', function () {
     it('adds a global jQuery prefilter', function () {
-      sandbox.stub($, 'ajaxPrefilter');
-      initChromeXsrfApi({}, { version });
+      stub($, 'ajaxPrefilter');
+      xsrfChromeApi({}, { version });
       expect($.ajaxPrefilter.callCount).to.be(1);
     });
 
@@ -34,13 +28,13 @@ describe('chrome xsrf apis', function () {
       let prefilter;
 
       beforeEach(function () {
-        sandbox.stub($, 'ajaxPrefilter');
-        initChromeXsrfApi({}, { version });
+        stub($, 'ajaxPrefilter');
+        xsrfChromeApi({}, { version });
         prefilter = $.ajaxPrefilter.args[0][0];
       });
 
       it(`sets the ${xsrfHeader} header`, function () {
-        const setHeader = sinon.stub();
+        const setHeader = stub();
         prefilter({}, {}, { setRequestHeader: setHeader });
 
         expect(setHeader.callCount).to.be(1);
@@ -51,7 +45,7 @@ describe('chrome xsrf apis', function () {
       });
 
       it('can be canceled by setting the kbnXsrfToken option', function () {
-        const setHeader = sinon.stub();
+        const setHeader = stub();
         prefilter({ kbnXsrfToken: false }, {}, { setRequestHeader: setHeader });
         expect(setHeader.callCount).to.be(0);
       });
@@ -63,9 +57,9 @@ describe('chrome xsrf apis', function () {
       let $httpBackend;
 
       beforeEach(function () {
-        sandbox.stub($, 'ajaxPrefilter');
+        stub($, 'ajaxPrefilter');
         const chrome = {};
-        initChromeXsrfApi(chrome, { version });
+        xsrfChromeApi(chrome, { version });
         ngMock.module(chrome.$setupXsrfRequestInterceptor);
       });
 

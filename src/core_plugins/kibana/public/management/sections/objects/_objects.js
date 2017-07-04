@@ -1,12 +1,11 @@
 import { saveAs } from '@spalger/filesaver';
-import { extend, find, flattenDeep, pluck, sortBy } from 'lodash';
+import { extend, find, flattenDeep, partialRight, pick, pluck, sortBy } from 'lodash';
 import angular from 'angular';
-import { savedObjectManagementRegistry } from 'plugins/kibana/management/saved_object_registry';
+import registry from 'plugins/kibana/management/saved_object_registry';
 import objectIndexHTML from 'plugins/kibana/management/sections/objects/_objects.html';
 import 'ui/directives/file_upload';
 import uiRoutes from 'ui/routes';
-import { SavedObjectsClientProvider } from 'ui/saved_objects';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 
 uiRoutes
 .when('/management/kibana/objects', {
@@ -20,12 +19,10 @@ uiRoutes
 
 uiModules.get('apps/management')
 .directive('kbnManagementObjects', function (kbnIndex, Notifier, Private, kbnUrl, Promise, confirmModal) {
-  const savedObjectsClient = Private(SavedObjectsClientProvider);
-
   return {
     restrict: 'E',
     controllerAs: 'managementObjectsController',
-    controller: function ($scope, $injector, $q, AppState) {
+    controller: function ($scope, $injector, $q, AppState, esAdmin) {
       const notify = new Notifier({ location: 'Saved Objects' });
 
       // TODO: Migrate all scope variables to the controller.
@@ -41,7 +38,7 @@ uiModules.get('apps/management')
       };
 
       const getData = function (filter) {
-        const services = savedObjectManagementRegistry.all().map(function (obj) {
+        const services = registry.all().map(function (obj) {
           const service = $injector.get(obj.service);
           return service.find(filter).then(function (data) {
             return {
@@ -126,10 +123,7 @@ uiModules.get('apps/management')
 
       // TODO: Migrate all scope methods to the controller.
       $scope.bulkExport = function () {
-        const objs = $scope.selectedItems.map(item => {
-          return { type: $scope.currentTab.type, id: item.id };
-        });
-
+        const objs = $scope.selectedItems.map(partialRight(extend, { type: $scope.currentTab.type }));
         retrieveAndExportDocs(objs);
       };
 
@@ -144,17 +138,18 @@ uiModules.get('apps/management')
 
       function retrieveAndExportDocs(objs) {
         if (!objs.length) return notify.error('No saved objects to export.');
+        esAdmin.mget({
+          index: kbnIndex,
+          body: { docs: objs.map(transformToMget) }
+        })
+        .then(function (response) {
+          saveToFile(response.docs.map(partialRight(pick, '_id', '_type', '_source')));
+        });
+      }
 
-        savedObjectsClient.bulkGet(objs)
-          .then(function (response) {
-            saveToFile(response.savedObjects.map(obj => {
-              return {
-                _id: obj.id,
-                _type: obj.type,
-                _source: obj.attributes
-              };
-            }));
-          });
+      // Takes an object and returns the associated data needed for an mget API request
+      function transformToMget(obj) {
+        return { _id: obj.id, _type: obj.type };
       }
 
       function saveToFile(results) {
@@ -240,10 +235,17 @@ uiModules.get('apps/management')
 
             return Promise.map(docTypes.searches, importDocument)
               .then(() => Promise.map(docTypes.other, importDocument))
+              .then(refreshIndex)
               .then(refreshData)
               .catch(notify.error);
           });
       };
+
+      function refreshIndex() {
+        return esAdmin.indices.refresh({
+          index: kbnIndex
+        });
+      }
 
       // TODO: Migrate all scope methods to the controller.
       $scope.changeTab = function (tab) {

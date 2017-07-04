@@ -7,8 +7,6 @@ for %%I in ("%SCRIPT_DIR%..") do set DIR=%%~dpfI
 
 set NODE=%DIR%\node\node.exe
 
-set NODE_ENV="production"
-
 WHERE /Q node
 IF %ERRORLEVEL% EQU 0 (
   for /f "delims=" %%i in ('WHERE node') do set SYS_NODE=%%i

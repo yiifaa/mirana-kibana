@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default function (func) {
+module.exports = function (func) {
   const functions = {};
   functions[func.name] = func;
   if (func.aliases) {
@@ -12,4 +12,4 @@ export default function (func) {
   }
 
   return functions;
-}
+};

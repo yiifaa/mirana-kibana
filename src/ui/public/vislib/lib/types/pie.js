@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export function VislibPieConfigProvider() {
+export default function PieConfig() {
 
   return function (config) {
     if (!config.chart) {

@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export default {
+module.exports = {
   'label': '',
   'xAxisLabel': '@timestamp per 10 min',
   'ordered': {

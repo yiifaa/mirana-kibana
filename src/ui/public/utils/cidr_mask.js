@@ -5,7 +5,7 @@ function throwError(mask) {
   throw Error('Invalid CIDR mask: ' + mask);
 }
 
-export function CidrMask(mask) {
+function CidrMask(mask) {
   const splits = mask.split('\/');
   if (splits.length !== 2) throwError(mask);
   this.initialAddress = new Ipv4Address(splits[0]);
@@ -27,3 +27,4 @@ CidrMask.prototype.toString = function () {
   return this.initialAddress.toString() + '/' + this.prefixLength;
 };
 
+export default CidrMask;

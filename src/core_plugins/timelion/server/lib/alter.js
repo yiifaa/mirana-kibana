@@ -8,7 +8,7 @@ import _ from 'lodash';
  * @return {seriesList}
  */
 
-export default function alter(args, fn) {
+module.exports = function alter(args, fn) {
   // In theory none of the args should ever be promises. This is probably a waste.
   return Promise.all(args).then(function (args) {
 
@@ -27,4 +27,4 @@ export default function alter(args, fn) {
   }).catch(function (e) {
     throw e;
   });
-}
+};

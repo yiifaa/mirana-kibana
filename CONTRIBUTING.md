@@ -61,12 +61,6 @@ We enjoy working with contributors to get their code accepted. There are many ap
 
 ## How We Use Git and GitHub
 
-### Forking
-
-We follow the [GitHub forking model](https://help.github.com/articles/fork-a-repo/) for collaborating
-on Kibana code. This model assumes that you have a remote called `upstream` which points to the
-official Kibana repo, which we'll refer to in later code snippets.
-
 ### Branching
 
 * All work on the next major release goes into master.
@@ -80,56 +74,8 @@ official Kibana repo, which we'll refer to in later code snippets.
 * Feel free to make as many commits as you want, while working on a branch.
 * When submitting a PR for review, please perform an interactive rebase to present a logical history that's easy for the reviewers to follow.
 * Please use your commit messages to include helpful information on your changes, e.g. changes to APIs, UX changes, bugs fixed, and an explanation of *why* you made the changes that you did.
-* Resolve merge conflicts by rebasing the target branch over your feature branch, and force-pushing (see below for instructions).
+* Resolve merge conflicts by rebasing the target branch over your feature branch, and force-pushing.
 * When merging, we'll squash your commits into a single commit.
-
-#### Rebasing and fixing merge conflicts
-
-Rebasing can be tricky, and fixing merge conflicts can be even trickier because it involves force pushing. This is all compounded by the fact that attempting to push a rebased branch remotely will be rejected by git, and you'll be prompted to do a `pull`, which is not at all what you should do (this will really mess up your branch's history).
-
-Here's how you should rebase master onto your branch, and how to fix merge conflicts when they arise.
-
-First, make sure master is up-to-date.
-
-```
-git checkout master
-git fetch upstream
-git rebase upstream/master
-```
-
-Then, check out your branch and rebase master on top of it, which will apply all of the new commits on master to your branch, and then apply all of your branch's new commits after that.
-
-```
-git checkout name-of-your-branch
-git rebase master
-```
-
-You want to make sure there are no merge conflicts. If there is are merge conflicts, git will pause the rebase and allow you to fix the conflicts before continuing.
-
-You can use `git status` to see which files contain conflicts. They'll be the ones that aren't staged for commit. Open those files, and look for where git has marked the conflicts. Resolve the conflicts so that the changes you want to make to the code have been incorporated in a way that doesn't destroy work that's been done in master. Refer to master's commit history on GitHub if you need to gain a better understanding of how code is conflicting and how best to resolve it.
-
-Once you've resolved all of the merge conflicts, use `git add -A` to stage them to be commiteed, and then use `git rebase --continue` to tell git to continue the rebase.
-
-When the rebase has completed, you will need to force push your branch because the history is now completely different than what's on the remote. **This is potentially dangerous** because it will completely overwrite what you have on the remote, so you need to be sure that you haven't lost any work when resolving merge conflicts. (If there weren't any merge conflicts, then you can force push without having to worry about this.)
-
-```
-git push origin name-of-your-branch --force
-```
-
-This will overwrite the remote branch with what you have locally. You're done!
-
-**Note that you should not run `git pull`**, for example in response to a push rejection like this:
-
-```
-! [rejected] name-of-your-branch -> name-of-your-branch (non-fast-forward)
-error: failed to push some refs to 'https://github.com/YourGitHubHandle/kibana.git'
-hint: Updates were rejected because the tip of your current branch is behind
-hint: its remote counterpart. Integrate the remote changes (e.g.
-hint: 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-```
-
-Assuming you've successfully rebased and you're happy with the code, you should force push instead.
 
 ### What Goes Into a Pull Request
 
@@ -144,10 +90,10 @@ These guidelines will help you get your Pull Request into shape so that a code r
 
 ### Setting Up Your Development Environment
 
-Fork, then clone the `kibana` repo and change directory into it
+Clone the `kibana` repo and change directory into it
 
 ```bash
-git clone https://github.com/[YOUR_USERNAME]/kibana.git kibana
+git clone https://github.com/elastic/kibana.git kibana
 cd kibana
 ```
 
@@ -190,7 +136,7 @@ Now you can point your web browser to https://localhost:5601 and start using Kib
 
 #### Customizing `config/kibana.dev.yml`
 
-The `config/kibana.yml` file stores user configuration directives. Since this file is checked into source control, however, developer preferences can't be saved without the risk of accidentally committing the modified version. To make customizing configuration easier during development, the Kibana CLI will look for a `config/kibana.dev.yml` file if run with the `--dev` flag. This file behaves just like the non-dev version and accepts any of the [standard settings](https://www.elastic.co/guide/en/kibana/current/settings.html).
+The `config/kibana.yml` file stores user configuration directives. Since this file is checked into source control, however, developer preferences can't be saved without the risk of accidentally committing the modified version. To make customizing configuration easier during development, the Kibana CLI will look for a `config/kibana.dev.yml` file if run with the `--dev` flag. This file behaves just like the non-dev version and accepts any of the [standard settings](https://www.elastic.co/guide/en/kibana/master/kibana-server-properties.html).
 
 #### Potential Optimization Pitfalls
 
@@ -307,7 +253,7 @@ npm run test:browser -- --dev # remove the --dev flag to run them once and close
 * Open VMWare and go to Window > Virtual Machine Library. Unzip the virtual machine and drag the .vmx file into your Virtual Machine Library.
 * Right-click on the virtual machine you just added to your library and select "Snapshots...", and then click the "Take" button in the modal that opens. You can roll back to this snapshot when the VM expires in 90 days.
 * In System Preferences > Sharing, change your computer name to be something simple, e.g. "computer".
-* Run Kibana with `npm start -- --no-ssl --host=computer.local` (substituting your computer name).
+* Run Kibana with `npm start -- --no-ssl --host=computer.local` (subtituting your computer name).
 * Now you can run your VM, open the browser, and navigate to `http://computer.local:5601` to test Kibana.
 
 #### Running Browser Automation Tests

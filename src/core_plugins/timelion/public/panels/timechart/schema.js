@@ -4,11 +4,11 @@ import _ from 'lodash';
 import $ from 'jquery';
 import moment from 'moment-timezone';
 import observeResize from 'plugins/timelion/lib/observe_resize';
-import { calculateInterval } from '../../../common/lib';
+import calculateInterval from 'plugins/timelion/lib/calculate_interval';
 
 const SET_LEGEND_NUMBERS_DELAY = 50;
 
-export default function timechartFn(Private, config, $rootScope, timefilter, $compile) {
+module.exports = function timechartFn(Private, config, $rootScope, timefilter, $compile) {
   return function () {
     return {
       help: 'Draw a timeseries chart',
@@ -187,8 +187,7 @@ export default function timechartFn(Private, config, $rootScope, timefilter, $co
             time.min.valueOf(),
             time.max.valueOf(),
             config.get('timelion:target_buckets') || 200,
-            $scope.interval,
-            config.get('timelion:min_interval') || '1ms',
+            $scope.interval
           );
           const format = getxAxisFormatter(interval);
 
@@ -260,4 +259,4 @@ export default function timechartFn(Private, config, $rootScope, timefilter, $co
       }
     };
   };
-}
+};

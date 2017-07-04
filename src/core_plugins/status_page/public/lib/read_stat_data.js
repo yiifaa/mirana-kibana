@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default function readStatData(data, seriesNames) {
+module.exports = function readStatData(data, seriesNames) {
   // Metric Values format
   // metric: [[xValue, yValue], ...]
   // LoadMetric:
@@ -36,4 +36,4 @@ export default function readStatData(data, seriesNames) {
   });
 
   return metricList;
-}
+};

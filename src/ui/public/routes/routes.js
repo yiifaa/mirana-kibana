@@ -1,13 +1,10 @@
 import RouteManager from './route_manager';
 import 'angular-route/angular-route';
-import { uiModules } from 'ui/modules';
-import { WAIT_FOR_URL_CHANGE_TOKEN } from './route_setup_manager';
+import uiModules from 'ui/modules';
 const defaultRouteManager = new RouteManager();
 
-// eslint-disable-next-line kibana-custom/no-default-export
-export default {
+module.exports = {
   ...defaultRouteManager,
-  WAIT_FOR_URL_CHANGE_TOKEN,
   enable() {
     uiModules
     .get('kibana', ['ngRoute'])

@@ -3,14 +3,12 @@ export function HeaderPageProvider({ getService, getPageObjects }) {
   const remote = getService('remote');
   const log = getService('log');
   const retry = getService('retry');
-  const find = getService('find');
   const testSubjects = getService('testSubjects');
   const PageObjects = getPageObjects(['common']);
 
   const defaultFindTimeout = config.get('timeouts.find');
 
   class HeaderPage {
-
     async clickSelector(selector) {
       log.debug(`clickSelector(${selector})`);
       await retry.try(async () => await remote.findByCssSelector(selector).click());
@@ -19,22 +17,19 @@ export function HeaderPageProvider({ getService, getPageObjects }) {
     async clickDiscover() {
       log.debug('click Discover tab');
       await this.clickSelector('a[href*=\'discover\']');
-      await PageObjects.common.waitForTopNavToBeVisible();
-      await this.isGlobalLoadingIndicatorHidden();
+      await PageObjects.common.sleep(3000);
     }
 
     async clickVisualize() {
       log.debug('click Visualize tab');
       await this.clickSelector('a[href*=\'visualize\']');
-      await PageObjects.common.waitForTopNavToBeVisible();
-      await this.isGlobalLoadingIndicatorHidden();
+      await PageObjects.common.sleep(3000);
     }
 
     async clickDashboard() {
       log.debug('click Dashboard tab');
       await this.clickSelector('a[href*=\'dashboard\']');
-      await PageObjects.common.waitForTopNavToBeVisible();
-      await this.isGlobalLoadingIndicatorHidden();
+      await PageObjects.common.sleep(3000);
     }
 
     async clickSettings() {
@@ -132,7 +127,7 @@ export function HeaderPageProvider({ getService, getPageObjects }) {
       log.debug('clickGoButton');
       await retry.try(async () => {
         remote.setFindTimeout(defaultFindTimeout);
-        await testSubjects.click('timepickerGoButton');
+        await remote.findByClassName('kbn-timepicker-go').click();
         await this.waitUntilLoadingHasFinished();
       });
     }
@@ -167,10 +162,10 @@ export function HeaderPageProvider({ getService, getPageObjects }) {
       .findByLinkText(quickTime).click();
     }
 
-    async getToastMessage(findTimeout = defaultFindTimeout) {
-      const toastMessage =
-        await find.displayedByCssSelector('kbn-truncated.toast-message.ng-isolate-scope', findTimeout);
-      return toastMessage.getVisibleText();
+    async getToastMessage() {
+      remote.setFindTimeout(defaultFindTimeout);
+      return await remote.findDisplayedByCssSelector('kbn-truncated.toast-message.ng-isolate-scope')
+      .getVisibleText();
     }
 
     async waitForToastMessageGone() {

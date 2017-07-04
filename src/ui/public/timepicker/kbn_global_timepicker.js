@@ -1,10 +1,10 @@
-import { uiModules } from 'ui/modules';
+import UiModules from 'ui/modules';
 import { once, clone } from 'lodash';
 
 import toggleHtml from './kbn_global_timepicker.html';
-import { timeNavigation } from './time_navigation';
+import timeNavigation from './time_navigation';
 
-uiModules
+UiModules
 .get('kibana')
 .directive('kbnGlobalTimepicker', (timefilter, globalState, $rootScope) => {
   const listenForUpdates = once($scope => {

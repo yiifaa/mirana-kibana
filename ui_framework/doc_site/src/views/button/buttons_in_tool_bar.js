@@ -6,59 +6,37 @@ import {
 
 export default () => (
   <div className="kuiToolBar">
-    <KuiButton buttonType="basic">
+    <KuiButton type="basic">
       Basic button
     </KuiButton>
 
     <KuiButton
-      buttonType="basic"
+      type="basic"
       disabled
     >
       Basic button, disabled
     </KuiButton>
 
-    <KuiButton buttonType="primary">
+    <KuiButton type="primary">
       Primary button
     </KuiButton>
 
     <KuiButton
-      buttonType="primary"
+      type="primary"
       disabled
     >
       Primary button, disabled
     </KuiButton>
 
-    <KuiButton buttonType="secondary">
-      Secondary button
-    </KuiButton>
-
-    <KuiButton
-      buttonType="secondary"
-      disabled
-    >
-      Secondary button, disabled
-    </KuiButton>
-
-    <KuiButton buttonType="danger">
+    <KuiButton type="danger">
       Danger button
     </KuiButton>
 
     <KuiButton
-      buttonType="danger"
+      type="danger"
       disabled
     >
       Danger button, disabled
-    </KuiButton>
-
-    <KuiButton buttonType="warning">
-      Warning button
-    </KuiButton>
-
-    <KuiButton
-      buttonType="warning"
-      disabled
-    >
-      Warning button, disabled
     </KuiButton>
   </div>
 );

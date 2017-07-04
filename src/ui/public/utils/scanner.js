@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export const Scanner = function (client, { index, type } = {}) {
+const Scanner = function (client, { index, type } = {}) {
   if (!index) throw new Error('Expected index');
   if (!type) throw new Error('Expected type');
   if (!client) throw new Error('Expected client');
@@ -73,3 +73,4 @@ Scanner.prototype.scanAndMap = function (searchString, options, mapFn) {
   });
 };
 
+export default Scanner;

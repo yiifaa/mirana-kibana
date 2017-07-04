@@ -5,7 +5,7 @@ import _ from 'lodash';
  * @param  {Error|String} err
  * @returns {string}
  */
-export function formatESMsg(err) {
+export default function formatESMsg(err) {
   const rootCause = _.get(err, 'resp.error.root_cause');
   if (!rootCause) {
     return; //undefined

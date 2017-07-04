@@ -3,7 +3,7 @@ import dateMath from '@elastic/datemath';
 import moment from 'moment';
 import 'ui/timepicker/quick_ranges';
 import 'ui/timepicker/time_units';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 const module = uiModules.get('kibana');
 
 
@@ -22,18 +22,13 @@ module.directive('prettyDuration', function (config, quickRanges, timeUnits) {
         lookupByRange[frame.from + ' to ' + frame.to] = frame;
       });
 
-      function setText(text) {
-        $elem.text(text);
-        $elem.attr('aria-label', `Current time range is ${text}`);
-      }
-
       function stringify() {
         let text;
         // If both parts are date math, try to look up a reasonable string
         if ($scope.from && $scope.to && !moment.isMoment($scope.from) && !moment.isMoment($scope.to)) {
           const tryLookup = lookupByRange[$scope.from.toString() + ' to ' + $scope.to.toString()];
           if (tryLookup) {
-            setText(tryLookup.display);
+            $elem.text(tryLookup.display);
           } else {
             const fromParts = $scope.from.toString().split('-');
             if ($scope.to.toString() === 'now' && fromParts[0] === 'now' && fromParts[1]) {
@@ -42,7 +37,7 @@ module.directive('prettyDuration', function (config, quickRanges, timeUnits) {
               if (rounded[1]) {
                 text = text + ' rounded to the ' + timeUnits[rounded[1]];
               }
-              setText(text);
+              $elem.text(text);
             } else {
               cantLookup();
             }
@@ -67,7 +62,7 @@ module.directive('prettyDuration', function (config, quickRanges, timeUnits) {
             }
           }
         });
-        setText(`${display.from} to ${display.to}`);
+        $elem.text(display.from + ' to ' + display.to);
       }
 
       $scope.$watch('from', stringify);

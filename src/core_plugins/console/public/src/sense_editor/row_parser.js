@@ -120,4 +120,4 @@ function RowParser(editor) {
 
 RowParser.prototype.MODE = MODE;
 
-export default RowParser;
+module.exports = RowParser;

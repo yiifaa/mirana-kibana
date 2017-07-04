@@ -1,58 +1,8 @@
 @import (reference) "~ui/styles/variables";
 @import (reference) "~ui/styles/mixins";
-@import "~ui/styles/local_search.less";
-
-.fullScreenModePlaceholder {
-  text-align: center;
-  width: 100%;
-  z-index: 50;
-  height: 0;
-  bottom: 0;
-  position: absolute;
-}
-
-.exitFullScreenMode {
-  background-color: @globalColorLightestGray;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  width: 200px;
-  height: 40px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
-  padding-bottom: 0;
-  position: fixed;
-  transform: translateY(22px);
-  z-index: 50;
-  display: block;
-  transition: transform .2s ease-in-out;
-  border: solid 1px @globalColorLightGray;
-  border-bottom: 0;
-
-  .kuiIcon {
-    display: block;
-  }
-
-  &:hover {
-    transform: translateY(0px);
-  }
-}
-
-.exitFullScreenMode:hover {
-  bottom: 0px;
-  transition: all .5s ease;
-}
 
 .tab-dashboard {
   background-color: @dashboard-bg;
-}
-
-.dashboardCloneModal {
-  width: 450px;
 }
 
 dashboard-grid {
@@ -62,12 +12,9 @@ dashboard-grid {
 }
 
 .start-screen {
-  margin: 20px auto;
+  margin: 20px;
   background-color: @dashboard-bg;
-  max-width: 800px;
-  background: tint(@globalColorBlue, 90%);
-  padding: 40px;
-  border-radius: 4px;
+  padding: 20px;
 }
 
 .gridster {
@@ -86,6 +33,35 @@ dashboard-grid {
     width: 25px;
   }
 
+  .gs-w {
+
+    .panel .panel-heading .btn-group {
+      display: none;
+    }
+
+    &:hover {
+
+      dashboard-panel {
+        .visualize-show-spy {
+          visibility: visible;
+        }
+        .panel .panel-heading .btn-group {
+          display: block !important;
+        }
+      }
+
+    }
+    .panel--edit-mode {
+      border-color: @kibanaGray4;
+      .visualize-show-spy {
+        visibility: visible;
+      }
+      .panel-heading .btn-group {
+        display: block !important;
+      }
+    }
+  }
+
   i.remove {
     cursor: pointer;
   }
@@ -100,6 +76,9 @@ dashboard-grid {
   .visualize-show-spy {
     visibility: visible;
   }
+  .panel-heading .btn-group {
+    display: block !important;
+  }
 }
 
 .dashboard-container {
@@ -108,10 +87,6 @@ dashboard-grid {
   flex-direction: column;
 }
 
-/**
- * 1. Fix Firefox bug where a value of overflow: hidden will prevent scrolling in a panel where the spy panel does
- * not have enough room.
- */
 dashboard-panel {
   flex: 1;
   display: flex;
@@ -121,7 +96,7 @@ dashboard-panel {
   background: @dashboard-panel-bg;
   color: @dashboard-panel-color;
   padding: 0;
-  overflow: auto; /* 1 */
+  overflow: hidden;
   position: relative;
 
   .panel {
@@ -145,6 +120,14 @@ dashboard-panel {
       background-color: @white;
       border: none;
 
+      .btn-group {
+        a {
+          color: inherit;
+        }
+        white-space: nowrap;
+        flex: 0 0 auto;
+      }
+
       .panel-title {
         font-size: inherit;
 
@@ -165,16 +148,20 @@ dashboard-panel {
       .panel-move:hover {
         cursor: move;
       }
+
+      a {
+        color: @dashboard-panel-heading-link-color;
+        border: none;
+        background: none;
+        padding: 0px 3px;
+        &:hover {
+          color: @dashboard-panel-heading-link-hover-color;
+        }
+      }
     }
 
     .visualize-show-spy {
       visibility: hidden;
-    }
-
-    &:hover {
-      .visualize-show-spy {
-        visibility: visible;
-      }
     }
 
     .load-error {

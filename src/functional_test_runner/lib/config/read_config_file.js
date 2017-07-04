@@ -1,39 +1,28 @@
 import { defaultsDeep } from 'lodash';
 
 import { Config } from './config';
-import { transformDeprecations } from './transform_deprecations';
 
-async function getSettingsFromFile(log, path, settingOverrides) {
-  log.debug('Loading config file from %j', path);
+export async function readConfigFile(log, configFile, settingOverrides = {}) {
+  log.debug('Loading config file from %j', configFile);
 
-  const configModule = require(path);
+  const configModule = require(configFile);
   const configProvider = configModule.__esModule
     ? configModule.default
     : configModule;
 
-  const settingsWithDefaults = defaultsDeep(
+  const settings = defaultsDeep(
     {},
     settingOverrides,
     await configProvider({
       log,
-      async readConfigFile(...args) {
-        return new Config({
-          settings: await getSettingsFromFile(log, ...args),
-          primary: false,
-          path,
-        });
-      }
+
+      // give a version of the readConfigFile function to
+      // the config file that already has has the logger bound
+      readConfigFile: async (...args) => (
+        await readConfigFile(log, ...args)
+      )
     })
   );
 
-  const logDeprecation = (...args) => log.error(...args);
-  return transformDeprecations(settingsWithDefaults, logDeprecation);
-}
-
-export async function readConfigFile(log, path, settingOverrides) {
-  return new Config({
-    settings: await getSettingsFromFile(log, path, settingOverrides),
-    primary: true,
-    path,
-  });
+  return new Config(settings);
 }

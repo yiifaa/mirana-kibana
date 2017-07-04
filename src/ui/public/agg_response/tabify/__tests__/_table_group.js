@@ -1,7 +1,6 @@
 import expect from 'expect.js';
 import ngMock from 'ng_mock';
-import { AggResponseTabifyTableGroupProvider } from 'ui/agg_response/tabify/_table_group';
-
+import AggResponseTabifyTableGroupProvider from 'ui/agg_response/tabify/_table_group';
 describe('Table Group class', function () {
   let TableGroup;
 

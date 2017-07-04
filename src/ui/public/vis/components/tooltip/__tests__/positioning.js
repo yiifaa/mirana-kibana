@@ -1,13 +1,13 @@
 import expect from 'expect.js';
 import $ from 'jquery';
 import _ from 'lodash';
-import sinon from 'sinon';
-import { positionTooltip } from '../position_tooltip';
+import sinon from 'auto-release-sinon';
+import posTT from '../position_tooltip';
 
 describe('Tooltip Positioning', function () {
-  const sandbox = sinon.sandbox.create();
+
   const positions = ['north', 'south', 'east', 'west'];
-  const bounds = ['top', 'left', 'bottom', 'right', 'area'];
+  const bounds = ['top', 'left', 'bottom', 'right'];
   let $window;
   let $chart;
   let $tooltip;
@@ -50,8 +50,7 @@ describe('Tooltip Positioning', function () {
   afterEach(function () {
     $window.remove();
     $window = $chart = $tooltip = $sizer = null;
-    positionTooltip.removeClone();
-    sandbox.restore();
+    posTT.removeClone();
   });
 
   function makeEvent(xPercent, yPercent) {
@@ -68,10 +67,10 @@ describe('Tooltip Positioning', function () {
 
   describe('getTtSize()', function () {
     it('should measure the outer-size of the tooltip using an un-obstructed clone', function () {
-      const w = sandbox.spy($.fn, 'outerWidth');
-      const h = sandbox.spy($.fn, 'outerHeight');
+      const w = sinon.spy($.fn, 'outerWidth');
+      const h = sinon.spy($.fn, 'outerHeight');
 
-      positionTooltip.getTtSize($tooltip.html(), $sizer);
+      posTT.getTtSize($tooltip.html(), $sizer);
 
       [w, h].forEach(function (spy) {
         expect(spy).to.have.property('callCount', 1);
@@ -85,8 +84,8 @@ describe('Tooltip Positioning', function () {
 
   describe('getBasePosition()', function () {
     it('calculates the offset values for the four positions', function () {
-      const size = positionTooltip.getTtSize($tooltip.html(), $sizer);
-      const pos = positionTooltip.getBasePosition(size, makeEvent());
+      const size = posTT.getTtSize($tooltip.html(), $sizer);
+      const pos = posTT.getBasePosition(size, makeEvent());
 
       positions.forEach(function (p) {
         expect(pos).to.have.property(p);
@@ -99,7 +98,7 @@ describe('Tooltip Positioning', function () {
 
   describe('getBounds()', function () {
     it('returns the offsets for the tlrb of the element', function () {
-      const cbounds = positionTooltip.getBounds($chart);
+      const cbounds = posTT.getBounds($chart);
 
       bounds.forEach(function (b) {
         expect(cbounds).to.have.property(b);
@@ -115,14 +114,14 @@ describe('Tooltip Positioning', function () {
       // size the tooltip very small so it won't collide with the edges
       $tooltip.css({ width: 15, height: 15 });
       $sizer.css({ width: 15, height: 15 });
-      const size = positionTooltip.getTtSize($tooltip.html(), $sizer);
+      const size = posTT.getTtSize($tooltip.html(), $sizer);
       expect(size).to.have.property('width', 15);
       expect(size).to.have.property('height', 15);
 
       // position the element based on a mouse that is in the middle of the chart
-      const pos = positionTooltip.getBasePosition(size, makeEvent(0.5, 0.5));
+      const pos = posTT.getBasePosition(size, makeEvent(0.5, 0.5));
 
-      const overflow = positionTooltip.getOverflow(size, pos, [$chart, $window]);
+      const overflow = posTT.getOverflow(size, pos, [$chart, $window]);
       positions.forEach(function (p) {
         expect(overflow).to.have.property(p);
 
@@ -132,11 +131,11 @@ describe('Tooltip Positioning', function () {
     });
 
     it('identifies an overflow with a positive value in that direction', function () {
-      const size = positionTooltip.getTtSize($tooltip.html(), $sizer);
+      const size = posTT.getTtSize($tooltip.html(), $sizer);
 
       // position the element based on a mouse that is in the bottom right hand courner of the chart
-      const pos = positionTooltip.getBasePosition(size, makeEvent(0.99, 0.99));
-      const overflow = positionTooltip.getOverflow(size, pos, [$chart, $window]);
+      const pos = posTT.getBasePosition(size, makeEvent(0.99, 0.99));
+      const overflow = posTT.getOverflow(size, pos, [$chart, $window]);
 
       positions.forEach(function (p) {
         expect(overflow).to.have.property(p);
@@ -148,44 +147,19 @@ describe('Tooltip Positioning', function () {
         }
       });
     });
-
-    it('identifies only right overflow when tooltip overflows both sides of inner container but outer contains tooltip', function () {
-      // Size $tooltip larger than chart
-      const largeWidth = $chart.width() + 10;
-      $tooltip.css({ width: largeWidth });
-      $sizer.css({ width: largeWidth });
-      const size = positionTooltip.getTtSize($tooltip.html(), $sizer);
-      expect(size).to.have.property('width', largeWidth);
-
-      // $chart is flush with the $window on the left side
-      expect(positionTooltip.getBounds($chart).left).to.be(0);
-
-      // Size $window large enough for tooltip on right side
-      $window.css({ width: $chart.width() * 3 });
-
-      // Position click event in center of $chart so $tooltip overflows both sides of chart
-      const pos = positionTooltip.getBasePosition(size, makeEvent(0.5, 0.5));
-
-      const overflow = positionTooltip.getOverflow(size, pos, [$chart, $window]);
-
-      // no overflow on left (east)
-      expect(overflow.east).to.be.lessThan(0);
-      // overflow on right (west)
-      expect(overflow.west).to.be.greaterThan(0);
-    });
   });
 
   describe('positionTooltip() integration', function () {
     it('returns nothing if the $chart or $tooltip are not passed in', function () {
-      expect(positionTooltip() === void 0).to.be(true);
-      expect(positionTooltip(null, null, null) === void 0).to.be(true);
-      expect(positionTooltip(null, $(), $()) === void 0).to.be(true);
+      expect(posTT() === void 0).to.be(true);
+      expect(posTT(null, null, null) === void 0).to.be(true);
+      expect(posTT(null, $(), $()) === void 0).to.be(true);
     });
 
     function check(xPercent, yPercent/*, prev, directions... */) {
       const directions = _.drop(arguments, 2);
       const event = makeEvent(xPercent, yPercent);
-      const placement = positionTooltip({
+      const placement = posTT({
         $window: $window,
         $chart: $chart,
         $sizer: $sizer,

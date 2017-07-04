@@ -4,10 +4,9 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import Visualization from '../components/visualization';
 import addScope from '../lib/add_scope';
-import { uiModules } from 'ui/modules';
+import modules from 'ui/modules';
 import createBrushHandler from '../lib/create_brush_handler';
-
-const app = uiModules.get('apps/metrics/directives');
+const app = modules.get('apps/metrics/directives');
 app.directive('metricsVisualization', (timefilter, $timeout) => {
   return {
     restrict: 'E',

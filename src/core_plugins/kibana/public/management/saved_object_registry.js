@@ -1,6 +1,6 @@
 import _ from 'lodash';
 const registry = [];
-export const savedObjectManagementRegistry = {
+export default {
   register: function (service) {
     registry.push(service);
   },

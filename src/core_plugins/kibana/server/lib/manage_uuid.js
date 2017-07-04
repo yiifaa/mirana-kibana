@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import uuid from 'node-uuid';
 import Promise from 'bluebird';
 import { join as pathJoin } from 'path';
 import { readFile as readFileCallback, writeFile as writeFileCallback } from 'fs';

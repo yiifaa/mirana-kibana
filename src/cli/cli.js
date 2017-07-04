@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { pkg } from '../utils';
+import pkg from '../utils/package_json';
 import Command from './command';
 import serveCommand from './serve/serve';
 

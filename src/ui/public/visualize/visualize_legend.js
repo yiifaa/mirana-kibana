@@ -1,14 +1,14 @@
 import _ from 'lodash';
 import html from 'ui/visualize/visualize_legend.html';
-import { VislibLibDataProvider } from 'ui/vislib/lib/data';
-import { FilterBarClickHandlerProvider } from 'ui/filter_bar/filter_bar_click_handler';
-import { uiModules } from 'ui/modules';
+import VislibLibDataProvider from 'ui/vislib/lib/data';
+import FilterBarFilterBarClickHandlerProvider from 'ui/filter_bar/filter_bar_click_handler';
+import uiModules from 'ui/modules';
 
 
 uiModules.get('kibana')
 .directive('visualizeLegend', function (Private, getAppState) {
   const Data = Private(VislibLibDataProvider);
-  const filterBarClickHandler = Private(FilterBarClickHandlerProvider);
+  const filterBarClickHandler = Private(FilterBarFilterBarClickHandlerProvider);
 
   return {
     restrict: 'E',
@@ -113,7 +113,7 @@ uiModules.get('kibana')
           $scope.open = $scope.vis.params.addLegend;
         }
 
-        if (['heatmap', 'gauge'].includes(vislibVis.visConfigArgs.type)) {
+        if (vislibVis.visConfigArgs.type === 'heatmap') {
           const labels = vislibVis.getLegendLabels();
           if (labels) {
             $scope.labels = _.map(labels, label => {

@@ -1,3 +1,4 @@
+import calculateIndices from './calculate_indices';
 import buildAnnotationRequest from './build_annotation_request';
 import handleAnnotationResponse from './handle_annotation_response';
 
@@ -11,29 +12,35 @@ function validAnnotation(annotation) {
 
 export default (req, panel) => {
   const { callWithRequest } = req.server.plugins.elasticsearch.getCluster('data');
-  const bodies = panel.annotations
+  return Promise.all(panel.annotations
     .filter(validAnnotation)
     .map(annotation => {
 
       const indexPattern = annotation.index_pattern;
-      const bodies = [];
+      const timeField = annotation.time_field;
 
-      bodies.push({
-        index: indexPattern,
-        ignore: [404],
-        timeout: '90s',
-        requestTimeout: 90000,
-        ignoreUnavailable: true,
+      return calculateIndices(req, indexPattern, timeField).then(indices => {
+        const bodies = [];
+
+        if (!indices.length) throw new Error('missing-indices');
+        bodies.push({
+          index: indices,
+          ignore: [404],
+          timeout: '90s',
+          requestTimeout: 90000,
+          ignoreUnavailable: true,
+        });
+
+        bodies.push(buildAnnotationRequest(req, panel, annotation));
+        return bodies;
       });
-
-      bodies.push(buildAnnotationRequest(req, panel, annotation));
-      return bodies;
-    });
-
-  if (!bodies.length) return { responses: [] };
-  return callWithRequest(req, 'msearch', {
-    body: bodies.reduce((acc, item) => acc.concat(item), [])
-  })
+    }))
+    .then(bodies => {
+      if (!bodies.length) return { responses: [] };
+      return callWithRequest(req, 'msearch', {
+        body: bodies.reduce((acc, item) => acc.concat(item), [])
+      });
+    })
     .then(resp => {
       const results = {};
       panel.annotations

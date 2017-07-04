@@ -73,4 +73,4 @@ function Api(urlParametrizedComponentFactories, bodyParametrizedComponentFactori
 }(Api.prototype));
 
 
-export default Api;
+module.exports = Api;

@@ -1,8 +1,8 @@
 import L from 'leaflet';
 import _ from 'lodash';
-import { ScaledCirclesMarkers } from './scaled_circles';
+import ScaledCircles from './scaled_circles';
 
-export class ShadedCirclesMarkers extends ScaledCirclesMarkers {
+export default class ShadedCircles extends ScaledCircles {
   getMarkerFunction() {
     // multiplier to reduce size of all circles
     const scaleFactor = 0.8;

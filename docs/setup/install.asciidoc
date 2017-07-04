@@ -1,8 +1,6 @@
 [[install]]
 == Installing Kibana
 
-NOTE: Starting with version 6.0.0, Kibana only supports 64 bit operating systems.
-
 Kibana is provided in the following package formats:
 
 [horizontal]
@@ -40,8 +38,8 @@ Docker registry.
 +
 <<docker>>
 
-IMPORTANT: If your Elasticsearch installation is protected by {xpack-ref}/xpack-security.html[X-Pack Security]
-see {xpack-ref}/kibana.html[Using Kibana with X-Pack Security] for additional setup
+IMPORTANT: If your Elasticsearch installation is protected by {xpack-ref}xpack-security.html[X-Pack Security]
+see {xpack-ref}kibana.html[Using Kibana with X-Pack Security] for additional setup
 instructions.
 
 

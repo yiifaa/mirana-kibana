@@ -120,4 +120,4 @@ export function close(moduleName) {
   delete existingModules[moduleName];
 }
 
-export const uiModules = { link, get, close };
+export default { link, get, close };

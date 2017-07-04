@@ -16,7 +16,7 @@ const NO_INDEX = 'no_index';
 const INITIALIZING = 'initializing';
 const READY = 'ready';
 
-export default function (plugin, server, { mappings }) {
+module.exports = function (plugin, server) {
   const config = server.config();
   const callAdminAsKibanaUser = server.plugins.elasticsearch.getCluster('admin').callWithInternalUser;
   const callDataAsKibanaUser = server.plugins.elasticsearch.getCluster('data').callWithInternalUser;
@@ -70,7 +70,7 @@ export default function (plugin, server, { mappings }) {
     .then(function (health) {
       if (health === NO_INDEX) {
         plugin.status.yellow('No existing Kibana index found');
-        return createKibanaIndex(server, mappings);
+        return createKibanaIndex(server);
       }
 
       if (health === INITIALIZING) {
@@ -98,7 +98,7 @@ export default function (plugin, server, { mappings }) {
       .then(() => ensureNotTribe(callAdminAsKibanaUser))
       .then(() => ensureAllowExplicitIndex(callAdminAsKibanaUser, config))
       .then(waitForShards)
-      .then(_.partial(migrateConfig, server, { mappings }))
+      .then(_.partial(migrateConfig, server))
       .then(() => {
         const tribeUrl = config.get('elasticsearch.tribe.url');
         if (tribeUrl) {
@@ -146,4 +146,4 @@ export default function (plugin, server, { mappings }) {
     isRunning: function () { return !!timeoutId; },
   };
 
-}
+};

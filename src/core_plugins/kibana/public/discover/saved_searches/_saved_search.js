@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import 'ui/notify';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 
 
 const module = uiModules.get('discover/saved_searches', [
@@ -31,11 +31,11 @@ module.factory('SavedSearch', function (courier) {
   SavedSearch.type = 'search';
 
   SavedSearch.mapping = {
-    title: 'text',
-    description: 'text',
+    title: 'string',
+    description: 'string',
     hits: 'integer',
-    columns: 'keyword',
-    sort: 'keyword',
+    columns: 'string',
+    sort: 'string',
     version: 'integer'
   };
 

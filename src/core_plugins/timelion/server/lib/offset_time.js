@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 // usually reverse = false on the request, true on the response
-export default function offsetTime(milliseconds, offset, reverse) {
+module.exports = function offsetTime(milliseconds, offset, reverse) {
   if (!offset.match(/[-+][0-9]+[mshdwMy]/g)) {
     throw new Error ('Malformed `offset` at ' + offset);
   }
@@ -14,4 +14,4 @@ export default function offsetTime(milliseconds, offset, reverse) {
 
   const momentObj = moment(milliseconds)[mode](parts[1], parts[2]);
   return momentObj.valueOf();
-}
+};

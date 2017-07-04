@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react';
 import tickFormatter from '../../lib/tick_formatter';
 import _ from 'lodash';
-import Timeseries from 'plugins/metrics/visualizations/components/timeseries';
+import { Timeseries } from 'plugins/metrics/visualizations';
 import color from 'color';
 import replaceVars from '../../lib/replace_vars';
-import { getAxisLabelString } from '../../lib/get_axis_label_string';
 
 function hasSeperateAxis(row) {
   return row.seperate_axis;
@@ -37,10 +36,8 @@ function TimeseriesVisualization(props) {
   const mainAxis = {
     position: model.axis_position,
     tickFormatter: formatter,
-    axisFormatter: _.get(firstSeries, 'formatter', 'number'),
-    axisFormatterTemplate: _.get(firstSeries, 'value_template')
+    axis_formatter: _.get(firstSeries, 'formatter', 'number'),
   };
-
 
   if (model.axis_min) mainAxis.min = model.axis_min;
   if (model.axis_max) mainAxis.max = model.axis_max;
@@ -60,7 +57,7 @@ function TimeseriesVisualization(props) {
     }
     if (s.stacked === 'percent') {
       s.seperate_axis = true;
-      s.axisFormatter = 'percent';
+      s.axis_formatter = 'percent';
       s.axis_min = 0;
       s.axis_max = 1;
       s.axis_position = model.axis_position;
@@ -79,10 +76,6 @@ function TimeseriesVisualization(props) {
     }
   });
 
-  const interval = series.reduce((currentInterval, item) => {
-    const seriesInterval = item.data[1][0] - item.data[0][0];
-    if (!currentInterval || seriesInterval < currentInterval) return seriesInterval;
-  }, 0);
 
   let axisCount = 1;
   if (seriesModel.some(hasSeperateAxis)) {
@@ -96,11 +89,8 @@ function TimeseriesVisualization(props) {
           alignTicksWithAxis: 1,
           position: row.axis_position,
           tickFormatter: formatter,
-          axisFormatter: row.axis_formatter,
-          axisFormatterTemplate: row.value_template
+          axis_formatter: row.axis_formatter
         };
-
-
 
         if (row.axis_min != null) yaxis.min = row.axis_min;
         if (row.axis_max != null) yaxis.max = row.axis_max;
@@ -130,9 +120,6 @@ function TimeseriesVisualization(props) {
       if (props.onBrush) props.onBrush(ranges);
     }
   };
-  if (interval) {
-    params.xaxisLabel = getAxisLabelString(interval);
-  }
   const style = { };
   const panelBackgroundColor = model.background_color || backgroundColor;
   if (panelBackgroundColor) {

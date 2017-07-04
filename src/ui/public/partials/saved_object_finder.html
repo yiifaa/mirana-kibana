@@ -21,12 +21,12 @@
 
     <div class="kuiBarSection">
       <p class="kuiText kuiSubduedText">
-        {{ pageFirstItem }}-{{ pageLastItem }} of {{ finder.hitCount }}
+        {{ finder.hitCount }} of {{ finder.hitCount }}
       </p>
 
       <div class="kuiButtonGroup">
         <button
-          class="kuiButton kuiButton--primary"
+          class="kuiButton kuiButton--basic"
           ng-if="onAddNew"
           ng-click="onAddNew()"
           data-test-subj="addNewSavedObjectLink"
@@ -35,7 +35,7 @@
         </button>
 
         <button
-          class="kuiButton kuiButton--secondary"
+          class="kuiButton kuiButton--basic"
           ng-if="!useLocalManagement"
           ng-click="finder.manageObjects(finder.properties.name)"
         >

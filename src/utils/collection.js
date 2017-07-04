@@ -1,7 +1,7 @@
 
 const set = Symbol('internal set');
 
-export default class Collection {
+module.exports = class Collection {
   constructor() { // Set's have a length of 0, mimic that
     this[set] = new Set(arguments[0] || []);
   }
@@ -65,4 +65,4 @@ export default class Collection {
   [Symbol.iterator]() {
     return this[set][Symbol.iterator]();
   }
-}
+};

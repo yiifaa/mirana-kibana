@@ -4,10 +4,10 @@ import moment from 'moment';
 import ngMock from 'ng_mock';
 import expect from 'expect.js';
 import fixtures from 'fixtures/fake_hierarchical_data';
-import sinon from 'sinon';
-import { AggResponseTabifyProvider } from 'ui/agg_response/tabify/tabify';
+import sinon from 'auto-release-sinon';
+import AggResponseTabifyTabifyProvider from 'ui/agg_response/tabify/tabify';
 import FixturesStubbedLogstashIndexPatternProvider from 'fixtures/stubbed_logstash_index_pattern';
-import { VisProvider } from 'ui/vis';
+import VisProvider from 'ui/vis';
 describe('AggTable Directive', function () {
 
   let $rootScope;
@@ -19,7 +19,7 @@ describe('AggTable Directive', function () {
 
   beforeEach(ngMock.module('kibana'));
   beforeEach(ngMock.inject(function ($injector, Private, config) {
-    tabifyAggResponse = Private(AggResponseTabifyProvider);
+    tabifyAggResponse = Private(AggResponseTabifyTabifyProvider);
     indexPattern = Private(FixturesStubbedLogstashIndexPatternProvider);
     Vis = Private(VisProvider);
     settings = config;
@@ -164,7 +164,7 @@ describe('AggTable Directive', function () {
     it('as min', function () {
       totalsRowTest('min', [
         '',
-        '2014-09-28',
+        'September 28th 2014, 00:00:00.000',
         '9,283',
         'September 28th 2014, 00:00:00.000',
         '1',
@@ -174,7 +174,7 @@ describe('AggTable Directive', function () {
     it('as max', function () {
       totalsRowTest('max', [
         '',
-        '2014-10-03',
+        'October 3rd 2014, 00:00:00.000',
         '220,943',
         'October 3rd 2014, 00:00:00.000',
         '239',

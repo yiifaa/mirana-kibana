@@ -16,7 +16,6 @@ let parts = [
   require('./es_5_0/mappings'),
   require('./es_5_0/percolator'),
   require('./es_5_0/query'),
-  require('./es_5_0/reindex'),
   require('./es_5_0/snapshot_restore'),
   require('./es_5_0/search'),
   require('./es_5_0/settings'),
@@ -53,6 +52,4 @@ ES_5_0.prototype = _.create(Api.prototype, { 'constructor': ES_5_0 });
   };
 })(ES_5_0.prototype);
 
-const instance = new ES_5_0();
-
-export default instance;
+module.exports = new ES_5_0();

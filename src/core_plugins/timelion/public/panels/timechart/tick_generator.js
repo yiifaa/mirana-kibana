@@ -1,4 +1,4 @@
-export default function generateTicksProvider() {
+module.exports = function generateTicksProvider() {
 
   function floorInBase(n, base) {
     return base * Math.floor(n / base);
@@ -40,4 +40,4 @@ export default function generateTicksProvider() {
   return function (axis) {
     return generateTicks(axis);
   };
-}
+};

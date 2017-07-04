@@ -8,7 +8,7 @@ let utils = require('../utils');
 let es = require('../es');
 import chrome from 'ui/chrome';
 
-const smartResize = require('../smart_resize');
+import smartResize from '../smart_resize';
 
 function createInstance($el) {
   var aceEditor = ace.edit($el[0]);
@@ -47,7 +47,7 @@ function createInstance($el) {
   return editor;
 }
 
-export default function SenseEditor($el) {
+function SenseEditor($el) {
   var editor = createInstance($el);
   var CURRENT_REQ_RANGE = null;
 
@@ -632,3 +632,5 @@ export default function SenseEditor($el) {
 
   return editor;
 }
+
+module.exports = SenseEditor;

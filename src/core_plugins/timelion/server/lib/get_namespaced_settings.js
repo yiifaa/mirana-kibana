@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import configFile from '../../timelion.json';
 
-export default function () {
+module.exports = function () {
   function flattenWith(dot, nestedObj, flattenArrays) {
     const stack = []; // track key stack
     const flatObj = {};
@@ -22,4 +22,4 @@ export default function () {
     result['timelion:' + key] = value;
     return result;
   }, {});
-}
+};

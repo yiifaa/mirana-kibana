@@ -1,6 +1,6 @@
 import angular from 'angular';
 import _ from 'lodash';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 const module = uiModules.get('app/dashboard');
 
 // Used only by the savedDashboards service, usually no reason to change this
@@ -46,20 +46,20 @@ module.factory('SavedDashboard', function (courier, config) {
 
   // if type:dashboard has no mapping, we push this mapping into ES
   SavedDashboard.mapping = {
-    title: 'text',
+    title: 'string',
     hits: 'integer',
-    description: 'text',
-    panelsJSON: 'text',
-    optionsJSON: 'text',
-    uiStateJSON: 'text',
+    description: 'string',
+    panelsJSON: 'string',
+    optionsJSON: 'string',
+    uiStateJSON: 'string',
     version: 'integer',
     timeRestore: 'boolean',
-    timeTo: 'keyword',
-    timeFrom: 'keyword',
+    timeTo: 'string',
+    timeFrom: 'string',
     refreshInterval: {
       type: 'object',
       properties: {
-        display: { type: 'keyword' },
+        display: { type: 'string' },
         pause: { type: 'boolean' },
         section: { type: 'integer' },
         value: { type: 'integer' }

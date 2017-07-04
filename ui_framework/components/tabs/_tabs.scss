@@ -1,8 +1,7 @@
 .kuiTabs {
   display: flex;
-  border-bottom: $globalBorderThin;
+  border-bottom: $globalBorderThick;
 }
-
 
 /**
  * 1. Override button styles (some of which are from Bootstrap).
@@ -19,9 +18,9 @@
   color: $globalSubduedTextColor;
   background-color: $tabBackgroundColor; /* 1 */
   border: 1px solid $globalBorderColor;
-  border-bottom-width: 1px;
+  border-bottom-width: 2px;
   border-radius: 0; /* 1 */
-  margin-bottom: -1px; /* 3 */
+  margin-bottom: -2px; /* 3 */
 
   & + & {
     border-left: none;
@@ -44,6 +43,7 @@
     z-index: 1;
     color: $globalLinkColor;
     border: 1px solid $globalSelectedBorderColor !important;
+    padding-bottom: 11px; /* 4 */
   }
 
   &:hover:not(.kuiTab-isSelected) {

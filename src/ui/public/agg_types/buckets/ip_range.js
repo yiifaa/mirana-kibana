@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import 'ui/directives/validate_ip';
 import 'ui/directives/validate_cidr_mask';
-import { AggTypesBucketsBucketAggTypeProvider } from 'ui/agg_types/buckets/_bucket_agg_type';
-import { AggTypesBucketsCreateFilterIpRangeProvider } from 'ui/agg_types/buckets/create_filter/ip_range';
+import AggTypesBucketsBucketAggTypeProvider from 'ui/agg_types/buckets/_bucket_agg_type';
+import AggTypesBucketsCreateFilterIpRangeProvider from 'ui/agg_types/buckets/create_filter/ip_range';
 import ipRangesTemplate from 'ui/agg_types/controls/ip_ranges.html';
 
-export function AggTypesBucketsIpRangeProvider(Private) {
+export default function RangeAggDefinition(Private) {
   const BucketAggType = Private(AggTypesBucketsBucketAggTypeProvider);
   const createFilter = Private(AggTypesBucketsCreateFilterIpRangeProvider);
 

@@ -5,8 +5,7 @@
 
   padding: $toolBarPadding;
   height: $toolBarHeight;
-  background-color: transparent;
-  border: solid 1px $globalColorLightGray;
+  background-color: $globalBorderColor;
 }
 
 .kuiToolBarSection {

@@ -1,11 +1,18 @@
-import { asPrettyString } from 'ui/utils/as_pretty_string';
-import { FieldFormat } from 'ui/index_patterns/_field_format/field_format';
+import IndexPatternsFieldFormatProvider from 'ui/index_patterns/_field_format/field_format';
+import _ from 'lodash';
 
-export function stringifyBoolean() {
+export default function TruncateFormatProvider(Private) {
+
+  const FieldFormat = Private(IndexPatternsFieldFormatProvider);
 
   class Bool extends FieldFormat {
 
+    constructor(params) {
+      super(params);
+    }
+
     _convert(value) {
+
       if (typeof value === 'string') {
         value = value.trim().toLowerCase();
       }
@@ -22,14 +29,14 @@ export function stringifyBoolean() {
         case 'yes':
           return 'true';
         default:
-          return asPrettyString(value);
+          return _.asPrettyString(value);
       }
     }
-
-    static id = 'boolean';
-    static title = 'Boolean';
-    static fieldType = ['boolean', 'number', 'string'];
   }
+
+  Bool.id = 'boolean';
+  Bool.title = 'Boolean';
+  Bool.fieldType = ['boolean', 'number', 'string'];
 
   return Bool;
 }

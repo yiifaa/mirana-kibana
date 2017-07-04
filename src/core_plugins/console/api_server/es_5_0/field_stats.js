@@ -1,4 +1,4 @@
-export default function (api) {
+module.exports = function (api) {
   api.addEndpointDescription('_field_stats', {
     methods: ['GET', 'POST'],
     patterns: [
@@ -44,4 +44,4 @@ export default function (api) {
       }
     }
   });
-}
+};

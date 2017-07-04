@@ -1,5 +1,5 @@
-import { getValType } from './get_val_type';
-import { getEditorType } from './get_editor_type';
+import getValType from './get_val_type';
+import getEditorType from './get_editor_type';
 
 /**
  * @param {object} advanced setting definition object
@@ -7,7 +7,7 @@ import { getEditorType } from './get_editor_type';
  * @param {object} current value of setting
  * @returns {object} the editable config object
  */
-export function toEditableConfig({ def, name, value, isCustom }) {
+function toEditableConfig({ def, name, value, isCustom }) {
   if (!def) {
     def = {};
   }
@@ -33,3 +33,5 @@ export function toEditableConfig({ def, name, value, isCustom }) {
 
   return conf;
 }
+
+export default toEditableConfig;

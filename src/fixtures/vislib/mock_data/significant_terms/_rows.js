@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default {
+module.exports = {
   'rows': [
     {
       'label': 'h3: headings',

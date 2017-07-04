@@ -1,4 +1,4 @@
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 import _ from 'lodash';
 const module = uiModules.get('app/timelion');
 
@@ -37,12 +37,12 @@ module.factory('SavedSheet', function (courier, config) {
 
   // if type:sheet has no mapping, we push this mapping into ES
   SavedSheet.mapping = {
-    title: 'text',
+    title: 'string',
     hits: 'integer',
-    description: 'text',
-    timelion_sheet: 'text',
-    timelion_interval: 'keyword',
-    timelion_other_interval: 'keyword',
+    description: 'string',
+    timelion_sheet: 'string',
+    timelion_interval: 'string',
+    timelion_other_interval: 'string',
     timelion_chart_height: 'integer',
     timelion_columns: 'integer',
     timelion_rows: 'integer',

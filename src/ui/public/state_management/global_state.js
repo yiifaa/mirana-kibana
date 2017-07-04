@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import { QueryString } from 'ui/utils/query_string';
-import { StateProvider } from 'ui/state_management/state';
-import { uiModules } from 'ui/modules';
+import qs from 'ui/utils/query_string';
+import StateManagementStateProvider from 'ui/state_management/state';
+import uiModules from 'ui/modules';
 
 const module = uiModules.get('kibana/global_state');
 
-export function GlobalStateProvider(Private) {
-  const State = Private(StateProvider);
+function GlobalStateProvider(Private) {
+  const State = Private(StateManagementStateProvider);
 
   _.class(GlobalState).inherits(State);
   function GlobalState(defaults) {
@@ -17,7 +17,7 @@ export function GlobalStateProvider(Private) {
   GlobalState.prototype._persistAcrossApps = true;
 
   GlobalState.prototype.removeFromUrl = function (url) {
-    return QueryString.replaceParamInUrl(url, this._urlParam, null);
+    return qs.replaceParamInUrl(url, this._urlParam, null);
   };
 
   return new GlobalState();
@@ -26,3 +26,4 @@ export function GlobalStateProvider(Private) {
 module.service('globalState', function (Private) {
   return Private(GlobalStateProvider);
 });
+export default GlobalStateProvider;

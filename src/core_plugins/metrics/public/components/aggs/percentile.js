@@ -3,10 +3,10 @@ import _ from 'lodash';
 import AggSelect from './agg_select';
 import FieldSelect from './field_select';
 import AggRow from './agg_row';
-import * as collectionActions from '../lib/collection_actions';
+import collectionActions from '../lib/collection_actions';
 import AddDeleteButtons from '../add_delete_buttons';
 import Select from 'react-select';
-import uuid from 'uuid';
+import uuid from 'node-uuid';
 import createChangeHandler from '../lib/create_change_handler';
 import createSelectHandler from '../lib/create_select_handler';
 const newPercentile = (opts) => {
@@ -25,6 +25,15 @@ class Percentiles extends Component {
       const handleChange = collectionActions.handleChange.bind(null, this.props);
       const part = {};
       part[name] = _.get(e, 'value', _.get(e, 'target.value'));
+      handleChange(_.assign({}, item, part));
+    };
+  }
+
+  handleNumberChange(item, name) {
+    return (e) => {
+      const handleChange = collectionActions.handleChange.bind(null, this.props);
+      const part = {};
+      part[name] = Number(_.get(e, 'value', _.get(e, 'target.value')));
       handleChange(_.assign({}, item, part));
     };
   }
@@ -48,9 +57,8 @@ class Percentiles extends Component {
           <input
             placeholder="Percentile"
             className="vis_editor__input-grows"
-            type="number"
-            step="1"
-            onChange={this.handleTextChange(model, 'value')}
+            type="text"
+            onChange={this.handleNumberChange(model, 'value')}
             value={model.value}/>
           <div className="vis_editor__label">Mode</div>
           <div className="vis_editor__row_item">
@@ -64,17 +72,15 @@ class Percentiles extends Component {
           <input
             style={optionsStyle}
             className="vis_editor__input-grows"
-            type="number"
-            step="1"
-            onChange={this.handleTextChange(model, 'percentile')}
+            type="text"
+            onChange={this.handleNumberChange(model, 'percentile')}
             value={model.percentile}/>
           <div style={optionsStyle} className="vis_editor__label">Shade (0 to 1)</div>
           <input
             style={optionsStyle}
             className="vis_editor__input-grows"
-            type="number"
-            step="0.1"
-            onChange={this.handleTextChange(model, 'shade')}
+            type="text"
+            onChange={this.handleNumberChange(model, 'shade')}
             value={model.shade}/>
         </div>
         <AddDeleteButtons

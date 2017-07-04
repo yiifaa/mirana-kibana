@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 // Only applies to already resolved arguments
-export default function indexArguments(functionDef, orderedArgs) {
+module.exports = function indexArguments(functionDef, orderedArgs) {
 
   const validateArg = require('./validate_arg')(functionDef);
 
@@ -28,4 +28,4 @@ export default function indexArguments(functionDef, orderedArgs) {
   }
 
   return indexedArgs;
-}
+};

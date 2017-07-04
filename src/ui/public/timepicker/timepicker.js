@@ -1,13 +1,10 @@
 import html from 'ui/timepicker/timepicker.html';
-import './quick_panel';
-import './relative_panel';
-import './absolute_panel';
 import _ from 'lodash';
 import { relativeOptions } from './relative_options';
 import { parseRelativeParts } from './parse_relative_parts';
 import dateMath from '@elastic/datemath';
 import moment from 'moment';
-import { Notifier } from 'ui/notify/notifier';
+import Notifier from 'ui/notify/notifier';
 import 'ui/timepicker/timepicker.less';
 import 'ui/directives/input_datetime';
 import 'ui/directives/inequality';
@@ -15,13 +12,13 @@ import 'ui/timepicker/quick_ranges';
 import 'ui/timepicker/refresh_intervals';
 import 'ui/timepicker/time_units';
 import 'ui/timepicker/kbn_global_timepicker';
-import { uiModules } from 'ui/modules';
+import uiModules from 'ui/modules';
 const module = uiModules.get('ui/timepicker');
 const notify = new Notifier({
   location: 'timepicker',
 });
 
-module.directive('kbnTimepicker', function (timeUnits, refreshIntervals) {
+module.directive('kbnTimepicker', function (quickRanges, timeUnits, refreshIntervals) {
   return {
     restrict: 'E',
     scope: {
@@ -41,6 +38,7 @@ module.directive('kbnTimepicker', function (timeUnits, refreshIntervals) {
 
       if (_.isUndefined($scope.mode)) $scope.mode = 'quick';
 
+      $scope.quickLists = _(quickRanges).groupBy('section').values().value();
       $scope.refreshLists = _(refreshIntervals).groupBy('section').values().value();
 
       $scope.relative = {
