@@ -65,50 +65,49 @@ module.exports = function (kibana) {
         },
       },
 
-      links: [
-        {
+      links: [{
+        id: 'kibana:dashboard',
+        title: '仪表盘',
+        order: -1001,
+        url: `${kbnBaseUrl}#/dashboards`,
+        // The subUrlBase is the common substring of all urls for this app. If not given, it defaults to the url
+        // above. This app has to use a different subUrlBase, in addition to the url above, because "#/dashboard"
+        // routes to a page that creates a new dashboard. When we introduced a landing page, we needed to change
+        // the url above in order to preserve the original url for BWC. The subUrlBase helps the Chrome api nav
+        // to determine what url to use for the app link.
+        subUrlBase: `${kbnBaseUrl}#/dashboard`,
+        description: 'compose visualizations for much win',
+        icon: 'plugins/kibana/assets/dashboard.svg',
+      },  {
           id: 'kibana:discover',
-          title: 'Discover',
+          title: '日志检索',
           order: -1003,
           url: `${kbnBaseUrl}#/discover`,
           description: 'interactively explore your data',
           icon: 'plugins/kibana/assets/discover.svg',
         }, {
           id: 'kibana:visualize',
-          title: 'Visualize',
+          title: '可视化',
           order: -1002,
           url: `${kbnBaseUrl}#/visualize`,
           description: 'design data visualizations',
           icon: 'plugins/kibana/assets/visualize.svg',
-        }, {
-          id: 'kibana:dashboard',
-          title: 'Dashboard',
-          order: -1001,
-          url: `${kbnBaseUrl}#/dashboards`,
-          // The subUrlBase is the common substring of all urls for this app. If not given, it defaults to the url
-          // above. This app has to use a different subUrlBase, in addition to the url above, because "#/dashboard"
-          // routes to a page that creates a new dashboard. When we introduced a landing page, we needed to change
-          // the url above in order to preserve the original url for BWC. The subUrlBase helps the Chrome api nav
-          // to determine what url to use for the app link.
-          subUrlBase: `${kbnBaseUrl}#/dashboard`,
-          description: 'compose visualizations for much win',
-          icon: 'plugins/kibana/assets/dashboard.svg',
-        }, {
-          id: 'kibana:dev_tools',
-          title: 'Dev Tools',
-          order: 9001,
-          url: '/app/kibana#/dev_tools',
-          description: 'development tools',
-          icon: 'plugins/kibana/assets/wrench.svg'
-        }, {
+        },  {
           id: 'kibana:management',
-          title: 'Management',
+          title: '系统配置',
           order: 9003,
           url: `${kbnBaseUrl}#/management`,
           description: 'define index patterns, change config, and more',
           icon: 'plugins/kibana/assets/settings.svg',
           linkToLastSubUrl: false
-        },
+        },{
+          id: 'kibana:dev_tools',
+          title: '调试工具',
+          order: 9001,
+          url: '/app/kibana#/dev_tools',
+          description: 'development tools',
+          icon: 'plugins/kibana/assets/wrench.svg'
+        }
       ],
 
       injectDefaultVars(server, options) {
@@ -119,7 +118,7 @@ module.exports = function (kibana) {
       },
 
       translations: [
-        resolve(__dirname, './translations/en.json')
+        resolve(__dirname, './translations/zh.json')
       ]
     },
 

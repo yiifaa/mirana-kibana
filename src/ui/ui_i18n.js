@@ -14,7 +14,7 @@ function acceptLanguageHeaderToBCP47Tags(header) {
 export class UiI18n {
   constructor(defaultLocale = 'en') {
     this._i18n = new I18n(defaultLocale);
-    this._i18n.registerTranslations(resolve(__dirname, './translations/en.json'));
+    this._i18n.registerTranslations(resolve(__dirname, './translations/zh.json'));
   }
 
   /**

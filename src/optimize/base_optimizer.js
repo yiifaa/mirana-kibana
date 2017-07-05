@@ -23,7 +23,7 @@ class BaseOptimizer {
     this.urlBasePath = opts.urlBasePath;
     this.bundles = opts.bundles;
     this.profile = opts.profile || false;
-
+    
     switch (opts.sourceMaps) {
       case true:
         this.sourceMaps = 'source-map';
@@ -89,6 +89,7 @@ class BaseOptimizer {
 
       return ExtractTextPlugin.extract(makeLoaderString(loaders));
     };
+
 
     const config = {
       node: { fs: 'empty' },
