@@ -65,6 +65,7 @@ module.exports = function (kibana) {
         },
       },
 
+      //  用于菜单注册
       links: [{
         id: 'kibana:dashboard',
         title: '仪表盘',

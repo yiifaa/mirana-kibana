@@ -32,3 +32,4 @@ this.navLink = this.uiExports.navLinks.new({
 ### 客户端
 1. Kibana采用插件的方式注册应用，系统自动扫描src\core_plugins文件夹发现所有的插件；
 2. kibana、timelion都为内置的插件，既包含服务器端代码，也包含客户端代码；
+3. Angular的初始化与组件引用尽在src\ui\public\chrome\chrome.js

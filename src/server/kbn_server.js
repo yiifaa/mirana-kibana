@@ -70,6 +70,7 @@ module.exports = class KbnServer {
       }
     ));
     console.log(JSON.stringify(this.settings));
+
     this.listen = once(this.listen);
   }
 
