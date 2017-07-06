@@ -48,5 +48,6 @@
   "KIBANA-INDICES_MATCH_PATTERN" : "无法抓取映射文件，请确认是否存在这样的索引?",
   "KIBANA-ADD_NEW" : "添加",
   "KIBANA-SEE" : "检索",
-  "KIBANA-CREATE" : "创建"
+  "KIBANA-CREATE" : "创建",
+  "SEARCH" : "搜索……"
 }
