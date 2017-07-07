@@ -3,7 +3,7 @@ import 'ui/filters/short_dots';
 import uiModules from 'ui/modules';
 const module = uiModules.get('kibana');
 
-module.directive('fieldName', function ($compile, $rootScope, $filter) {
+module.directive('fieldName', function ($compile, $rootScope, $filter, $translate) {
   return {
     restrict: 'AE',
     scope: {
@@ -51,16 +51,22 @@ module.directive('fieldName', function ($compile, $rootScope, $filter) {
         const scripted = $scope.field ? $scope.field.scripted : false;
 
         const displayName = $filter('shortDots')(name);
+        $translate([type, name, displayName]).then(items => {
+            let typeTxt = items[type],
+                nameTxt = items[name],
+                displayTxt = items[displayName]
+            //  翻译文件
+            $el
+                  .attr('title', nameTxt)
+                  .toggleClass('no-results', results)
+                  .toggleClass('scripted', scripted)
+                  .prepend(typeIcon(typeTxt))
+                  .append($('<span>')
+                    .text(displayTxt)
+                    .addClass('discover-field-name')
+                  );
+        })
 
-        $el
-          .attr('title', name)
-          .toggleClass('no-results', results)
-          .toggleClass('scripted', scripted)
-          .prepend(typeIcon(type))
-          .append($('<span>')
-            .text(displayName)
-            .addClass('discover-field-name')
-          );
       });
     }
   };

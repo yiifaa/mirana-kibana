@@ -49,5 +49,16 @@
   "KIBANA-ADD_NEW" : "添加",
   "KIBANA-SEE" : "检索",
   "KIBANA-CREATE" : "创建",
-  "SEARCH" : "搜索……"
+  "SEARCH" : "搜索……",
+  "person" : "人员信息",
+  "_source" : "源数据",
+  "_id"    : "主键",
+  "_type"  : "所属类型[表]",
+  "_index" : "所属索引[库]",
+  "_score" : "匹配度",
+  "Visualize" : "可视化",
+  "warning" :  "警告",
+  "warnings" : "警告",
+  "true"   : "是",
+  "false"  : "否"
 }

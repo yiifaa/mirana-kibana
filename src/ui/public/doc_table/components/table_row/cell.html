@@ -8,23 +8,24 @@ if (timefield) {
   attributes='class="discover-table-datafield"';
 }
 %>
+<!-- 高度不一致 -->
 <td <%= attributes %> data-test-subj="docTableField">
   <%= formatted %>
   <span class="table-cell-filter">
     <% if (filterable) { %>
       <span
         ng-click="inlineFilter($event, '+')"
-        class="fa fa-search-plus docTableRowFilterIcon"
+        class="glyphicon glyphicon-zoom-in"
         data-column="<%- column %>"
-        tooltip="Filter for value"
+        tooltip="查找与此值相等的所有记录"
         tooltip-append-to-body="1"
       ></span>
 
       <span
         ng-click="inlineFilter($event, '-')"
-        class="fa fa-search-minus docTableRowFilterIcon"
+        class="glyphicon glyphicon-zoom-out"
         data-column="<%- column %>"
-        tooltip="Filter out value"
+        tooltip="排除与此值相等的所有记录e"
         tooltip-append-to-body="1"
       ></span>
     <% } %>

@@ -20,7 +20,9 @@ export default function defaultSettingsProvider() {
       type: 'json'
     },
     'dateFormat': {
-      value: 'MMMM Do YYYY, HH:mm:ss.SSS',
+      //$scope.format = 'YYYY-MM-dd, HH:mm:ss.SSS';
+      //  value: 'MMMM Do YYYY, HH:mm:ss.SSS',
+      value: 'YYYY-MM-DD, HH:mm:ss.SSS',
       description: 'When displaying a pretty formatted date, use this <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">format</a>',
     },
     'dateFormat:tz': {

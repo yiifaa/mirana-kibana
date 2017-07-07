@@ -9,7 +9,11 @@ module.directive('kbnInfiniteScroll', function () {
       more: '='
     },
     link: function ($scope, $element) {
-      const $window = $(window);
+      //  修复列表滚动异常
+      let $window = $('#appWrapper');
+      if(!$window.length) {
+        $window = $(window);
+      }
       let checkTimer;
 
       function onScroll() {

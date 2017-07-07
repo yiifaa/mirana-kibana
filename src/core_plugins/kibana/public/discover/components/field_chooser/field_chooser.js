@@ -54,9 +54,9 @@ app.directive('discFieldChooser', function ($location, globalState, config, $rou
           missing: true
         },
         boolOpts: [
-          { label: 'any', value: undefined },
-          { label: 'yes', value: true },
-          { label: 'no', value: false }
+          { label: '所有', value: undefined },
+          { label: '是', value: true },
+          { label: '否', value: false }
         ],
         toggleVal: function (name, def) {
           if (filter.vals[name] !== def) filter.vals[name] = def;

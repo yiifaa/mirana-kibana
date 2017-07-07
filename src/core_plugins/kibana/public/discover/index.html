@@ -8,10 +8,10 @@
         <div class="kuiLocalBreadcrumb">
           <span ng-show="opts.savedSearch.id" class="kuiLocalBreadcrumb__emphasis">
             <span data-test-subj="discoverCurrentQuery" ng-bind="opts.savedSearch.lastSavedTitle"></span>
-            <i aria-label="Reload Saved Search" tooltip="Reload Saved Search" ng-click="resetQuery();" class="fa fa-undo small"></i>&nbsp;
+            <i aria-label="重新载入数据" tooltip="重新载入数据" ng-click="resetQuery();" class="fa fa-undo small"></i>&nbsp;
           </span>
           <span data-test-subj="discoverQueryHits" class="kuiLocalBreadcrumb__emphasis">{{(hits || 0) | number:0}}</span>
-          <ng-pluralize count="hits" when="{'1':'hit', 'other':'hits'}"></ng-pluralize>
+          <ng-pluralize count="hits" when="{'1':'条记录', 'other':'条记录'}"></ng-pluralize>
         </div>
       </div>
 
@@ -24,25 +24,27 @@
         ng-submit="fetch()"
       >
         <div class="typeahead" kbn-typeahead="discover" on-select="fetch()">
-          <div class="kuiLocalSearch">
+          <div class="input-group">
             <input
               parse-query
               input-focus
               kbn-typeahead-input
               ng-model="state.query"
               placeholder="{{'SEARCH' | translate}}"
-              aria-label="Search input"
+              aria-label="{{'SEARCH' | translate}}"
               type="text"
-              class="kuiLocalSearchInput"
+              class="form-control"
               ng-class="{'kuiLocalSearchInput-isInvalid': discoverSearch.$invalid}"
             >
-            <button
-              type="submit"
-              aria-label="Search"
-              class="kuiLocalSearchButton"
-              ng-disabled="discoverSearch.$invalid"
-            >
-              <span class="fa fa-search" aria-hidden="true"></span>
+            <span class="input-group-btn">
+                <button
+                  type="submit"
+                  aria-label="{{'SEARCH' | translate}}"
+                  class="btn btn-primary"
+                  ng-disabled="discoverSearch.$invalid"
+                ><i class="glyphicon glyphicon-search"></i>
+              </button>
+            </span>
             </button>
           </div>
           <kbn-typeahead-items></kbn-typeahead-items>
@@ -57,18 +59,19 @@
     </div>
     <div class="row">
       <div class="col-md-2 sidebar-container collapsible-sidebar">
-        <disc-field-chooser
-          columns="state.columns"
-          hits="rows"
-          field-counts="fieldCounts"
-          index-pattern="searchSource.get('index')"
-          index-pattern-list="opts.indexPatternList"
-          state="state"
-          on-add-field="addColumn"
-          on-add-filter="filterQuery"
-          on-remove-field="removeColumn"
-        >
-        </disc-field-chooser>
+        <div style="padding:5px;">
+          <disc-field-chooser
+            columns="state.columns"
+            hits="rows"
+            field-counts="fieldCounts"
+            index-pattern="searchSource.get('index')"
+            index-pattern-list="opts.indexPatternList"
+            state="state"
+            on-add-field="addColumn"
+            on-add-filter="filterQuery"
+            on-remove-field="removeColumn">
+          </disc-field-chooser>
+        </div>
       </div>
 
       <div class="discover-wrapper col-md-10">

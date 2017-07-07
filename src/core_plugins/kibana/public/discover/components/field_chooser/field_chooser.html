@@ -1,4 +1,5 @@
 <div class="sidebar-list">
+
   <div ng-show="indexPatternList.length > 1">
     <ui-select
       class="index-pattern-selection"
@@ -14,99 +15,119 @@
       </ui-select-choices>
     </ui-select>
   </div>
-  <div ng-hide="indexPatternList.length > 1">
-    <div class="index-pattern">
-      <div css-truncate>{{ indexPattern.id }}</div>
+
+  <div ng-hide="indexPatternList.length > 1" class="list-group" style="margin-bottom:0px;">
+    <div class="list-group-item active" style="color:#FFF;">
+      <div css-truncate>{{ indexPattern.id | translate}}</div>
     </div>
   </div>
 
-  <div class="sidebar-list-header">
-    <h5>Selected Fields</h5>
-  </div>
-  <ul class="list-unstyled discover-selected-fields" >
-    <discover-field
-      ng-repeat="field in fields.raw|filter:{display:true}"
-      field="field"
-      on-add-field="onAddField"
-      on-add-filter="onAddFilter"
-      on-remove-field="onRemoveField"
-      on-show-details="computeDetails"
-    >
-    </discover-field>
-  </ul>
 
-  <div class="sidebar-list-header sidebar-item">
-    <h5>Available Fields
-      <i
-        ng-class="{ 'fa-chevron-right': !showFields, 'fa-chevron-down': showFields }"
-        ng-click="showFields = !showFields"
-        aria-hidden="true"
-        class="fa visible-xs visible-sm pull-right field-collapse-toggle" ></i>
-      <button
-        ng-class="{ 'btn-default': !filter.active, 'btn-success': filter.active, 'hidden-xs': !showFields, 'hidden-sm': !showFields }"
-        class="btn btn-xs btn-default pull-right discover-field-filter-toggle"
-        ng-click="showFilter = !showFilter"
-        aria-label="Field Settings"
-        aria-haspopup="true"
-        aria-expanded="{{showFilter}}">
-        <i aria-hidden="true" class="fa fa-gear"></i>
-      </button>
-    </h5>
-  </div>
+    <ul class="list-group"  style="margin-top:5px;">
+        <li class="list-group-item list-group-item-success">已选字段</li>
+        <discover-field
+          ng-repeat="field in fields.raw|filter:{display:true}"
+          field="field"
+          on-add-field="onAddField"
+          on-add-filter="onAddFilter"
+          on-remove-field="onRemoveField"
+          on-show-details="computeDetails"
+        >
+        </discover-field>
+    </ul>
 
-  <div class="sidebar-item" ng-show="showFilter">
-    <form role="form" class="discover-field-details">
-      <div class="form-group">
-        <label>
-          Analyzed
-        </label>
-        <select
-          ng-options="opt.value as opt.label for opt in filter.boolOpts"
-          ng-model="filter.vals.analyzed"
-          class="form-control">
-        </select>
-      </div>
-      <div class="form-group">
-        <label>
-          Indexed
-        </label>
-        <select
-          ng-options="opt.value as opt.label for opt in filter.boolOpts"
-          ng-model="filter.vals.indexed"
-          class="form-control">
-        </select>
-      </div>
-      <div class="form-group">
-        <label>
-          Type
-        </label>
-        <select
-          ng-options="field as field for field in fieldTypes"
-          ng-model="filter.vals.type"
-          class="form-control">
-        </select>
-      </div>
-      <div class="form-group">
-        <label>
-          Field name
-        </label>
-        <input type="text" class="form-control" ng-model="filter.vals.name">
-      </div>
-      <div class="form-group">
-        <label>
-          <input type="checkbox" ng-model="filter.vals.missing">
-          Hide Missing Fields
-        </label>
-      </div>
-    </form>
-    <div
-      ng-click="filter.reset()"
-      ng-disabled="!filter.active"
-      class="sidebar-item-button danger ng-scope">
-      Reset Filters
-    </div>
-  </div>
+    <!---->
+    <ul class="list-group"  style="margin-top:5px;">
+        <li class="list-group-item list-group-item-info">
+          <span>可用字段</span>
+          <i
+            ng-class="{ 'fa-chevron-right': !showFields, 'fa-chevron-down': showFields }"
+            ng-click="showFields = !showFields"
+            aria-hidden="true"
+            class="fa visible-xs visible-sm pull-right field-collapse-toggle" ></i>
+          <button
+            ng-class="{ 'btn-default': !filter.active, 'btn-success': filter.active, 'hidden-xs': !showFields, 'hidden-sm': !showFields }"
+            class="btn btn-xs btn-default pull-right discover-field-filter-toggle"
+            ng-click="showFilter = !showFilter"
+            aria-label="Field Settings"
+            aria-haspopup="true"
+            aria-expanded="{{showFilter}}">
+            <i aria-hidden="true" class="fa fa-gear"></i>
+          </button>
+        </li>
+        <li class="list-group-item" ng-show="showFilter" style="padding:0px;">
+          <form role="form" class="discover-field-details">
+            <div class="form-group">
+              <label>
+                已分词
+              </label>
+              <select
+                ng-options="opt.value as opt.label for opt in filter.boolOpts"
+                ng-model="filter.vals.analyzed"
+                class="form-control">
+              </select>
+            </div>
+            <div class="form-group">
+              <label>
+                已索引
+              </label>
+              <select
+                ng-options="opt.value as opt.label for opt in filter.boolOpts"
+                ng-model="filter.vals.indexed"
+                class="form-control">
+              </select>
+            </div>
+            <div class="form-group">
+              <label>
+                类型
+              </label>
+              <select
+                ng-options="field as field for field in fieldTypes"
+                ng-model="filter.vals.type"
+                class="form-control">
+              </select>
+            </div>
+            <div class="form-group">
+              <label>
+                字段名称
+              </label>
+              <input type="text" class="form-control" ng-model="filter.vals.name">
+            </div>
+            <div class="form-group">
+              <label>
+                <input type="checkbox" ng-model="filter.vals.missing">
+                隐藏可忽略字段
+              </label>
+            </div>
+          </form>
+          <div
+            ng-click="filter.reset()"
+            ng-disabled="!filter.active"
+            class="sidebar-item-button danger ng-scope">
+            重置过滤条件
+          </div>
+        </li>
+        <discover-field
+          ng-repeat="field in popularFields | filter:filter.isFieldFiltered"
+          field="field"
+          on-add-field="onAddField"
+          on-add-filter="onAddFilter"
+          on-remove-field="onRemoveField"
+          on-show-details="computeDetails"
+        >
+        </discover-field>
+        <discover-field
+          ng-repeat="field in unpopularFields | filter:filter.isFieldFiltered"
+          field="field"
+          on-add-field="onAddField"
+          on-add-filter="onAddFilter"
+          on-remove-field="onRemoveField"
+          on-show-details="computeDetails"
+        >
+        </discover-field>
+    </ul>
 
+<!--
   <ul
     ng-show="(popularFields | filter:filter.isFieldFiltered).length > 0"
     ng-class="{ 'hidden-sm': !showFields, 'hidden-xs': !showFields }"
@@ -114,29 +135,16 @@
     <li class="sidebar-item sidebar-list-header">
       <h6>Popular</h6>
     </li>
-    <discover-field
-      ng-repeat="field in popularFields | filter:filter.isFieldFiltered"
-      field="field"
-      on-add-field="onAddField"
-      on-add-filter="onAddFilter"
-      on-remove-field="onRemoveField"
-      on-show-details="computeDetails"
-    >
-    </discover-field>
+
   </ul>
 
   <ul
     ng-class="{ 'hidden-sm': !showFields, 'hidden-xs': !showFields  }"
     class="list-unstyled discover-unpopular-fields">
-    <discover-field
-      ng-repeat="field in unpopularFields | filter:filter.isFieldFiltered"
-      field="field"
-      on-add-field="onAddField"
-      on-add-filter="onAddFilter"
-      on-remove-field="onRemoveField"
-      on-show-details="computeDetails"
-    >
-    </discover-field>
-  </ul>
+    <li class="sidebar-item sidebar-list-header">
+      <h6>unPopular</h6>
+    </li>
 
+  </ul>
+-->
 </div>

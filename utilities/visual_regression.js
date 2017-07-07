@@ -40,7 +40,8 @@ async function buildGallery(comparisons) {
   , 'utf8'));
 
   const html = template({
-    date: moment().format('MMMM Do YYYY, h:mm:ss a'),
+    //  date: moment().format('MMMM Do YYYY, h:mm:ss a'),
+    date: moment().format('YYYY-MM-DD, HH:mm:ss a'),
     branch: branch.current,
     hiddenThreshold: 0,
     warningThreshold: 0.03,

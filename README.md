@@ -39,3 +39,7 @@ this.navLink = this.uiExports.navLinks.new({
 1. 切换到开发模式，并准备翻译文件；
 2. 找到客户端文件入口；
 3. 弄清桶与指标之间的关系；
+
+## 2017-07-07
+1. 时间格式关键文件：src\ui\settings\defaults.js，src\ui\public\timepicker\timepicker.js，utilities\visual_regression.js
+2. 国际化文件散落在JS文件、HTML文件与i18n配置文件中，核心位置src\core_plugins\kibana\translations\zh.json

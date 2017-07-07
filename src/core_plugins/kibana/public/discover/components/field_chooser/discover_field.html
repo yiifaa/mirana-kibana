@@ -1,15 +1,16 @@
 
     <li
-      class="sidebar-item"
+      class="list-group-item"
       attr-field="{{::field.name}}"
       data-test-subj="field-{{::field.name}}"
     >
-      <div ng-click="toggleDetails(field)" class="sidebar-item-title">
-        <field-name field="field"></field-name>
+      <div ng-click="toggleDetails(field)" style="height:20px;">
+        <field-name field="field" style="display:inline-block;width:120px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"></field-name>
         <button
+          style="float:right;"
           ng-click="toggleDisplay(field)"
           ng-class="::field.display ? 'btn-danger' : 'btn-primary'"
-          ng-bind="::field.display ? 'remove' : 'add'"
+          ng-bind="::field.display ? '删除' : '添加'"
           class="btn btn-xs btn-primary discover-field-toggle" data-test-subj="fieldToggle-{{::field.name}}"></button>
       </div>
     </li>

@@ -3,6 +3,7 @@
   ng-if="hits.length"
   ng-class="{ loading: searchSource.activeFetchCount > 0 }"
 >
+  Hello,world!
   <div ng-if="!infiniteScroll">
     <div class="kuiBar docTableBar">
       <div class="kuiBarSection">
@@ -26,7 +27,7 @@
         ></tool-bar-pager-buttons>
       </div>
     </div>
-    <table class="kbn-table table" ng-if="indexPattern">
+    <table class="table table-bordered" ng-if="indexPattern">
       <thead
         kbn-table-header
         columns="columns"
@@ -75,7 +76,7 @@
     </div>
   </div>
 
-  <table ng-if="infiniteScroll" class="kbn-table table" ng-if="indexPattern" data-test-subj="docTable">
+  <table ng-if="infiniteScroll" class="table table-bordered table-striped" ng-if="indexPattern" data-test-subj="docTable">
     <thead
       kbn-table-header
       columns="columns"

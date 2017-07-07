@@ -7,7 +7,7 @@
     app-title="chrome.getAppTitle()"
   ></global-nav>
 
-  <div class="app-wrapper" ng-class="{ 'hidden-chrome': !chrome.getVisible() }">
+  <div class="app-wrapper" id="appWrapper" ng-class="{ 'hidden-chrome': !chrome.getVisible() }">
     <div class="app-wrapper-panel">
       <kbn-notifications list="notifList"></kbn-notifications>
       <kbn-loading-indicator></kbn-loading-indicator>

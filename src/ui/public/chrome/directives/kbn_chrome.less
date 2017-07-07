@@ -2,7 +2,7 @@
 @import (reference) "~ui/styles/mixins";
 @import (reference) "~ui/styles/variables";
 
-body { overflow-x: hidden; }
+body { overflow: hidden; }
 
 .app-wrapper {
   .real-flex-parent();
@@ -14,6 +14,7 @@ body { overflow-x: hidden; }
   z-index: 1;
   margin: 0 auto;
   background-color: #fff;
+  overflow:auto;
 
   /**
    * 1. Dirty, but we need to override the .is-global-nav-open state

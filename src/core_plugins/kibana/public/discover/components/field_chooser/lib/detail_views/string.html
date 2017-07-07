@@ -1,6 +1,6 @@
-      <div>
-        <div class="discover-field-details">
-          <h5 ng-show="!field.details.error">Quick Count <kbn-info info="Top 5 values based on documents in the table" placement="right"></kbn-info>
+      <div class="list-group">
+        <div class="list-group-item" style="margin-top:15px;">
+          <h5 ng-show="!field.details.error">统计概览: <kbn-info info="只显示数值最高的5条记录" placement="right"></kbn-info>
             <span ng-if="!field.details.error" class="small discover-field-details-count">
               (
               <a
@@ -12,7 +12,7 @@
                 ng-show="indexPattern.metaFields.includes(field.name)">
                 {{::field.details.exists}}
               </span>
-              /{{::field.details.total}} records
+              /{{::field.details.total}} 条统计数据
               )
             </span>
           </h5>
@@ -30,12 +30,12 @@
                   <i aria-hidden="true" class="fa fa-search-plus pull-right discover-field-details-filter"
                     ng-click="onAddFilter(field, bucket.value, '+')" data-test-subj="plus-{{::field.name}}-{{::bucket.display}}"></i>
                 </span>
-                <div css-truncate css-truncate-expandable="true" class="discover-field-details-value" title="{{::bucket.display}}">
-                  {{::bucket.display}} <i ng-show="bucket.display === ''">Empty string</i>
+                <div css-truncate css-truncate-expandable="true" class="discover-field-details-value" title="{{::bucket.display | translate}}">
+                  {{::bucket.display}} <i ng-show="bucket.display === ''">没有数据</i>
                 </div>
               </div>
-              <kbn-tooltip text="{{::bucket.count}}" placement="right" append-to-body="1">
-                <progressbar value="bucket.percent" max="100" animate="false"><span>{{bucket.percent}}%</span></progressbar>
+              <kbn-tooltip text="{{::bucket.count}}条数据" placement="right" append-to-body="1">
+                <progressbar type="info" value="bucket.percent" max="100" animate="false"><span>{{bucket.percent}}%</span></progressbar>
               </kbn-tooltip>
             </div>
           </div>
@@ -45,10 +45,10 @@
       <a
         ng-href="{{field.details.visualizeUrl}}"
         ng-show="field.visualizable"
-        class="sidebar-item-button primary"
+        class="btn btn-primary btn-block"
         data-test-subj="fieldVisualize-{{::field.name}}">
-          Visualize
+          {{'Visualize'|translate}}
           <span class="discover-field-vis-warning" ng-show="warnings.length" tooltip="{{warnings.join(' ')}}">
-          ( {{::warnings.length}} <ng-pluralize count="warnings.length" when="{'1':'warning', 'other':'warnings'}"></ng-pluralize> <i aria-hidden="true" class="fa fa-warning"></i> )
+          ( {{::warnings.length}} <ng-pluralize count="warnings.length" when="{'1':'警告', 'other':'警告'}"></ng-pluralize> <i aria-hidden="true" class="fa fa-warning"></i> )
           </span>
       </a>

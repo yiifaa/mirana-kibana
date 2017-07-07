@@ -47,7 +47,7 @@ app.directive('discoverField', function ($compile) {
           }
 
           if (!field.indexed && !field.searchable) {
-            warnings.push('This field is not indexed and might not be usable in visualizations.');
+            warnings.push('此字段没有定义(映射)为可索引字段，可能不支持可视化操作。');
           }
         }
 
@@ -86,12 +86,14 @@ app.directive('discoverField', function ($compile) {
 
           detailsElem = $(detailsHtml);
           $compile(detailsElem)(detailScope);
-          $elem.append(detailsElem).addClass('active');
+          $elem.append(detailsElem);
+          //  添加背景巨丑无比
+          //  $elem.append(detailsElem).addClass('active');
         } else {
           delete field.details;
           detailScope.$destroy();
           detailsElem.remove();
-          $elem.removeClass('active');
+          //$elem.removeClass('active');
         }
       };
 
