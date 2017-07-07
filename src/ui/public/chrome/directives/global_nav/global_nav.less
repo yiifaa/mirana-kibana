@@ -7,6 +7,7 @@
 .global-nav {
   width: @global-nav-closed-width;
   position: fixed;
+  border-radius: 0px !important;
   left: 0;
   top: 0;
   bottom: 0;
@@ -24,19 +25,31 @@
     + .app-wrapper {
       left: @global-nav-open-width;
     }
+    .logo {
+      width: @global-nav-open-width;
+      .logo-title {
+        display : block;
+      }
+    }
   }
 
   .logo-small,
   .logo {
     height: @global-nav-logo-height;
-    width: @global-nav-open-width;
+    text-align: left;
+    color : #FFF;
     list-style-type: none;
+    .logo-title {
+      display : none;
+    }
     &.kibana {
+      /**
       background-image: url("~ui/images/kibana.svg");
       background-position: 6px 10px;
       background-size: 140px 50px;
       background-repeat: no-repeat;
       background-color: #e8488b;
+      **/
     }
   }
 }

@@ -1,5 +1,5 @@
 <nav
-  class="global-nav"
+  class="global-nav navbar navbar-inverse"
   ng-class="{'is-global-nav-open': isGlobalNavOpen}"
   ng-show="isVisible"
 >
@@ -10,7 +10,12 @@
       ng-if="!logoBrand && !smallLogoBrand"
       aria-label="{{ appTitle }} Logo"
       class="logo kibana"
-    ></li>
+    >
+      <H3>
+        <a class="glyphicon glyphicon-home logo-icon" href="#" style="color:#FFF;margin:0px 10px 0px 15px;float:left;"></a>
+        <span class="logo-title" style="float:left;margin-top:-3px;">中测安华</span>
+      </H3>
+  </li>
 
     <li
       ng-if="logoBrand"
