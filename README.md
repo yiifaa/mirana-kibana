@@ -43,3 +43,10 @@ this.navLink = this.uiExports.navLinks.new({
 ## 2017-07-07
 1. 时间格式关键文件：src\ui\settings\defaults.js，src\ui\public\timepicker\timepicker.js，utilities\visual_regression.js
 2. 国际化文件散落在JS文件、HTML文件与i18n配置文件中，核心位置src\core_plugins\kibana\translations\zh.json
+
+## 2010-07-10
+1. 汉化日志检索页；
+2. 汉化日期选择器；
+3. 汉化查询条件组件；
+4. 汉化表格组件；(支持表头、内容、字段、明细等)
+5. 将源数据内容格式化为JSON字符串；

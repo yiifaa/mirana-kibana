@@ -1,9 +1,8 @@
-<table class="table table-condensed">
-  <% defPairs.forEach(function (def) { %>
-    <tr>
-      <td><%- def[0] %>:</td>
-      <td><%= def[1] %></td>
-    </tr>
-    <%= ' ' %>
-  <% }); %>
-</dl>
+<span class="source-code">
+  {
+    <% defPairs.forEach(function (def, i) { %>
+        <span class="field-item">&quot;<%-def[0] %>&quot;:&quot;<%= def[1] %>&quot;</span>
+        <%= '  ' %>
+    <% }); %>
+  }
+</span>

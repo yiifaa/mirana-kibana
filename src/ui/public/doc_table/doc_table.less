@@ -3,7 +3,12 @@
 .docTableBar {
   margin: 5px 5px 0;
 }
-
+.source-code .field-item::after {
+  content : ","
+}
+.source-code .field-item:last-child::after {
+  content : ""
+}
 /**
  * 1. Stack content vertically so the table can scroll when its constrained by a fixed container height.
  */
