@@ -81,7 +81,7 @@
           <!-- loading -->
           <div ng-show="resultState === 'loading'">
             <div class="discover-overlay">
-              <h2>Searching</h2>
+              <h2>搜索结果</h2>
               <div ng-show="fetchStatus">{{fetchStatus.complete}}/{{fetchStatus.total}}</div>
             </div>
           </div>
@@ -91,7 +91,7 @@
             <div class="discover-timechart" ng-if="opts.timefield">
               <header>
                 <center class="small">
-                  <span tooltip="To change the time, click the clock icon in the navigation bar">{{timeRange.from | moment}} - {{timeRange.to | moment}}</span>
+                  <span tooltip="点击右上角的时间轴，可重新设定查询时间范围">{{timeRange.from | moment}} - {{timeRange.to | moment}}</span>
 
                   &mdash;
 

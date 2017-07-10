@@ -3,17 +3,18 @@
     <tr ng-repeat="field in fields">
       <td field-name="field"
           field-type="mapping[field].type"
+          style="padding-right:15px;"
           width="1%"
           class="doc-viewer-field">
       </td>
-      <td width="1%" class="doc-viewer-buttons" ng-if="filter">
+      <td width="1%" class="doc-viewer-buttons" ng-if="filter" >
         <span ng-if="mapping[field].filterable">
           <i ng-click="filter(mapping[field], flattened[field], '+')"
-            tooltip="Filter for value"
+            tooltip="查找与此值相等的所有记录"
             tooltip-append-to-body="1"
             class="fa fa-search-plus"></i>
           <i ng-click="filter(mapping[field], flattened[field],'-')"
-            tooltip="Filter out value"
+            tooltip="排除与此值相等的所有记录"
             tooltip-append-to-body="1"
             class="fa fa-search-minus"></i>
         </span>
@@ -26,21 +27,21 @@
             class="fa fa-columns"
             ng-click="toggleColumn(field)"
             tooltip-append-to-body="1"
-            tooltip="Toggle column in table"
+            tooltip="在主表格中显示/隐藏此字段"
           ></i>
         </span>
         <span ng-if="!indexPattern.metaFields.includes(field)">
           <i ng-click="filter('_exists_', field, '+')"
-            tooltip="Filter for field present"
+            tooltip="查询存在此字段的所有记录"
             tooltip-append-to-body="1"
             class="fa fa-asterisk"></i>
         </span>
-        <span ng-if="indexPattern.metaFields.includes(field)" tooltip="Unable to filter for presence of meta fields">
+        <span ng-if="indexPattern.metaFields.includes(field)" tooltip="此字段不支持存在语义(exist)查询">
           <i class="fa fa-asterisk text-muted"></i>
         </span>
       </td>
 
-      <td>
+      <td style="padding-left:15px;">
         <i ng-if="!mapping[field] && field[0] === '_'"
           tooltip-placement="top"
           tooltip="Field names beginning with _ are not supported"

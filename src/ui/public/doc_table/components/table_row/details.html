@@ -6,14 +6,14 @@
       ng-href="{{ getContextAppHref() }}"
       ng-if="indexPattern.hasTimeField()"
     >
-      View surrounding documents
+      以分页方式查看相邻的记录
     </a>
     <a
       class="kuiLink documentTableRow__action"
       data-test-subj="docTableRowAction"
       ng-href="#/doc/{{indexPattern.id}}/{{row._index}}/{{row._type}}/?id={{row._id | uriescape}}"
     >
-      View single document
+      仅查看此条记录
     </a>
   </div>
   <doc-viewer

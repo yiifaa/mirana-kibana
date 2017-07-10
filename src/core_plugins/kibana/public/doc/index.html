@@ -3,7 +3,7 @@
     <div class="kuiLocalNavRow">
       <div class="kuiLocalNavRow__section">
         <div class="kuiLocalTitle">
-          Single Document
+          单条记录明细
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
         <div
           class="kuiLocalTab kuiLocalTab-isSelected"
           ng-if="!hit"
-        >Unknown Id</div>
+        >无法获知的主键</div>
       </div>
     </div>
   </div>
@@ -29,7 +29,7 @@
         <div class="kuiInfoPanelHeader">
           <span class="kuiInfoPanelHeader__icon kuiIcon kuiIcon--error fa-warning"></span>
           <span class="kuiInfoPanelHeader__title">
-            Failed to locate document
+            加载记录失败
           </span>
         </div>
         <div class="kuiInfoPanelBody">
@@ -61,7 +61,8 @@
     <div class="kuiViewContentItem" ng-if="status === undefined">
       <div class="kuiPanel kuiPanel--centered">
         <div class="kuiLoadingItems">
-          Loading&hellip;
+            <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">载入中...</span>
         </div>
       </div>
     </div>

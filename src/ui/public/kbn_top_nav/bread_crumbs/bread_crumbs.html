@@ -8,7 +8,7 @@
       class="kuiLocalBreadcrumb__link"
       href="{{breadcrumb.url}}"
     >
-      {{breadcrumb.title}}
+      {{breadcrumb.title | translate}}
     </a>
   </div>
 
@@ -17,13 +17,13 @@
     ng-if="!useLinks && (!omitPages || !omitPages.includes(breadcrumb.path))"
     ng-repeat="breadcrumb in breadcrumbs"
   >
-    {{ breadcrumb.title }}
+    {{ breadcrumb.title | translate}}
   </div>
 
   <div
     class="kuiLocalBreadcrumb"
     ng-if="pageTitle"
   >
-    {{ pageTitle }}
+    {{ pageTitle | translate}}
   </div>
 </div>

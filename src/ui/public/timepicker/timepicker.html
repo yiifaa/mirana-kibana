@@ -4,18 +4,18 @@
 
     <!-- Filters -->
     <div ng-show="activeTab === 'filter'" role="tabpanel" class="tab-pane active">
-      <div class="kuiLocalDropdownTitle">Time Range</div>
+      <div class="kuiLocalDropdownTitle">时间选择器</div>
       <div class="row">
         <div class="col-md-2">
           <ul class="nav nav-pills nav-stacked kbn-timepicker-modes">
             <li ng-class="{active: mode === 'quick' }">
-              <a ng-click="setMode('quick')">quick</a>
+              <a ng-click="setMode('quick')">快速选择</a>
             </li>
             <li ng-class="{active: mode === 'relative' }">
-              <a ng-click="setMode('relative')">relative</a>
+              <a ng-click="setMode('relative')">相对时间</a>
             </li>
             <li ng-class="{active: mode === 'absolute' }">
-              <a ng-click="setMode('absolute')">absolute</a>
+              <a ng-click="setMode('absolute')">绝对时间</a>
             </li>
           </ul>
         </div>
@@ -39,10 +39,10 @@
               <form role="form" ng-submit="applyRelative()" class="form-inline" name="relativeTime">
                 <div class="kbn-timepicker-section">
                   <label>
-                    From:
-                    <span ng-show="relative.from.preview">{{relative.from.preview}}</span>
-                    <a class="label label-default" ng-click="setRelativeToNow('from')">Set To Now</a>
-                    <span ng-hide="relative.from.preview"><i>Invalid Expression</i></span>
+                    开始时间：
+                    <span ng-show="relative.from.preview">{{relative.from.preview | translate}}</span>
+                    <a class="label label-default" ng-click="setRelativeToNow('from')">设置为当前时间</a>
+                    <span ng-hide="relative.from.preview"><i>无效的时间</i></span>
                   </label>
                   <br>
                   <div class="form-group" ng-class="{ 'has-error': checkRelative() }">
@@ -65,6 +65,7 @@
                   </div>
                   <br>
                   <div class="small">
+                    <!--
                     <label>
                       <input
                         ng-model="relative.from.round"
@@ -73,20 +74,21 @@
                         type="checkbox">
                       round to the {{units[relative.from.unit.substring(0,1)]}}
                     </label>
+                    -->
                     <div
                       ng-class="{ 'kbn-timepicker-error': checkRelative() }"
                       ng-show="checkRelative()">
-                      <strong>From</strong> must occur before <strong>To</strong>
+                        <strong>开始时间</strong> 必须小于 <strong>结束时间</strong>
                     </div>
                   </div>
                 </div>
 
                 <div class="kbn-timepicker-section">
                   <label>
-                    To:
-                    <span ng-show="relative.to.preview">{{relative.to.preview}}</span>
-                    <a class="label label-default" ng-click="setRelativeToNow('to')">Set To Now</a>
-                    <span ng-hide="relative.to.preview"><i>Invalid Expression</i></span>
+                    结束时间：
+                    <span ng-show="relative.to.preview">{{relative.to.preview | translate}}</span>
+                    <a class="label label-default" ng-click="setRelativeToNow('to')">设置为当前时间</a>
+                    <span ng-hide="relative.to.preview"><i>无效的时间格式</i></span>
                   </label>
                   <br>
                   <div class="form-group" ng-class="{ 'has-error': checkRelative() }">
@@ -107,6 +109,7 @@
                       class="form-control col-xs-2">
                     </select>
                   </div>
+                  <!--
                   <br>
                   <div class="small">
                     <label>
@@ -118,6 +121,7 @@
                       round to the {{units[relative.to.unit.substring(0,1)]}}
                     </label>
                   </div>
+                -->
                 </div>
 
                 <div class="kbn-timepicker-section">
@@ -125,7 +129,7 @@
                   <br>
                   <div class="form-group">
                     <button type="submit" class="btn btn-primary kbn-timepicker-go" ng-disabled="!(relative.from.preview && relative.to.preview) || checkRelative()">
-                      Go
+                      查询
                     </button>
                   </div>
                 </div>
@@ -136,8 +140,8 @@
               <form name="absoluteTime" ng-submit="applyAbsolute()">
                 <div class="kbn-timepicker-section">
                   <div>
-                    <label class="small">From: <span ng-show="!absolute.from"><i>Invalid Date</i></span>
-                      <a class="label label-default" ng-click="setToNow('from')">Set To Now</a>
+                    <label class="small">开始时间: <span ng-show="!absolute.from"><i>无效的时间格式</i></span>
+                      <a class="label label-default" ng-click="setToNow('from')">设置为当前时间</a>
                     </label>
                     <input type="text" required class="form-control" input-datetime="{{format}}" ng-model="absolute.from">
                   </div>
@@ -149,9 +153,9 @@
                 <div class="kbn-timepicker-section">
                   <div>
                     <label class="small">To:
-                      <a class="label label-default" ng-click="setToNow('to')">Set To Now</a>
+                      <a class="label label-default" ng-click="setToNow('to')">设置为当前时间</a>
                     </label>
-                    <span ng-show="!absolute.to"><i>Invalid Date</i></span>
+                    <span ng-show="!absolute.to"><i>无效的时间格式</i></span>
                     <input type="text" required class="form-control" input-datetime="{{format}}" ng-model="absolute.to">
                   </div>
                   <div>
@@ -163,9 +167,9 @@
                   <label>&nbsp;</label>
                   <div class="form-group">
                     <button class="btn btn-primary kbn-timepicker-go" ng-disabled="absolute.from > absolute.to || !absolute.from || !absolute.to" type="submit">
-                      Go
+                      查询
                     </button>
-                    <span class="small" ng-show="absolute.from > absolute.to"><strong>From</strong> must occur before <strong>To</strong></span>
+                    <span class="small" ng-show="absolute.from > absolute.to"><strong>开始时间</strong> 必须小于 <strong>结束时间</strong></span>
                   </div>
                 </div>
               </form>
@@ -177,7 +181,7 @@
 
     <!-- Refresh Intervals -->
     <div ng-show="activeTab === 'interval'" role="tabpanel" class="tab-pane active">
-      <div class="kuiLocalDropdownTitle">Refresh Interval</div>
+      <div class="kuiLocalDropdownTitle">刷新查询时间段</div>
       <div ng-repeat="list in refreshLists" class="kbn-refresh-section">
         <ul class="list-unstyled">
           <li ng-repeat="inter in list">

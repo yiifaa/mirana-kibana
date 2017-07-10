@@ -2,10 +2,10 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
 
 .constant('datepickerConfig', {
   formatDay: 'dd',
-  formatMonth: 'MMMM',
+  formatMonth: 'MM',
   formatYear: 'yyyy',
   formatDayHeader: 'EEE',
-  formatDayTitle: 'MMMM yyyy',
+  formatDayTitle: 'yyyy-MM',
   formatMonthTitle: 'yyyy',
   datepickerMode: 'day',
   minMode: 'day',
@@ -247,6 +247,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
         }
 
         scope.labels = new Array(7);
+        
         for (var j = 0; j < 7; j++) {
           scope.labels[j] = {
             abbr: dateFilter(days[j].date, ctrl.formatDayHeader),

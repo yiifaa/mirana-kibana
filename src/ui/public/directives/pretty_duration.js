@@ -33,7 +33,8 @@ module.directive('prettyDuration', function (config, quickRanges, timeUnits) {
             const fromParts = $scope.from.toString().split('-');
             if ($scope.to.toString() === 'now' && fromParts[0] === 'now' && fromParts[1]) {
               const rounded = fromParts[1].split('/');
-              text = 'Last ' + rounded[0];
+              //  text = 'Last ' + rounded[0];
+              text = '过去 ' + rounded[0];
               if (rounded[1]) {
                 text = text + ' rounded to the ' + timeUnits[rounded[1]];
               }
@@ -62,7 +63,7 @@ module.directive('prettyDuration', function (config, quickRanges, timeUnits) {
             }
           }
         });
-        $elem.text(display.from + ' to ' + display.to);
+        $elem.text(display.from + ' 到 ' + display.to);
       }
 
       $scope.$watch('from', stringify);

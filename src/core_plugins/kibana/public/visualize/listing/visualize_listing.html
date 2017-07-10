@@ -2,12 +2,12 @@
 <kbn-top-nav name="visualize">
   <!-- Transcluded elements. -->
   <div data-transclude-slots>
-    <!-- Title. -->
-    <div
-      data-transclude-slot="topLeftCorner"
-      class="kuiLocalTitle"
-    >
-      Visualize
+    <div class="page-header" data-transclude-slot="topLeftCorner" style="padding-left:15px;margin-top:20px;border-color:#ddd;padding-bottom:3px;width:100%;">
+        <h4 style="margin-bottom:3px;">{{'Visualize' | translate}} <small>大数据可视化引擎</small></h4>
+    </div>
+
+    <div data-transclude-slot="bottomRow">
+        <p class="text-muted" style="font-size:12px;margin-left:8px;margin-top:10px;">通过选择指标与分组，您可以创建块状图、热区图、柱图、饼状图、地理信息图、时间轴、标注等13种可视化组件，而且不需要任何编程基础，即可轻松创建漂亮的可视化组件。</p>
     </div>
   </div>
 </kbn-top-nav>

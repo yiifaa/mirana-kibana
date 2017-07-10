@@ -1,4 +1,23 @@
 {
   "UI-WELCOME_MESSAGE": "数据载入……",
-  "UI-WELCOME_ERROR": "出错了……"
+  "UI-WELCOME_ERROR": "出错了……",
+  "Now" : "当前时间",
+  "Sunday" : "星期日",
+  "Sun" : "日",
+  "Monday" : "星期一",
+  "Mon" : "一",
+  "Tuesday" : "星期二",
+  "Tue" : "二",
+  "Wednesday" : "星期三",
+  "Wed" : "三",
+  "Thursday" : "星期四",
+  "Thu" : "四",
+  "Friday" : "星期五",
+  "Fri" : "五",
+  "Saturday" : "星期六",
+  "Sat" : "六",
+  "Time" : "时间",
+
+  "birthday" : "生日",
+  "dept": "部门"
 }

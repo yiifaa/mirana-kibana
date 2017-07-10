@@ -26,6 +26,14 @@ uiModules.get('kibana')
       $viewer.append($tabs);
       $viewer.append($content);
       docViews.inOrder.forEach(view => {
+        switch(view.title) {
+            case 'Table':
+              view.title = '以表格格式查看';
+              break;
+            case 'JSON':
+              view.title = '以JSON源格式查看';
+              break;
+        }
         const $tab = $(`<li ng-show="docViews['${view.name}'].shouldShow(hit)" ng-class="{active: mode == '${view.name}'}">
             <a ng-click="mode='${view.name}'">${view.title}</a>
           </li>`);

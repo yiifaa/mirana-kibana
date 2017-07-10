@@ -2,7 +2,7 @@
   <div class="kuiLocalNavRow">
     <div class="kuiLocalNavRow__section">
       <div class="kuiLocalTitle">
-        Surrounding Documents in {{ contextApp.state.queryParameters.indexPattern.id }}
+        {{ contextApp.state.queryParameters.indexPattern.id | translate}}中相邻的记录
       </div>
     </div>
   </div>
@@ -22,7 +22,7 @@
     <div class="kuiInfoPanelHeader">
       <span class="kuiInfoPanelHeader__icon kuiIcon kuiIcon--error fa-warning"></span>
       <span class="kuiInfoPanelHeader__title">
-        Failed to load the anchor document
+        加载目标记录失败了
       </span>
     </div>
 
@@ -67,22 +67,23 @@
         icon="'fa-chevron-up'"
         ng-click="contextApp.actions.fetchMorePredecessorRows()"
       >
-        Load {{ contextApp.state.queryParameters.defaultStepSize }} more
+        向上加载 {{ contextApp.state.queryParameters.defaultStepSize }} 条记录
       </context-loading-button>
+      <div>或者</div>
       <context-size-picker
         count="contextApp.state.queryParameters.predecessorCount"
         data-test-subj="predecessorCountPicker"
         is-disabled="contextApp.state.loadingStatus.anchor.status !== contextApp.constants.LOADING_STATUS.LOADED"
         on-change-count="contextApp.actions.fetchGivenPredecessorRows"
       ></context-size-picker>
-      <span>newer documents</span>
+      <span>条记录</span>
       <span
         class="kuiStatusText kuiStatusText--warning"
         ng-if="(contextApp.state.loadingStatus.predecessors.status === contextApp.constants.LOADING_STATUS.LOADED)
           && (contextApp.state.queryParameters.predecessorCount > contextApp.state.rows.predecessors.length)"
       >
         <span class="kuiStatusText__icon kuiIcon fa-bolt"></span>
-        <span ng-bind-template="Only {{ contextApp.state.rows.predecessors.length }} documents newer than the anchor could be found."></span>
+        <span ng-bind-template="只向上找到了 {{ contextApp.state.rows.predecessors.length }} 条记录"></span>
       </span>
     </div>
 
@@ -99,7 +100,8 @@
     class="kuiPanel kuiPanel--centered kuiVerticalRhythm"
   >
     <div class="kuiLoadingItems">
-      Loading&hellip;
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <span class="sr-only">载入中...</span>
     </div>
   </div>
 
@@ -131,15 +133,16 @@
         icon="'fa-chevron-down'"
         ng-click="contextApp.actions.fetchMoreSuccessorRows()"
       >
-        Load {{ contextApp.state.queryParameters.defaultStepSize }} more
+        向下加载 {{ contextApp.state.queryParameters.defaultStepSize }} 条记录
       </context-loading-button>
+      <div>或者</div>
       <context-size-picker
         count="contextApp.state.queryParameters.successorCount"
         data-test-subj="successorCountPicker"
         is-disabled="contextApp.state.loadingStatus.anchor.status !== contextApp.constants.LOADING_STATUS.LOADED"
         on-change-count="contextApp.actions.fetchGivenSuccessorRows"
       ></context-size-picker>
-      <div>older documents</div>
+      <div>条记录</div>
       <span
         class="kuiStatusText kuiStatusText--warning"
         ng-if="(contextApp.state.loadingStatus.successors.status === contextApp.constants.LOADING_STATUS.LOADED)

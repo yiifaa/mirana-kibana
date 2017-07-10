@@ -7,7 +7,9 @@
     </tr>
     <tr>
       <th ng-show="showWeeks" class="text-center"></th>
-      <th ng-repeat="label in labels track by $index" class="text-center"><small aria-label="{{label.full}}">{{label.abbr}}</small></th>
+      <th ng-repeat="label in labels track by $index" class="text-center">
+        <small aria-label="{{label.full | translate}}">{{label.abbr | translate}}</small>
+      </th>
     </tr>
   </thead>
   <tbody>

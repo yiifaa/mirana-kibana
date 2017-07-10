@@ -1,11 +1,13 @@
 <div>
   <div class="col-md-10 col-md-offset-1" data-test-subj="discoverNoResults">
 
-    <h1>No results found <i aria-hidden="true" class="fa fa-meh-o"></i></h1>
+    <h1>没有找到相关数据 <i aria-hidden="true" class="fa fa-meh-o"></i></h1>
 
+    <!--
     <p>
       Unfortunately I could not find any results matching your search. I tried really hard. I looked all over the place and frankly, I just couldn't find anything good. Help me, help you. Here are some ideas:
     </p>
+    -->
 
     <div class="shard-failures" ng-show="failures">
       <h3>Shard Failures</h3>
@@ -19,31 +21,31 @@
 
     <div ng-show="opts.timefield">
       <p>
-        <h3>Expand your time range</h3>
-        <p>I see you are looking at an index with a date field. It is possible your query does not match anything in the current time range, or that there is no data at all in the currently selected time range. Click the button below to open the time picker. For future reference you can open the time picker by clicking on the <a class="btn btn-xs navbtn" ng-click="kbnTopNav.toggle('filter')" aria-expanded="kbnTopNav.is('filter')" aria-label="time picker" data-test-subj="discoverNoResultsTimefilter"><i aria-hidden="true" class="fa fa-clock-o"></i> time picker</a> button in the top right corner of your screen.
+        <h3>请增大时间间隔</h3>
+        <p>在您选择的时间范围内，我们没有查找到相关数据，请您打开窗口右上角的时间选择窗口<a class="btn btn-xs navbtn" ng-click="kbnTopNav.toggle('filter')" aria-expanded="kbnTopNav.is('filter')" aria-label="time picker" data-test-subj="discoverNoResultsTimefilter"><i aria-hidden="true" class="fa fa-clock-o"></i>【时间选择器】</a>，增加开始时间与结束时间的间隔。
       </p>
     </div>
 
-    <h3>Refine your query</h3>
+    <h3>重新选择查询条件</h3>
     <p>
-      The search bar at the top uses Elasticsearch's support for Lucene <a href="http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax" target="_blank">Query String syntax</a>. Let's say we're searching web server logs that have been parsed into a few fields.
+      我们与百度、谷歌等搜索引擎一样支持全文检索，请试试换一个查询条件，或许就有您想要的结果。
     </p>
 
     <p>
-      <h4>Examples:</h4>
-      Find requests that contain the number 200, in any field:
+      <h4>查询示例:</h4>
+      查找所有包含“200”字符的记录，您只需要输入200即可，如下:
       <pre>200</pre>
 
-      Or we can search in a specific field. Find 200 in the status field:
+      如果想精确匹配所有状态码为200的记录，您可以使用如下方式:
       <pre>status:200</pre>
 
-      Find all status codes between 400-499:
+      如果想查找状态码在400与499之间的记录，您可以输入:
       <pre>status:[400 TO 499]</pre>
 
-      Find status codes 400-499 with the extension php:
+      如果想查找状态码在400与499之间并且后缀名为PHP的记录，您可以输入:
       <pre>status:[400 TO 499] AND extension:PHP</pre>
 
-      Or HTML
+      条件还可以更复杂些，例如状态码在400与499之间并且后缀名为PHP或html的记录，您可以输入：
       <pre>status:[400 TO 499] AND (extension:php OR extension:html)</pre>
     </p>
 

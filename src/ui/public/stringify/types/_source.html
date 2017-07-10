@@ -1,7 +1,9 @@
-<dl class="source truncate-by-height">
+<table class="table table-condensed">
   <% defPairs.forEach(function (def) { %>
-    <dt><%- def[0] %>:</dt>
-    <dd><%= def[1] %></dd>
+    <tr>
+      <td><%- def[0] %>:</td>
+      <td><%= def[1] %></td>
+    </tr>
     <%= ' ' %>
   <% }); %>
 </dl>

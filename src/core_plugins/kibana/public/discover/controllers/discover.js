@@ -110,26 +110,29 @@ function discoverController($scope, config, courier, $route, $window, Notifier,
   };
 
   $scope.topNavMenu = [{
-    key: 'new',
-    description: 'New Search',
+    key: '新增',
+    description: '创建新查询',
     run: function () { kbnUrl.change('/discover'); },
     testId: 'discoverNewButton',
   }, {
-    key: 'save',
-    description: 'Save Search',
+    key: '保存',
+    description: '保存查询条件',
     template: require('plugins/kibana/discover/partials/save_search.html'),
     testId: 'discoverSaveButton',
   }, {
-    key: 'open',
-    description: 'Open Saved Search',
+    key: '载入',
+    description: '载入查询条件',
     template: require('plugins/kibana/discover/partials/load_search.html'),
     testId: 'discoverOpenButton',
-  }, {
+  }
+  /**
+  , {
     key: 'share',
     description: 'Share Search',
     template: require('plugins/kibana/discover/partials/share_search.html'),
     testId: 'discoverShareButton',
-  }];
+  } **/
+];
   $scope.timefilter = timefilter;
 
 

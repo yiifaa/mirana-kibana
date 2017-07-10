@@ -51,11 +51,12 @@ module.directive('fieldName', function ($compile, $rootScope, $filter, $translat
         const scripted = $scope.field ? $scope.field.scripted : false;
 
         const displayName = $filter('shortDots')(name);
+        //  添加业务字段翻译
         $translate([type, name, displayName]).then(items => {
             let typeTxt = items[type],
                 nameTxt = items[name],
                 displayTxt = items[displayName]
-            //  翻译文件
+
             $el
                   .attr('title', nameTxt)
                   .toggleClass('no-results', results)

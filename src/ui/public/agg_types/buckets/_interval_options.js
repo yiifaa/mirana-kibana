@@ -1,7 +1,7 @@
 export default function IntervalOptionsService() {
   return [
     {
-      display: 'Auto',
+      display: '由系统确定',
       val: 'auto',
       enabled: function (agg) {
         // not only do we need a time field, but the selected field needs
@@ -10,35 +10,35 @@ export default function IntervalOptionsService() {
       }
     },
     {
-      display: 'Millisecond',
+      display: '按微秒统计',
       val: 'ms'
     },
     {
-      display: 'Second',
+      display: '按秒统计',
       val: 's'
     },
     {
-      display: 'Minute',
+      display: '按分钟统计',
       val: 'm'
     },
     {
-      display: 'Hourly',
+      display: '按小时统计',
       val: 'h'
     },
     {
-      display: 'Daily',
+      display: '按天统计',
       val: 'd'
     },
     {
-      display: 'Weekly',
+      display: '按周统计',
       val: 'w'
     },
     {
-      display: 'Monthly',
+      display: '按月统计',
       val: 'M'
     },
     {
-      display: 'Yearly',
+      display: '按年统计',
       val: 'y'
     },
     {

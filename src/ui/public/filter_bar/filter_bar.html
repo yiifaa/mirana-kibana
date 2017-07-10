@@ -1,10 +1,10 @@
 <div class="filter-bar-confirm" ng-show="newFilters.length">
   <form ng-submit="applyFilters(newFilters)">
   <ul class="list-unstyled">
-    <li>Apply these filters?</li>
+    <li>应用这些查询条件?</li>
     <li ng-repeat="filter in newFilters track by $index" class="filter" ng-click="filter.meta.apply = !filter.meta.apply"><input type="checkbox" ng-checked="filter.meta.apply"/> {{ filter.meta.key }}: {{ filter.meta.value }}</li>
     <li ng-if="changeTimeFilter" class="changeTimeFilter filter" ng-click="changeTimeFilter.meta.apply = !changeTimeFilter.meta.apply"><input type="checkbox" ng-checked="changeTimeFilter.meta.apply"/> <strong>Change time to:</strong> {{changeTimeFilter.meta.value}} </li>
-    <li><button class="btn btn-xs btn-primary">Apply Now</button> or <a ng-click="clearFilterBar();">Cancel</a></li>
+    <li><button class="btn btn-xs btn-primary">应用</button> 或者 <a ng-click="clearFilterBar();">取消</a></li>
   </ul>
   </form>
 </div>
@@ -18,52 +18,68 @@
       <span ng-if="!filter.meta.alias">"{{ filter.meta.value }}"</span>
     </div>
     <div class="filter-actions">
-      <a class="action filter-toggle" ng-click="toggleFilter(filter)" data-test-subj="disableFilter-{{ filter.meta.key }}">
+      <a class="action filter-toggle" ng-click="toggleFilter(filter)" data-test-subj="disableFilter-{{ filter.meta.key }}" title="启用或禁用">
         <i ng-show="filter.meta.disabled" class="fa fa-fw fa-square-o disabled"></i>
         <i ng-hide="filter.meta.disabled" class="fa fa-fw fa-check-square-o enabled"></i>
       </a>
+      <!--
       <a class="action filter-pin" ng-click="pinFilter(filter)" data-test-subj="pinFilter-{{ filter.meta.key }}">
         <i ng-show="filter.$state.store == 'globalState'" class="fa fa-fw fa-thumb-tack pinned"></i>
         <i ng-hide="filter.$state.store == 'globalState'" class="fa fa-fw fa-thumb-tack fa-rotate-270 unpinned"></i>
       </a>
-      <a class="action filter-invert" ng-click="invertFilter(filter)" data-test-subj="invertFilter-{{ filter.meta.key }}">
+      -->
+      <a class="action filter-invert" ng-click="invertFilter(filter)" title="反转查询条件" data-test-subj="invertFilter-{{ filter.meta.key }}">
         <i ng-show="filter.meta.negate" class="fa fa-fw fa-search-plus negative"></i>
         <i ng-hide="filter.meta.negate" class="fa fa-fw fa-search-minus positive"></i>
       </a>
-      <a class="action filter-remove" ng-click="removeFilter(filter)">
+      <a class="action filter-remove" ng-click="removeFilter(filter)" title="删除查询条件">
         <i class="fa fa-fw fa-trash" data-test-subj="removeFilter-{{ filter.meta.key }}"></i>
       </a>
-      <a class="action filter-edit" ng-click="startEditingFilter(filter)">
+      <!---->
+      <a class="action filter-edit" ng-click="startEditingFilter(filter)" title="编辑查询条件">
         <i class="fa fa-fw fa-edit"></i>
       </a>
+
     </div>
   </div>
 
   <div class="filter-edit-container" ng-if="editingFilter">
-    <form role="form" name="editFilterForm" ng-submit="editDone()">
+    <form role="form" name="editFilterForm" class="form-horizontal" ng-submit="editDone()">
       <div class="form-group filter-edit-alias">
-        <label>Filter Alias
-          <small>(optional)</small>
-        </label>
-        <input
-          ng-model="editingFilter.alias"
-          type="text"
-          class="form-control">
+          <label class="col-sm-3 control-label">条件别名
+              <small>[可选]</small>
+          </label>
+          <div class="col-sm-6">
+            <input
+              ng-model="editingFilter.alias"
+              type="text"
+              class="form-control">
+          </div>
       </div>
-      <div
-        json-input
-        require-keys="true"
-        ui-ace="{
-          mode: 'json',
-          onLoad: aceLoaded
-        }"
-        ng-model="editingFilter.model"></div>
+
+      <div class="form-group filter-edit-alias">
+          <label class="col-sm-3 control-label">查询内容
+              <small class="text-danger">[必填]</small>
+          </label>
+          <div class="col-sm-6">
+            <div
+              json-input
+              require-keys="true"
+              ui-ace="{
+                mode: 'json',
+                onLoad: aceLoaded
+              }"
+              ng-model="editingFilter.model"></div>
+          </div>
+      </div>
+
       <div class="form-group">
-        <button class="btn btn-primary" ng-click="stopEditingFilter()">Cancel</button>
-        <button type="submit" class="btn btn-success"
-          ng-disabled="editFilterForm.$invalid"
-          >Done</button>
-        <small ng-show="editFilterForm.$invalid">Could not parse JSON input</small>
+          <div class="col-sm-6 col-sm-offset-3">
+            <button type="submit" class="btn btn-primary"
+              ng-disabled="editFilterForm.$invalid">确定</button>
+            <button class="btn btn-default" ng-click="stopEditingFilter()" style="margin-left:15px;">取消</button>
+            <small ng-show="editFilterForm.$invalid">Could not parse JSON input</small>
+          </div>
       </div>
     </form>
   </div>
@@ -71,7 +87,7 @@
   <div class="filter-link">
     <div class="filter-description small">
       <a ng-click="showFilterActions = !showFilterActions">
-        Actions
+        更多操作
         <i class="fa"
         ng-class="{'fa-caret-down': showFilterActions, 'fa-caret-right': !showFilterActions}" data-test-subj="showFilterActions"></i>
       </a>
@@ -82,28 +98,32 @@
 <div class="filter-bar filter-bar-condensed" ng-show="filters.length && showFilterActions">
   <div class="filter-actions-all">
     <div class="filter-link">
-      <div class="filter-description"><strong>All filters:</strong></div>
+      <div class="filter-description"><strong>所有的查询条件:</strong></div>
     </div>
     <div class="filter-link">
-      <div class="filter-description"><a ng-click="toggleAll(false)">Enable</a></div>
+      <div class="filter-description"><a ng-click="toggleAll(false)">都启用</a></div>
     </div>
     <div class="filter-link">
-      <div class="filter-description"><a ng-click="toggleAll(true)">Disable</a></div>
+      <div class="filter-description"><a ng-click="toggleAll(true)">都禁用</a></div>
     </div>
+    <div class="filter-link">
+      <div class="filter-description"><a ng-click="invertAll()">都反转</a></div>
+    </div>
+    <!--
     <div class="filter-link">
       <div class="filter-description"><a ng-click="pinAll(true)">Pin</a></div>
     </div>
     <div class="filter-link">
       <div class="filter-description"><a ng-click="pinAll(false)">Unpin</a></div>
     </div>
-    <div class="filter-link">
-      <div class="filter-description"><a ng-click="invertAll()">Invert</a></div>
-    </div>
+
+
     <div class="filter-link">
       <div class="filter-description"><a ng-click="toggleAll()">Toggle</a></div>
     </div>
+     -->
     <div class="filter-link">
-      <div class="filter-description"><a ng-click="removeAll()" data-test-subj="removeAllFilters">Remove</a></div>
+      <div class="filter-description"><a ng-click="removeAll()" data-test-subj="removeAllFilters">都删除</a></div>
     </div>
   </div>
 </div>

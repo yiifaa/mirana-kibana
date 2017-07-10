@@ -14,7 +14,7 @@
     ng-click="kbnTopNav.toggle('interval')"
   >
     <span ng-show="timefilter.refreshInterval.value === 0">
-      <span class="fa fa-repeat"></span> Auto-refresh
+      <span class="fa fa-repeat"></span> 自动刷新
     </span>
     <span ng-show="timefilter.refreshInterval.value > 0">
       {{timefilter.refreshInterval.display}}
@@ -22,7 +22,7 @@
   </div>
 
   <div class="kuiLocalMenuItem" ng-click="back()">
-    <span class="fa fa-chevron-left ng-scope" tooltip="Move backward in time"></span>
+    <span class="fa fa-chevron-left ng-scope" tooltip="调小开始时间"></span>
   </div>
 
   <div
@@ -41,6 +41,6 @@
   </div>
 
   <div class="kuiLocalMenuItem" ng-click="forward()">
-    <span class="fa fa-chevron-right ng-scope" tooltip="Move forward in time"></span>
+    <span class="fa fa-chevron-right ng-scope" tooltip="调大结束时间"></span>
   </div>
 </div>
