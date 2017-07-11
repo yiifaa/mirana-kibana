@@ -13,7 +13,7 @@ export default function DateRangeAggDefinition(Private) {
 
   return new BucketAggType({
     name: 'date_range',
-    title: 'Date Range',
+    title: '按日期区间划分',
     createFilter: createFilter,
     getKey: function (bucket, key, agg) {
       const formatter = agg.fieldOwnFormatter('text', fieldFormats.getDefaultInstance('date'));

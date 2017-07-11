@@ -12,12 +12,12 @@
 
   <!-- title -->
   <span class="vis-editor-agg-header-title">
-    {{ agg.schema.title }}
+    {{ agg.schema.title | translate}}
   </span>
 
   <!-- description -->
   <span ng-if="!editorOpen && aggForm.$valid" class="vis-editor-agg-header-description">
-    {{ describe() }}
+    {{ describe() | translate}}
   </span>
 
   <!-- error -->
@@ -32,7 +32,7 @@
       ng-if="agg.enabled && canRemove(agg)"
       ng-click="agg.enabled = false"
       aria-label="Disable aggregation"
-      tooltip="Disable aggregation"
+      tooltip="禁用此分组"
       tooltip-append-to-body="true"
       type="button"
       class="btn btn-xs">
@@ -43,8 +43,8 @@
     <button
       ng-if="!agg.enabled"
       ng-click="agg.enabled = true"
-      aria-label="Enable aggregation"
-      tooltip="Enable aggregation"
+      aria-label="启用此分组"
+      tooltip="启用此分组"
       tooltip-append-to-body="true"
       type="button"
       class="btn btn-xs">
@@ -56,7 +56,7 @@
       draggable-handle
       aria-label="Modify Priority by Dragging"
       ng-if="stats.count > 1"
-      tooltip="Modify Priority by Dragging"
+      tooltip="拖拽可以改变分组的优先级"
       tooltip-append-to-body="true"
       type="button"
       class="btn btn-xs">
@@ -66,7 +66,7 @@
     <!-- remove button -->
     <button
       ng-if="canRemove(agg)"
-      aria-label="Remove Dimension"
+      aria-label="删除此维度"
       ng-if="stats.count > stats.min"
       ng-click="remove(agg)"
       tooltip="Remove Dimension"

@@ -11,7 +11,7 @@ export default function HistogramAggDefinition(Private) {
 
   return new BucketAggType({
     name: 'histogram',
-    title: 'Histogram',
+    title: '直方图',
     ordered: {},
     makeLabel: function (aggConfig) {
       return aggConfig.getFieldDisplayName();

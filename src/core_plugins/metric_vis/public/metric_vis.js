@@ -25,7 +25,7 @@ function MetricVisProvider(Private) {
     name: 'metric',
     title: 'Metric',
     image,
-    description: 'Display a calculation as a single number',
+    description: '用单个数字显示数据信息',
     category: VisType.CATEGORY.DATA,
     template: metricVisTemplate,
     params: {

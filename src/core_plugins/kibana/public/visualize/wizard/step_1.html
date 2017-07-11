@@ -7,19 +7,28 @@
       data-transclude-slot="topLeftCorner"
       use-links="true"
       omit-current-page="true"
-      page-title="'New'"
+      page-title="'新增'"
     ></bread-crumbs>
+
+    <div data-transclude-slot="bottomRow">
+        <p class="text-muted" style="font-size:12px;margin-left:8px;margin-top:10px;">通过选择指标与分组，您可以创建块状图、热区图、柱图、饼状图、地理信息图、时间轴、标注等13种可视化组件，而且不需要任何编程基础，即可轻松创建漂亮的可视化组件。</p>
+    </div>
   </div>
 </kbn-top-nav>
-
+<style>
+  .kuiLocalNavRow--secondary {
+      border-top: 1px solid #ddd;
+  }
+</style>
 <div class="kuiViewContent kuiViewContent--constrainedWidth">
   <div class="kuiViewContentItem">
     <!-- Header -->
     <h1 class="kuiTitle kuiVerticalRhythm kuiVerticalRhythm--medium">
-      Select visualization type
+      请选择图表类型
     </h1>
 
     <!-- Search -->
+    <!--
     <div class="kuiSearchInput kuiVerticalRhythm kuiVerticalRhythm--medium fullWidth">
       <div class="kuiSearchInput__icon kuiIcon fa-search"></div>
       <input
@@ -29,6 +38,7 @@
         ng-model="searchTerm"
       >
     </div>
+    -->
 
     <div
       class="kuiVerticalRhythm kuiVerticalRhythm--medium"
@@ -37,7 +47,7 @@
 
       <!-- Title for each category -->
       <h2 class="kuiSubTitle kuiVerticalRhythm">
-        {{ category.label }}
+        {{ category.label | translate}}
       </h2>
 
       <!-- Gallery of buttons for each vis type -->
@@ -69,13 +79,14 @@
             lass="kuiGalleryButton__label"
             data-test-subj="visualizeWizardChartTypeTitle"
           >
-            {{ type.title }}
+            {{ type.title | translate}}
           </div>
-
+          <!---->
           <div
             class="kuiGalleryButton__icon kuiIcon fa-flask"
             ng-if="type.isExperimental"
           ></div>
+
         </a>
       </div>
     </div>

@@ -106,17 +106,17 @@ function VisEditor($rootScope, $scope, $route, timefilter, AppState, $window, kb
 
   $scope.topNavMenu = [{
     key: 'save',
-    description: 'Save Visualization',
+    description: '保存可视化图表',
     template: require('plugins/kibana/visualize/editor/panels/save.html'),
     testId: 'visualizeSaveButton',
-  }, {
+  },/** {
     key: 'share',
     description: 'Share Visualization',
     template: require('plugins/kibana/visualize/editor/panels/share.html'),
     testId: 'visualizeShareButton',
-  }, {
+  },**/ {
     key: 'refresh',
-    description: 'Refresh',
+    description: '刷新可视化图表',
     run: function () { $scope.fetch(); },
     testId: 'visualizeRefreshButton',
   }];
@@ -216,7 +216,7 @@ function VisEditor($rootScope, $scope, $route, timefilter, AppState, $window, kb
     $state.replace();
 
     $scope.getVisualizationTitle = function getVisualizationTitle() {
-      return savedVis.lastSavedTitle || `${savedVis.title} (unsaved)`;
+      return savedVis.lastSavedTitle || `${savedVis.title} [未保存]`;
     };
 
     $scope.$watchMulti([

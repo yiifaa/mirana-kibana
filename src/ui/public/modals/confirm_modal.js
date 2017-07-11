@@ -35,7 +35,7 @@ module.factory('confirmModal', function ($rootScope, $compile) {
   return function confirmModal(message, customOptions) {
     const defaultOptions = {
       onCancel: noop,
-      cancelButtonText: 'Cancel',
+      cancelButtonText: '取消',
       showClose: false,
       defaultFocusedButton: ConfirmationButtonTypes.CONFIRM
     };

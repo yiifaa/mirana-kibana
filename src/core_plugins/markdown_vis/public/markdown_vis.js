@@ -23,7 +23,7 @@ function MarkdownVisProvider(Private) {
     name: 'markdown',
     title: 'Markdown',
     image,
-    description: 'Create a document using markdown syntax',
+    description: '按标签(Markdow)语法创建文档',
     category: VisType.CATEGORY.OTHER,
     template: markdownVisTemplate,
     params: {

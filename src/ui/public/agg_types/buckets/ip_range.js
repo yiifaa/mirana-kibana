@@ -11,7 +11,7 @@ export default function RangeAggDefinition(Private) {
 
   return new BucketAggType({
     name: 'ip_range',
-    title: 'IPv4 Range',
+    title: '按IPv4范围划分',
     createFilter: createFilter,
     getKey: function (bucket, key) {
       if (key) return key;

@@ -13,7 +13,7 @@ export default function PointSeriesVisType(Private) {
     name: 'histogram',
     title: 'Vertical Bar',
     image,
-    description: 'Assign a continuous variable to each axis',
+    description: '在每个坐标轴上显示统计信息',
     category: VisType.CATEGORY.BASIC,
     params: {
       defaults: {

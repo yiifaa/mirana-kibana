@@ -13,7 +13,7 @@ export default function PointSeriesVisType(Private) {
     name: 'area',
     title: 'Area',
     image,
-    description: 'Emphasize the quantity beneath a line chart',
+    description: '显示折线图的数量信息',
     category: VisType.CATEGORY.BASIC,
     params: {
       defaults: {

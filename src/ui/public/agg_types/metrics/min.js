@@ -1,13 +1,14 @@
 import AggTypesMetricsMetricAggTypeProvider from 'ui/agg_types/metrics/metric_agg_type';
+import GetFieldLabel from 'ui/i18n/Fields.js'
 
 export default function AggTypeMetricMinProvider(Private) {
   const MetricAggType = Private(AggTypesMetricsMetricAggTypeProvider);
 
   return new MetricAggType({
     name: 'min',
-    title: 'Min',
+    title: '最小值',
     makeLabel: function (aggConfig) {
-      return 'Min ' + aggConfig.getFieldDisplayName();
+      return GetFieldLabel(aggConfig.getFieldDisplayName()) + '最小值';
     },
     params: [
       {

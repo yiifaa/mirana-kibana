@@ -53,13 +53,13 @@
     </div>
   </kbn-top-nav>
 
-  <div class="container-fluid" role="main">
+  <div class="container-fluid" role="main" style="margin-top:10px;">
     <div class="row">
       <filter-bar state="state"></filter-bar>
     </div>
     <div class="row">
       <div class="col-md-2 sidebar-container collapsible-sidebar">
-        <div style="padding:5px;">
+        <div style="padding-left:10px;">
           <disc-field-chooser
             columns="state.columns"
             hits="rows"
@@ -75,7 +75,7 @@
       </div>
 
       <div class="discover-wrapper col-md-10">
-        <div class="discover-content">
+        <div class="discover-content" style>
           <discover-no-results ng-show="resultState === 'none'"></discover-no-results>
 
           <!-- loading -->

@@ -120,7 +120,7 @@ module.controller('VisualizeWizardStep1', function ($scope, $route, kbnUrl, time
   });
 
   $scope.getVisTypeTooltip = type => {
-    const prefix = type.isExperimental ? '(Experimental)' : '';
+    const prefix = type.isExperimental ? '[试验版]' : '';
     return `${prefix} ${type.description}`;
   };
 

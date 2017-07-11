@@ -20,7 +20,7 @@ export default function MetricsVisProvider(Private) {
     name: 'metrics',
     title: 'Visual Builder',
     image,
-    description: 'Build time-series using a visual pipeline interface',
+    description: '基于时间序列创建可视化分析图表',
     category: VisType.CATEGORY.TIME,
     isExperimental: true,
     template: require('./vis.html'),

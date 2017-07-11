@@ -34,7 +34,7 @@ export default function DateHistogramAggType(timefilter, config, Private) {
 
   return new BucketAggType({
     name: 'date_histogram',
-    title: 'Date Histogram',
+    title: '日期直方图',
     ordered: {
       date: true
     },

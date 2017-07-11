@@ -1,5 +1,7 @@
 import AggTypesMetricsMetricAggTypeProvider from 'ui/agg_types/metrics/metric_agg_type';
 import AggTypesMetricsPercentilesProvider from 'ui/agg_types/metrics/percentiles';
+import GetFieldLabel from 'ui/i18n/Fields.js'
+
 export default function AggTypeMetricMedianProvider(Private) {
 
   const MetricAggType = Private(AggTypesMetricsMetricAggTypeProvider);
@@ -8,9 +10,9 @@ export default function AggTypeMetricMedianProvider(Private) {
   return new MetricAggType({
     name: 'median',
     dslName: 'percentiles',
-    title: 'Median',
+    title: '中位数',
     makeLabel: function (aggConfig) {
-      return 'Median ' + aggConfig.getFieldDisplayName();
+      return GetFieldLabel(aggConfig.getFieldDisplayName()) + "的中位数";
     },
     params: [
       {

@@ -14,7 +14,7 @@ export default function RangeAggDefinition(Private) {
 
   return new BucketAggType({
     name: 'range',
-    title: 'Range',
+    title: '按数字区间划分',
     createFilter: createFilter,
     makeLabel: function (aggConfig) {
       return aggConfig.getFieldDisplayName() + ' ranges';

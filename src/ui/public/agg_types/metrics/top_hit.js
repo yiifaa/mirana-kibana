@@ -12,7 +12,7 @@ export default function AggTypeMetricTopProvider(Private) {
 
   return new MetricAggType({
     name: 'top_hits',
-    title: 'Top Hit',
+    title: '热门搜索',
     makeLabel: function (aggConfig) {
       let prefix = aggConfig.params.sortOrder.val === 'desc' ? 'Last' : 'First';
       if (aggConfig.params.size !== 1) {

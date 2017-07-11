@@ -39,25 +39,27 @@
           class="fullWidth"
         >
           <div class="typeahead" kbn-typeahead="visualize" on-select="fetch()">
-            <div class="kuiLocalSearch">
+            <div class="kuiLocalSearch input-group">
               <input
                 ng-model="state.query"
                 parse-query
                 input-focus
                 kbn-typeahead-input
-                placeholder="Search..."
+                placeholder="请输入查询条件..."
                 type="text"
-                class="kuiLocalSearchInput"
+                class="kuiLocalSearchInput form-control"
                 ng-class="{'kuiLocalSearchInput-isInvalid': queryInput.$invalid}"
               >
-              <button
-                type="submit"
-                aria-label="Search"
-                class="kuiLocalSearchButton"
-                ng-disabled="queryInput.$invalid"
-              >
-                <span aria-hidden="true" class="fa fa-search"></span>
-              </button>
+              <span class="input-group-btn">
+                <button
+                  type="submit"
+                  aria-label="Search"
+                  class="btn btn-primary"
+                  ng-disabled="queryInput.$invalid"
+                >
+                  <span aria-hidden="true" class="fa fa-search"></span>
+                </button>
+              </span>
             </div>
             <kbn-typeahead-items></kbn-typeahead-items>
           </div>
@@ -65,11 +67,9 @@
       </div>
     </div>
   </kbn-top-nav>
-
-  <!-- Filters. -->
   <filter-bar state="state"></filter-bar>
 
-  <div class="vis-editor-content">
+  <div class="vis-editor-content" style="padding:10px;">
 
     <vis-editor-vis-options
       ng-if="vis.type.fullEditor"

@@ -4,6 +4,7 @@ import 'ui/number_list';
 import AggTypesMetricsMetricAggTypeProvider from 'ui/agg_types/metrics/metric_agg_type';
 import AggTypesMetricsGetResponseAggConfigClassProvider from 'ui/agg_types/metrics/get_response_agg_config_class';
 import getPercentileValue from './percentiles_get_value';
+import GetFieldLabel from 'ui/i18n/Fields.js'
 
 export default function AggTypeMetricPercentilesProvider(Private) {
   const MetricAggType = Private(AggTypesMetricsMetricAggTypeProvider);
@@ -20,9 +21,9 @@ export default function AggTypeMetricPercentilesProvider(Private) {
 
   return new MetricAggType({
     name: 'percentiles',
-    title: 'Percentiles',
+    title: '百分率占比',
     makeLabel: function (agg) {
-      return 'Percentiles of ' + agg.getFieldDisplayName();
+      return GetFieldLabel(agg.getFieldDisplayName()) + '的百分率占比';
     },
     params: [
       {

@@ -6,9 +6,12 @@
     novalidate
   ><!-- see http://goo.gl/9kgz5w -->
 
-    <div css-truncate title="{{indexPattern.id}}" ng-if="vis.type.requiresSearch" class="index-pattern">
-      {{ indexPattern.id }}
+  <div class="panel panel-primary" style="border:1px solid #337ab7;">
+    <div css-truncate title="{{indexPattern.id}}" ng-if="vis.type.requiresSearch" class="index-pattern panel-heading" style="color:#FFF;">
+      {{ indexPattern.id | translate}}
     </div>
+
+    <div class="panel-body" style="padding:5px 5px 5px 5px;">
 
     <nav class="navbar navbar-default subnav">
       <div class="container-fluid">
@@ -21,7 +24,7 @@
               ng-class="{'is-vis-editor-sub-nav-link-selected': sidebar.section == 'data'}"
               ng-click="sidebar.section='data'"
             >
-              Data
+              选择数据
             </a>
           </li>
           <li ng-repeat="tab in vis.type.params.optionTabs" ng-class="{active: sidebar.section == tab.name}">
@@ -30,7 +33,7 @@
               ng-class="{'is-vis-editor-sub-nav-link-selected': sidebar.section == tab.name}"
               ng-click="sidebar.section=tab.name"
             >
-              {{tab.title}}
+              {{tab.title | translate}}
             </a>
           </li>
         </ul>
@@ -50,7 +53,7 @@
             </a>
           </li>
           <li
-            tooltip="Apply changes"
+            tooltip="预览配置信息"
             tooltip-placement="bottom"
             tooltip-popup-delay="400" tooltip-append-to-body="1"
           >
@@ -62,12 +65,12 @@
             </button>
           </li>
           <li
-            tooltip="Discard changes"
+            tooltip="丢弃配置信息"
             tooltip-placement="bottom"
             tooltip-popup-delay="400"
             tooltip-append-to-body="1"
           >
-            <button class="btn-default navbar-btn-link"
+            <button class="btn-danger navbar-btn-link"
               ng-disabled="!vis.dirty"
               ng-click="resetEditableVis()">
 
@@ -89,6 +92,8 @@
     <div class="vis-editor-config" ng-repeat="tab in vis.type.params.optionTabs" ng-show="sidebar.section == tab.name">
       <vis-editor-vis-options vis="vis" saved-vis="savedVis" ui-state="uiState" editor="tab.editor"></vis-editor-vis-options>
     </div>
+  </div>
 
+  </div>
   </form>
 </div>

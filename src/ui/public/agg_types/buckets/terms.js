@@ -54,7 +54,7 @@ export default function TermsAggDefinition(Private) {
 
   return new BucketAggType({
     name: 'terms',
-    title: 'Terms',
+    title: '按查询短语分组',
     makeLabel: function (agg) {
       const params = agg.params;
       return agg.getFieldDisplayName() + ': ' + params.order.display;

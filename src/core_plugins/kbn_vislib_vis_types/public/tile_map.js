@@ -16,7 +16,7 @@ export default function TileMapVisType(Private, getAppState, courier, config) {
     name: 'tile_map',
     title: 'Tile Map',
     image,
-    description: 'Plot latitude and longitude coordinates on a map',
+    description: '按经纬度描述统计信息',
     category: VisType.CATEGORY.MAP,
     params: {
       defaults: {

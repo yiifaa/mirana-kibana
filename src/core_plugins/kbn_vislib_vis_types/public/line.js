@@ -13,7 +13,7 @@ export default function PointSeriesVisType(Private) {
     name: 'line',
     title: 'Line',
     image,
-    description: 'Emphasize trends',
+    description: '显示数据之间的趋势变化',
     category: VisType.CATEGORY.BASIC,
     params: {
       defaults: {

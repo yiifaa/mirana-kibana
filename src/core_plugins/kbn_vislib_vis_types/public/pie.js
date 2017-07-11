@@ -13,7 +13,7 @@ export default function HistogramVisType(Private) {
     name: 'pie',
     title: 'Pie',
     image,
-    description: 'Compare parts of a whole',
+    description: '显示各区域的占比信息',
     category: VisType.CATEGORY.BASIC,
     params: {
       defaults: {

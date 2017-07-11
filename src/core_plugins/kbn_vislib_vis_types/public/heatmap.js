@@ -14,7 +14,7 @@ export default function HeatmapVisType(Private) {
     name: 'heatmap',
     title: 'Heat Map',
     image,
-    description: 'Shade cells within a matrix',
+    description: '用单元格的颜色变化显示统计信息',
     category: VisType.CATEGORY.BASIC,
     params: {
       defaults: {

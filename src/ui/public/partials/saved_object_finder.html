@@ -10,7 +10,7 @@
           class="kuiSearchInput__input"
           input-focus
           ng-model="filter"
-          ng-attr-placeholder="{{ finder.properties.nouns | label }} Filter..."
+          ng-attr-placeholder="请输入查询关键字"
           ng-keydown="finder.filterKeyDown($event)"
           name="filter"
           type="text"
@@ -21,7 +21,7 @@
 
     <div class="kuiBarSection">
       <p class="kuiText kuiSubduedText">
-        {{ finder.hitCount }} of {{ finder.hitCount }}
+        {{ finder.hitCount }} / {{ finder.hitCount }}
       </p>
 
       <div class="kuiButtonGroup">
@@ -31,7 +31,7 @@
           ng-click="onAddNew()"
           data-test-subj="addNewSavedObjectLink"
         >
-          Add new {{ finder.properties.noun }}
+          新增 {{ finder.properties.noun }}
         </button>
 
         <button
@@ -39,7 +39,7 @@
           ng-if="!useLocalManagement"
           ng-click="finder.manageObjects(finder.properties.name)"
         >
-          Manage {{ finder.properties.nouns }}
+          管理{{ finder.properties.nouns | translate}}
         </button>
       </div>
     </div>
@@ -50,11 +50,12 @@
   list="finder.hits"
   per-page="20"
   class="kuiVerticalRhythm"
+  style="margin-top:0px;"
 >
   <ul class="li-striped list-group list-group-menu" ng-class="{'select-mode': finder.selector.enabled}">
-    <li class="list-group-item" ng-click="finder.sortHits(finder.hits)">
+    <li class="list-group-item" ng-click="finder.sortHits(finder.hits)" style="padding-left:0px;">
       <span class="paginate-heading">
-        Name
+        名称
         <span
           class="fa"
           ng-class="finder.isAscending ? 'fa-caret-up' : 'fa-caret-down'">
@@ -79,7 +80,7 @@
     <li
       class="list-group-item list-group-no-results"
       ng-if="finder.hits.length === 0">
-      <p ng-bind="'No matching ' + finder.properties.nouns + ' found.'"></p>
+      <p>没有找到满足条件的{{finder.properties.nouns|translate}}</p>
     </li>
   </ul>
 </paginate>

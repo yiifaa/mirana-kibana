@@ -22,7 +22,7 @@ define(function (require) {
       name: 'timelion',
       title: 'Timelion',
       image,
-      description: 'Build time-series using functional expressions',
+      description: '利用功能表达式创建基于时间序列的分析图表',
       category: VisType.CATEGORY.TIME,
       template: require('plugins/timelion/vis/timelion_vis.html'),
       params: {

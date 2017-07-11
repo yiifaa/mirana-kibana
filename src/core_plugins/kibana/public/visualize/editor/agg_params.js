@@ -11,7 +11,7 @@ import aggParamsTemplate from 'plugins/kibana/visualize/editor/agg_params.html';
 
 uiModules
 .get('app/visualize')
-.directive('visEditorAggParams', function ($compile, $parse, Private, Notifier, $filter) {
+.directive('visEditorAggParams', function ($compile, $parse, Private, Notifier, $filter, $translate) {
   const aggTypes = Private(AggTypesIndexProvider);
 
   return {
@@ -68,13 +68,30 @@ uiModules
 
         // create child scope, used in the editors
         $aggParamEditorsScope = $scope.$new();
-        $aggParamEditorsScope.indexedFields = $scope.agg.getFieldOptions();
+        let fieldOpts = $scope.agg.getFieldOptions();
+        //  格式化文档
+        fieldOpts.forEach(item => {
+            //  翻译字段
+            $translate(item.name).then(label => {
+                item.displayTxt = label
+            }, label => {
+                item.displayTxt = item.name
+            })
+            //  翻译类型
+            $translate(item.type).then(label => {
+                item.displayType = label
+            }, label => {
+                item.displayType = item.type
+            })
+        })
 
+        $aggParamEditorsScope.indexedFields = fieldOpts;
+
+        //
         const agg = $scope.agg;
         if (!agg) return;
 
         const type = $scope.agg.type;
-
         if (newType !== oldType) {
           // don't reset on initial load, the
           // saved params should persist
@@ -162,7 +179,6 @@ uiModules
           fields = $filter('fieldType')(fields, filter);
           fields = $filter('orderBy')(fields, ['type', 'name']);
         }
-
         return new IndexedArray({
 
           /**

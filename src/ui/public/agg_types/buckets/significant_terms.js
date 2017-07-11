@@ -7,7 +7,7 @@ export default function SignificantTermsAggDefinition(Private) {
 
   return new BucketAggType({
     name: 'significant_terms',
-    title: 'Significant Terms',
+    title: '按关键词划分',
     makeLabel: function (aggConfig) {
       return 'Top ' + aggConfig.params.size + ' unusual terms in ' + aggConfig.getFieldDisplayName();
     },

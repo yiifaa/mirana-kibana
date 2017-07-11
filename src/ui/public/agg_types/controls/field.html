@@ -1,11 +1,11 @@
 <div class="form-group">
   <label for="field">
-    Field
+    字段
   </label>
 
   <span class="pull-right text-warning hintbox-label" ng-show="aggParam.showAnalyzedWarning && agg.params.field.analyzed"
       ng-click="showAnalyzedFieldWarning = !showAnalyzedFieldWarning">
-    <i class="fa fa-warning"></i> Analyzed Field
+    <i class="fa fa-warning"></i> 已分词的字段
   </span>
   <div class="hintbox" ng-show="showAnalyzedFieldWarning && agg.params.field.analyzed">
     <p>
@@ -28,14 +28,17 @@
     ng-model="agg.params.field"
     ng-show="indexedFields.length"
     auto-select-if-only-one="indexedFields"
-    ng-options="field as field.displayName group by field.type for field in indexedFields"
+    ng-options="field as field.displayTxt group by field.displayType for field in indexedFields"
     ng-change="aggParam.onChange(agg)">
   </select>
 
   <div class="hintbox" ng-if="!indexedFields.length">
     <p>
       <i class="fa fa-danger text-danger"></i>
+      <strong>没有兼容的字段</strong>
+      <!--
       <strong>No Compatible Fields:</strong> The "{{ vis.indexPattern.id }}" index pattern does not contain any of the following field types: {{ agg.type.params.byName.field.filterFieldTypes | commaList:false }}
+      -->
     </p>
   </div>
 

@@ -7,10 +7,10 @@ export default function AggTypeMetricCountProvider(Private) {
 
   return new MetricAggType({
     name: 'count',
-    title: 'Count',
+    title: '计数',
     hasNoDsl: true,
     makeLabel: function () {
-      return 'Count';
+      return '计数';
     },
     getFormat: function () {
       return fieldFormats.getDefaultInstance('number');

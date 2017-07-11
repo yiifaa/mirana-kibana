@@ -3,14 +3,14 @@
   class="kuiVerticalRhythm"
 >
   <div class="kuiBar">
-    <div class="kuiBarSection">
+    <div class="kuiBarSection" style="display: none;">
       <div class="kuiSearchInput fullWidth">
         <div class="kuiSearchInput__icon kuiIcon fa-search"></div>
         <input
           class="kuiSearchInput__input"
           input-focus
           ng-model="query"
-          placeholder="Filter..."
+          placeholder="请输入"
           class="form-control"
           name="query"
           type="text"
@@ -19,9 +19,9 @@
       </div>
     </div>
 
-    <div class="kuiBarSection">
+    <div class="kuiBarSection" style="margin-left:0px;">
       <p class="kuiText kuiSubduedText">
-        {{ (hits | filter: query).length }} of {{ hitCount }}
+        第{{ (hits | filter: query).length }}条记录， 共{{ hitCount }}条记录
       </p>
     </div>
   </div>
@@ -31,27 +31,28 @@
   list="hits | filter: query"
   per-page="{{ perPage }}"
   class="kuiVerticalRhythm"
+  style="margin-top:0px;"
 >
   <ul class="li-striped list-group list-group-menu">
-    <li class="list-group-item" ng-click="sortHits(hits)">
+    <li class="list-group-item" ng-click="sortHits(hits)" style="padding-left:0px;">
       <span class="paginate-heading">
-        Name
+        名称
         <i class="fa" ng-class="isAscending ? 'fa-caret-up' : 'fa-caret-down'"></i>
       </span>
     </li>
 
     <li class="list-group-item list-group-menu-item" ng-repeat="hit in page">
       <a ng-show="userMakeUrl" kbn-href="{{ makeUrl(hit) }}">
-        <span>{{ hit }}</span>
+        <span>{{ hit | translate }}</span>
       </a>
 
       <div ng-show="userOnSelect" ng-click="onSelect(hit, $event)">
-        <span>{{ hit }}</span>
+        <span>{{ hit | translate}}</span>
       </div>
     </li>
 
     <li class="list-group-item list-group-no-results" ng-if="(hits | filter: query).length === 0">
-      <p>No matches found.</p>
+      <p>没有找到相关的记录.</p>
     </li>
   </ul>
 </paginate>

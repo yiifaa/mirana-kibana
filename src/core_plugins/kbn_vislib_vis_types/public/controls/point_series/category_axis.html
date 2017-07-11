@@ -1,113 +1,120 @@
-<div class="kuiSideBarSection kuiSideBarSection__main">
-  <div class="kuiSideBarSectionTitle">
-    <div class="kuiSideBarSectionTitle__text">
-      X-Axis
-    </div>
-  </div>
+<div class="kuiSideBarSection kuiSideBarSection__main" style="margin-bottom:0px;">
+  <ul class="list-group">
+      <li class="list-group-item list-group-item-success">
+          {{'X-Axis' | translate}}
+      </li>
+      <li class="list-group-item">
+        <div class="form-horizontal">
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="categoryAxisShow">
+                显示
+              </label>
+              <div class="col-sm-9">
+                <div class="checkbox">
+                  <input class="kuiCheckBox" id="categoryAxisShow" type="checkbox" ng-model="vis.params.categoryAxes[0].show">
+                </div>
+              </div>
+            </div>
 
-  <!-- General -->
-  <div class="kuiSideBarSection">
-    <div class="kuiSideBarFormRow">
-      <label class="kuiSideBarFormRow__label" for="categoryAxisShow">
-        Show
-      </label>
-      <div class="kuiSideBarFormRow__control">
-        <input class="kuiCheckBox" id="categoryAxisShow" type="checkbox" ng-model="vis.params.categoryAxes[0].show">
-      </div>
-    </div>
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="categoryAxisPosition">
+                位置
+              </label>
+              <div class="col-sm-9">
+                <select
+                  id="categoryAxisPosition"
+                  class="form-control"
+                  ng-model="vis.params.categoryAxes[0].position"
+                  ng-options="mode for mode in vis.type.params.positions"
+                ></select>
+              </div>
+            </div>
+        </div>
 
-    <div class="kuiSideBarFormRow">
-      <label class="kuiSideBarFormRow__label" for="categoryAxisPosition">
-        Position
-      </label>
-      <div class="kuiSideBarFormRow__control">
-        <select
-          id="categoryAxisPosition"
-          class="kuiSelect kuiSideBarSelect"
-          ng-model="vis.params.categoryAxes[0].position"
-          ng-options="mode for mode in vis.type.params.positions"
-        ></select>
-      </div>
-    </div>
-  </div>
+        <!-- Advanced options -->
+        <div class="kuiSideBarSection" style="margin-bottom:0px;margin-top:10px;">
+          <a
+            href=""
+            class="kuiSideBarOptionsLink"
+            ng-click="isCategoryAxisAdvancedOptionsOpen = !isCategoryAxisAdvancedOptionsOpen"
+          >
+            <span
+              aria-hidden="true"
+              ng-class="{ 'fa-caret-down': isCategoryAxisAdvancedOptionsOpen, 'fa-caret-right': !isCategoryAxisAdvancedOptionsOpen }"
+              class="fa fa-caret-right kuiSideBarOptionsLink__caret"
+            ></span>
+            <span class="kuiSideBarOptionsLink__text">
+              <span ng-show="!isCategoryAxisAdvancedOptionsOpen">
+                显示
+              </span>
+              <span ng-show="isCategoryAxisAdvancedOptionsOpen">
+                隐藏
+              </span>
+              高级配置
+            </span>
+          </a>
 
-  <!-- Advanced options -->
-  <div class="kuiSideBarSection">
-    <a
-      href=""
-      class="kuiSideBarOptionsLink"
-      ng-click="isCategoryAxisAdvancedOptionsOpen = !isCategoryAxisAdvancedOptionsOpen"
-    >
-      <span
-        aria-hidden="true"
-        ng-class="{ 'fa-caret-down': isCategoryAxisAdvancedOptionsOpen, 'fa-caret-right': !isCategoryAxisAdvancedOptionsOpen }"
-        class="fa fa-caret-right kuiSideBarOptionsLink__caret"
-      ></span>
-      <span class="kuiSideBarOptionsLink__text">
-        <span ng-show="!isCategoryAxisAdvancedOptionsOpen">
-          Show
-        </span>
-        <span ng-show="isCategoryAxisAdvancedOptionsOpen">
-          Hide
-        </span>
-        Advanced Options
-      </span>
-    </a>
+          <div ng-show="isCategoryAxisAdvancedOptionsOpen">
+            <!-- Labels -->
+            <div class="kuiSideBarSection form-horizontal">
+              <h6 class="kuiSideBarFormSectionTitle" style="margin-top:0px;margin-bottom:5px;padding-bottom:5px;">
+                刻度信息
+              </h6>
 
-    <div ng-show="isCategoryAxisAdvancedOptionsOpen">
-      <!-- Labels -->
-      <div class="kuiSideBarSection">
-        <h6 class="kuiSideBarFormSectionTitle">
-          Labels
-        </h6>
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="categoryAxisShowLabels">
+                  显示刻度
+                </label>
+                <div class="col-sm-9">
+                  <div class="checkbox">
+                    <input class="kuiCheckBox" id="categoryAxisShowLabels" type="checkbox" ng-model="vis.params.categoryAxes[0].labels.show">
+                  </div>
+                </div>
+              </div>
 
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="categoryAxisShowLabels">
-            Show Labels
-          </label>
-          <div class="kuiSideBarFormRow__control">
-            <input class="kuiCheckBox" id="categoryAxisShowLabels" type="checkbox" ng-model="vis.params.categoryAxes[0].labels.show">
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="categoryAxisShowFilter">
+                  过滤刻度
+                </label>
+                <div class="col-sm-9">
+                  <div class="checkbox">
+                    <input class="kuiCheckBox" id="categoryAxisShowFilter" type="checkbox" ng-model="vis.params.categoryAxes[0].labels.filter">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="categoryAxisSotateLabels">
+                  旋转视角
+                </label>
+                <div class="col-sm-9">
+                  <select
+                    id="categoryAxisSotateLabels"
+                    class="form-control"
+                    ng-model="vis.params.categoryAxes[0].labels.rotate"
+                    ng-options="mode.value as mode.name for mode in rotateOptions"
+                  ></select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-3" for="categoryAxisSruncateLabels">
+                  截短刻度
+                </label>
+                <div class="col-sm-9">
+                  <input
+                    id="categoryAxisSruncateLabels"
+                    class="form-control"
+                    type="number"
+                    ng-model="vis.params.categoryAxes[0].labels.truncate"
+                  >
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="categoryAxisShowFilter">
-            Filter Labels
-          </label>
-          <div class="kuiSideBarFormRow__control">
-            <input class="kuiCheckBox" id="categoryAxisShowFilter" type="checkbox" ng-model="vis.params.categoryAxes[0].labels.filter">
-          </div>
-        </div>
-
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="categoryAxisSotateLabels">
-            Rotate
-          </label>
-          <div class="kuiSideBarFormRow__control">
-            <select
-              id="categoryAxisSotateLabels"
-              class="kuiSelect kuiSideBarSelect"
-              ng-model="vis.params.categoryAxes[0].labels.rotate"
-              ng-options="mode.value as mode.name for mode in rotateOptions"
-            ></select>
-          </div>
-        </div>
-
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="categoryAxisSruncateLabels">
-            Truncate
-          </label>
-          <div class="kuiSideBarFormRow__control">
-            <input
-              id="categoryAxisSruncateLabels"
-              class="kuiInput kuiSideBarInput"
-              type="number"
-              ng-model="vis.params.categoryAxes[0].labels.truncate"
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+      </li>
+  </ul>
 
 </div>

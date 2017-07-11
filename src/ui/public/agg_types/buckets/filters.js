@@ -12,7 +12,7 @@ export default function FiltersAggDefinition(Private, Notifier) {
 
   return new BucketAggType({
     name: 'filters',
-    title: 'Filters',
+    title: '按过滤器分组',
     createFilter: createFilter,
     customLabels: false,
     params: [

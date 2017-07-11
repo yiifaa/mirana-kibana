@@ -35,7 +35,7 @@ function TableVisTypeProvider(Private) {
     name: 'table',
     title: 'Data Table',
     image,
-    description: 'Display values in a table',
+    description: '用表格显示统计信息',
     category: VisType.CATEGORY.DATA,
     template: tableVisTemplate,
     params: {

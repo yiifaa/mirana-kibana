@@ -1,261 +1,265 @@
-<div class="kuiSideBarSection kuiSideBarSection__main">
-  <div class="kuiSideBarSectionTitle">
-    <div class="kuiSideBarSectionTitle__text">
-      Y-Axes
-    </div>
+<div class="kuiSideBarSection kuiSideBarSection__main" style="margin-bottom:10px;">
 
-    <button
-      aria-label="Add value axis"
-      ng-click="addValueAxis()"
-      tooltip="Add value axis"
-      tooltip-append-to-body="true"
-      type="button"
-      class="fa fa-plus kuiSideBarSectionTitle__action"
-    ></button>
-  </div>
-
-  <div
-    ng-repeat="axis in vis.params.valueAxes track by axis.id"
-    class="kuiSideBarSection"
-  >
-    <div class="kuiSideBarCollapsibleTitle">
-      <div
-        class="kuiSideBarCollapsibleTitle__label"
-        ng-click="isValueAxisOpen = !isValueAxisOpen"
-      >
-        <span
-          aria-hidden="true"
-          ng-class="{ 'fa-caret-down': isValueAxisOpen, 'fa-caret-right': !isValueAxisOpen }"
-          class="fa fa-caret-right kuiSideBarCollapsibleTitle__caret"
-        ></span>
-        <span class="kuiSideBarCollapsibleTitle__text">
-          {{axis.name}}
-        </span>
-      </div>
-
-      <div tooltip="{{getSeries(axis)}}">{{getSeriesShort(axis)}}</div>
-
-      <button
-        ng-hide="vis.params.valueAxes.length === 1"
-        aria-label="Remove value axis"
-        ng-click="removeValueAxis(axis)"
-        tooltip="Remove value axis"
-        tooltip-append-to-body="true"
-        type="button"
-        class="fa fa-remove kuiSideBarCollapsibleTitle__action"
-      ></button>
-    </div>
-
-    <div ng-show="isValueAxisOpen" class="kuiSideBarCollapsibleSection">
-      <!-- General -->
-      <div class="kuiSideBarSection">
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="{ 'valueAxisShow' + $index }">
-            Show
-          </label>
-          <div class="kuiSideBarFormRow__control">
-            <input class="kuiCheckBox" id="{ 'valueAxisShow' + $index }" type="checkbox" ng-model="axis.show">
-          </div>
-        </div>
-
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="{{ 'valueAxisTitle' + $index }}">
-            Title
-          </label>
-          <div class="kuiSideBarFormRow__control">
-            <input
-              id="{{ 'valueAxisTitle' + $index }}"
-              class="kuiInput kuiSideBarInput"
-              type="text"
-              ng-model="axis.title.text"
-            >
-          </div>
-        </div>
-
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="{{ 'valueAxisPosition' + $index }}">
-            Position
-          </label>
-          <div class="kuiSideBarFormRow__control">
-            <select
-              id="{{ 'valueAxisPosition' + $index }}"
-              class="kuiSelect kuiSideBarSelect"
-              ng-change="updateAxisName(axis)"
-              ng-model="axis.position"
-              ng-options="mode disable when isPositionDisabled(mode) for mode in vis.type.params.positions"
-            ></select>
-          </div>
-        </div>
-
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="{{ 'valueAxisMode' + $index }}">
-            Mode
-          </label>
-          <div class="kuiSideBarFormRow__control">
-            <select
-              id="{{ 'valueAxisMode' + $index }}"
-              class="kuiSelect kuiSideBarSelect"
-              ng-model="axis.scale.mode"
-              ng-options="mode for mode in vis.type.params.axisModes"
-            ></select>
-          </div>
-        </div>
-
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="{{ 'valueAxisScaleType' + $index }}">
-            Scale Type
-          </label>
-          <div class="kuiSideBarFormRow__control">
-            <select
-              id="{{ 'valueAxisScaleType' + $index }}"
-              class="kuiSelect kuiSideBarSelect"
-              ng-model="axis.scale.type"
-              ng-options="type for type in vis.type.params.scaleTypes"
-            ></select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Advanced options -->
-      <div class="kuiSideBarSection">
-        <a
-          href=""
-          class="kuiSideBarOptionsLink"
-          ng-click="isValueAxisAdvancedOptionsOpen = !isValueAxisAdvancedOptionsOpen"
-        >
-          <span
-            aria-hidden="true"
-            ng-class="{ 'fa-caret-down': isValueAxisAdvancedOptionsOpen, 'fa-caret-right': !isValueAxisAdvancedOptionsOpen }"
-            class="fa fa-caret-right kuiSideBarOptionsLink__caret"
-          ></span>
-          <span class="kuiSideBarOptionsLink__text">
-            <span ng-show="!isValueAxisAdvancedOptionsOpen">
-              Show
+  <ul class="list-group">
+      <li class="list-group-item list-group-item-warning">
+          {{'Y-Axes' | translate}}
+          <button
+            aria-label="Add value axis"
+            ng-click="addValueAxis()"
+            tooltip="添加新坐标轴"
+            tooltip-append-to-body="true"
+            type="button"
+            class="btn btn-xs btn-primary pull-right">
+            <i class="fa fa-plus"></i>
+          </button>
+      </li>
+      <li class="list-group-item" ng-repeat="axis in vis.params.valueAxes track by axis.id">
+        <div class="kuiSideBarCollapsibleTitle" style="padding-bottom:5px;">
+          <div
+            class="kuiSideBarCollapsibleTitle__label"
+            ng-click="isValueAxisOpen = !isValueAxisOpen">
+            <span
+              aria-hidden="true"
+              ng-class="{ 'fa-caret-down': isValueAxisOpen, 'fa-caret-right': !isValueAxisOpen }"
+              class="fa fa-caret-right kuiSideBarCollapsibleTitle__caret">
             </span>
-            <span ng-show="isValueAxisAdvancedOptionsOpen">
-              Hide
+            <span class="kuiSideBarCollapsibleTitle__text">
+              {{axis.name | translate}}
             </span>
-            Advanced Options
-          </span>
-        </a>
+          </div>
 
-        <div ng-show="isValueAxisAdvancedOptionsOpen">
+          <div tooltip="{{getSeries(axis)}}">{{getSeriesShort(axis)}}</div>
 
-          <!-- Labels -->
-          <div class="kuiSideBarSection">
-            <h6 class="kuiSideBarFormSectionTitle">
-              Labels
-            </h6>
+          <button
+            ng-hide="vis.params.valueAxes.length === 1"
+            aria-label="Remove value axis"
+            ng-click="removeValueAxis(axis)"
+            tooltip="删除坐标轴"
+            tooltip-append-to-body="true"
+            type="button"
+            class="btn btn-xs btn-danger">
+              <i class="fa fa-remove"></i>
+          </button>
+        </div>
 
-            <div class="kuiSideBarFormRow">
-              <label class="kuiSideBarFormRow__label" for="{{ 'valueAxisShowLabels' + $index }}">
-                Show Labels
+        <div ng-show="isValueAxisOpen" class="form-horizontal">
+          <!-- General -->
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="{ 'valueAxisShow' + $index }">
+                是否显示
               </label>
-              <div class="kuiSideBarFormRow__control">
-                <input class="kuiCheckBox" id="{{ 'valueAxisShowLabels' + $index }}" type="checkbox" ng-model="axis.labels.show">
+              <div class="col-sm-9">
+                 <div class="checkbox">
+                   <input class="kuiCheckBox" id="{ 'valueAxisShow' + $index }" type="checkbox" ng-model="axis.show">
+                 </div>
               </div>
             </div>
 
-            <div class="kuiSideBarFormRow">
-              <label class="kuiSideBarFormRow__label" for="{{ 'valueAxisFilterLabels' + $index }}">
-                Filter Labels
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="{{ 'valueAxisTitle' + $index }}">
+                标题
               </label>
-              <div class="kuiSideBarFormRow__control">
-                <input class="kuiCheckBox" id="{{ 'valueAxisFilterLabels' + $index }}" type="checkbox" ng-model="axis.labels.filter">
+              <div class="col-sm-9">
+                <input
+                  id="{{ 'valueAxisTitle' + $index }}"
+                  class="form-control"
+                  type="text"
+                  ng-model="axis.title.text"
+                >
               </div>
             </div>
 
-            <div class="kuiSideBarFormRow">
-              <label class="kuiSideBarFormRow__label" for="{{ 'valueAxisRotateLabels' + $index }}">
-                Rotate
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="{{ 'valueAxisPosition' + $index }}">
+                位置
               </label>
-              <div class="kuiSideBarFormRow__control">
+              <div class="col-sm-9">
                 <select
-                  id="{{ 'valueAxisRotateLabels' + $index }}"
-                  class="kuiSelect kuiSideBarSelect"
-                  ng-model="axis.labels.rotate"
-                  ng-options="mode.value as mode.name for mode in rotateOptions"
+                  id="{{ 'valueAxisPosition' + $index }}"
+                  class="form-control"
+                  ng-change="updateAxisName(axis)"
+                  ng-model="axis.position"
+                  ng-options="mode disable when isPositionDisabled(mode) for mode in vis.type.params.positions"
                 ></select>
               </div>
             </div>
 
-            <div class="kuiSideBarFormRow">
-              <label class="kuiSideBarFormRow__label" for="{{ 'valueAxisTruncateLabels' + $index }}">
-                Truncate
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="{{ 'valueAxisMode' + $index }}">
+                模式
               </label>
-              <div class="kuiSideBarFormRow__control">
-                <input
-                  id="{{ 'valueAxisTruncateLabels' + $index }}"
-                  class="kuiInput kuiSideBarInput"
-                  type="number"
-                  ng-model="axis.labels.truncate"
-                >
+              <div class="col-sm-9">
+                <select
+                  id="{{ 'valueAxisMode' + $index }}"
+                  class="form-control"
+                  ng-model="axis.scale.mode"
+                  ng-options="mode for mode in vis.type.params.axisModes"
+                ></select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="{{ 'valueAxisScaleType' + $index }}">
+                增长函数
+              </label>
+              <div class="col-sm-9">
+                <select
+                  id="{{ 'valueAxisScaleType' + $index }}"
+                  class="form-control"
+                  ng-model="axis.scale.type"
+                  ng-options="type for type in vis.type.params.scaleTypes"
+                ></select>
               </div>
             </div>
           </div>
 
-          <!-- Custom Extents -->
-          <div class="kuiSideBarSection">
-            <h6 class="kuiSideBarFormSectionTitle">
-              Custom Extents
-            </h6>
+          <!-- Advanced options -->
+          <div class="kuiSideBarSection" style="margin-bottom:0px;margin-top:10px;">
+            <a
+              href=""
+              class="kuiSideBarOptionsLink"
+              ng-click="isValueAxisAdvancedOptionsOpen = !isValueAxisAdvancedOptionsOpen"
+            >
+              <span
+                aria-hidden="true"
+                ng-class="{ 'fa-caret-down': isValueAxisAdvancedOptionsOpen, 'fa-caret-right': !isValueAxisAdvancedOptionsOpen }"
+                class="fa fa-caret-right kuiSideBarOptionsLink__caret"
+              ></span>
+              <span class="kuiSideBarOptionsLink__text">
+                <span ng-show="!isValueAxisAdvancedOptionsOpen">
+                  显示
+                </span>
+                <span ng-show="isValueAxisAdvancedOptionsOpen">
+                  隐藏
+                </span>
+                高级配置
+              </span>
+            </a>
 
-            <div class="kuiSideBarFormRow">
-              <label class="kuiSideBarFormRow__label" for="{ 'defaultYExtents' + $index }">
-                Scale to Data Bounds
-              </label>
-              <div class="kuiSideBarFormRow__control">
-                <input class="kuiCheckBox" id="{ 'defaultYExtents' + $index }" type="checkbox" ng-model="axis.scale.defaultYExtents">
-              </div>
-            </div>
+            <div ng-show="isValueAxisAdvancedOptionsOpen">
 
-            <div class="kuiSideBarFormRow">
-              <label class="kuiSideBarFormRow__label" for="{ 'setYExtents' + $index }">
-                Set Axis Extents
-              </label>
-              <div class="kuiSideBarFormRow__control">
-                <input class="kuiCheckBox" id="{ 'setYExtents' + $index }" type="checkbox" ng-model="axis.scale.setYExtents" ng-change="updateExtents(axis)">
-              </div>
-            </div>
+              <!-- Labels -->
+              <div class="form-horizontal">
+                <h6 class="kuiSideBarFormSectionTitle" style="margin-top:0px;margin-bottom:5px;padding-bottom:5px;">
+                  刻度信息
+                </h6>
 
-            <div ng-if="axis.scale.setYExtents">
-              <div class="kuiSideBarFormRow">
-                <label class="kuiSideBarFormRow__label">
-                  Max
-                </label>
-                <div class="kuiSideBarFormRow__control">
-                  <input name="yMax"
-                         class="kuiInput kuiSideBarInput"
-                         type="number"
-                         step="0.1"
-                         ng-model="axis.scale.max"
-                  >
+                <div class="form-group">
+                  <label class="control-label col-sm-3" for="{{ 'valueAxisShowLabels' + $index }}">
+                    显示刻度
+                  </label>
+                  <div class="col-sm-9">
+                    <div class="checkbox">
+                      <input class="kuiCheckBox" id="{{ 'valueAxisShowLabels' + $index }}" type="checkbox" ng-model="axis.labels.show">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-3" for="{{ 'valueAxisFilterLabels' + $index }}">
+                    过滤刻度
+                  </label>
+                  <div class="col-sm-9">
+                    <div class="checkbox">
+                      <input class="kuiCheckBox" id="{{ 'valueAxisFilterLabels' + $index }}" type="checkbox" ng-model="axis.labels.filter">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-3" for="{{ 'valueAxisRotateLabels' + $index }}">
+                    旋转视角
+                  </label>
+                  <div class="col-sm-9">
+                    <select
+                      id="{{ 'valueAxisRotateLabels' + $index }}"
+                      class="form-control"
+                      ng-model="axis.labels.rotate"
+                      ng-options="mode.value as mode.name for mode in rotateOptions"
+                    ></select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-3" for="{{ 'valueAxisTruncateLabels' + $index }}">
+                    截短刻度
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      id="{{ 'valueAxisTruncateLabels' + $index }}"
+                      class="form-control"
+                      type="number"
+                      ng-model="axis.labels.truncate"
+                    >
+                  </div>
                 </div>
               </div>
 
-              <div class="kuiSideBarFormRow">
-                <label class="kuiSideBarFormRow__label">
-                  Min
-                </label>
-                <div class="kuiSideBarFormRow__control">
-                  <input name="yMin"
-                         class="kuiInput kuiSideBarInput"
-                         type="number"
-                         step="0.1"
-                         greater-than="{{axis.scale.type === 'log' ? 0 : ''}}"
-                         ng-model="axis.scale.min"
-                  >
+              <!-- Custom Extents -->
+              <div class="form-horizontal" style="margin-top:5px;">
+                <h6 class="kuiSideBarFormSectionTitle" style="margin-top:0px;margin-bottom:5px;padding-bottom:5px;">
+                  自定义刻度范围
+                </h6>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-3" for="{ 'defaultYExtents' + $index }">
+                    自动匹配
+                  </label>
+                  <div class="col-sm-9">
+                    <div class="checkbox">
+                      <input class="kuiCheckBox" id="{ 'defaultYExtents' + $index }" type="checkbox" ng-model="axis.scale.defaultYExtents">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-3" for="{ 'setYExtents' + $index }">
+                    手动设置
+                  </label>
+                  <div class="col-sm-9">
+                    <div class="checkbox">
+                      <input class="kuiCheckBox" id="{ 'setYExtents' + $index }" type="checkbox" ng-model="axis.scale.setYExtents" ng-change="updateExtents(axis)">
+                    </div>
+                  </div>
+                </div>
+
+                <div ng-if="axis.scale.setYExtents">
+                  <div class="form-group">
+                    <label class="control-label col-sm-3">
+                      最大值
+                    </label>
+                    <div class="col-sm-9">
+                      <input name="yMax"
+                             class="form-control"
+                             type="number"
+                             step="0.1"
+                             ng-model="axis.scale.max"
+                      >
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-sm-3">
+                      最小值
+                    </label>
+                    <div class="col-sm-9">
+                      <input name="yMin"
+                             class="form-control"
+                             type="number"
+                             step="0.1"
+                             greater-than="{{axis.scale.type === 'log' ? 0 : ''}}"
+                             ng-model="axis.scale.min"
+                      >
+                    </div>
+                  </div>
+                  <div ng-show="axis.scale.type === 'log' && axis.scale.min <= 0">
+                    <span class="text-danger">最大值必须大于最小值</span>
+                  </div>
                 </div>
               </div>
-              <div ng-show="axis.scale.type === 'log' && axis.scale.min <= 0">
-                <span class="text-danger">Min must exceed 0 when a log scale is selected</span>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div style="height: 10px"></div>
+      </li>
+  </ul>
 </div>

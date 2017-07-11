@@ -1,5 +1,5 @@
-<div ng-show="add.form" class="vis-editor-agg-add-schemas">
-  <label>Select {{ groupName }} type</label>
+<div ng-show="add.form" class="vis-editor-agg-add-schemas" style="margin:5px;">
+  <label style="font-weight:normal;">请选择{{ groupName | translate}}</label>
   <ul class="form-group list-group list-group-menu">
     <li
       ng-hide="schema.deprecate"
@@ -7,7 +7,7 @@
       ng-click="add.submit(schema)"
       class="list-group-item list-group-menu-item">
       <i ng-show="schema.icon" ng-class="schema.icon"></i>
-      {{schema.title}}
+      {{schema.title | translate}}
     </li>
   </ul>
 </div>
@@ -20,13 +20,13 @@
 
   <div ng-if="!add.form">
     <div class="btn btn-sm btn-primary" ng-if="groupName !== 'buckets' || !stats.count && !stats.deprecate">
-      Add {{ groupName }}
+      添加{{ groupName | translate}}
     </div>
     <div class="btn btn-sm btn-primary" ng-if="groupName === 'buckets' && stats.count > 0 && !stats.deprecate">
-      Add sub-{{ groupName }}
+      添加子{{ groupName | translate}}
     </div>
   </div>
   <div class="btn btn-sm btn-primary" ng-if="add.form">
-    Cancel
+    取消
   </div>
 </div>

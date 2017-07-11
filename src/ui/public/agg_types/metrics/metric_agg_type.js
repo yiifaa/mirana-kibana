@@ -17,7 +17,7 @@ export default function MetricAggTypeProvider(Private) {
     }, this);
   }
 
-  MetricAggType.prototype.subtype = 'Metric Aggregations';
+  MetricAggType.prototype.subtype = '统计指标';
   /**
    * Read the values for this metric from the
    * @param  {[type]} bucket [description]

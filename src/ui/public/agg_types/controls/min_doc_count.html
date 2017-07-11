@@ -1,9 +1,9 @@
-<div class="checkbox ng-scope">
-  <label>
+<div class="checkbox ng-scope" style="margin-top:0px;">
+  <label style="padding-left:0px;">
     <input ng-model="agg.params.min_doc_count" type="checkbox">
-    Show empty buckets&nbsp;
+    显示没有数据的分组&nbsp;
     <kbn-info
-      info="Show all buckets, not only the buckets with results."
+      info="即使没有可统计的数据，也显示所有的分组"
       placement="right">
       </kbn-info>
   </label>

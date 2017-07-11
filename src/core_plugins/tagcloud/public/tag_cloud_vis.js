@@ -18,7 +18,7 @@ visTypes.register(function TagCloudProvider(Private) {
     title: 'Tag Cloud',
     image,
     implementsRenderComplete: true,
-    description: 'A group of words, sized according to their importance',
+    description: '按重要性对关键词分组',
     category: VisType.CATEGORY.OTHER,
     template: tagCloudTemplate,
     params: {
@@ -56,5 +56,3 @@ visTypes.register(function TagCloudProvider(Private) {
     ])
   });
 });
-
-
