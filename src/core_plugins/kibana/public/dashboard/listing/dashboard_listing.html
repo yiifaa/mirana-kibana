@@ -2,79 +2,80 @@
 <kbn-top-nav name="dashboard">
   <!-- Transcluded elements. -->
   <div data-transclude-slots>
-    <!-- Title. -->
-    <div
-      data-transclude-slot="topLeftCorner"
-      class="kuiLocalTitle"
-    >
-      Dashboard
+
+    <div class="page-header" data-transclude-slot="topLeftCorner" style="padding-left:15px;margin-top:20px;border-color:#ddd;padding-bottom:3px;width:100%;">
+        <h4 style="margin-bottom:3px;">{{'Dashboard' | translate}} <small>自定义仪表盘</small></h4>
+    </div>
+
+    <div data-transclude-slot="bottomRow">
+        <p class="text-muted" style="font-size:12px;margin-left:8px;margin-top:10px;">通过选择、拖拽、缩放等操作，即可轻松创建属于自己的仪表盘，并且能自动关联查询条件，一次创建，多次使用。</p>
     </div>
   </div>
 </kbn-top-nav>
 
-<div
-  class="kuiViewContent kuiViewContent--constrainedWidth"
-  data-test-subj="dashboardLandingPage"
->
+<div class="kuiViewContent kuiViewContent--constrainedWidth" data-test-subj="dashboardLandingPage">
   <!-- ControlledTable -->
   <div class="kuiViewContentItem kuiControlledTable kuiVerticalRhythm">
     <!-- ToolBar -->
     <div class="kuiToolBar">
+      <div class="kuiToolBarSection">
+        <!-- Bulk delete button -->
+        <button
+          class="btn btn-danger"
+          ng-click="listingController.deleteSelectedItems()"
+          aria-label="Delete selected objects"
+          ng-if="listingController.getSelectedItemsCount() > 0"
+          tooltip="删除仪表盘"
+          tooltip-append-to-body="true">
+          <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-trash"></span>
+          删除
+        </button>
+
+        <!-- Create dashboard button -->
+        <a
+          class="btn btn-primary"
+          href="{{listingController.getCreateDashboardHref()}}"
+          aria-label="Create new dashboard"
+          data-test-subj="newDashboardLink"
+          ng-if="listingController.getSelectedItemsCount() === 0"
+          tooltip="新增仪表盘"
+          tooltip-append-to-body="true"
+        >
+          <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-plus"></span>
+          新增
+        </a>
+      </div>
+
+
       <div class="kuiToolBarSearch">
         <div class="kuiToolBarSearchBox">
           <div class="kuiToolBarSearchBox__icon kuiIcon fa-search"></div>
           <input
             class="kuiToolBarSearchBox__input"
             type="text"
-            placeholder="Search..."
+            placeholder="仪表盘名称..."
             aria-label="Filter"
             data-test-subj="searchFilter"
-            ng-model="listingController.filter"
-          >
+            ng-model="listingController.filter">
         </div>
       </div>
 
-      <div class="kuiToolBarSection">
-        <!-- Bulk delete button -->
-        <button
-          class="kuiButton kuiButton--danger"
-          ng-click="listingController.deleteSelectedItems()"
-          aria-label="Delete selected objects"
-          ng-if="listingController.getSelectedItemsCount() > 0"
-          tooltip="Delete selected dashboards"
-          tooltip-append-to-body="true"
-        >
-          <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-trash"></span>
-        </button>
 
-        <!-- Create dashboard button -->
-        <a
-          class="kuiButton kuiButton--primary"
-          href="{{listingController.getCreateDashboardHref()}}"
-          aria-label="Create new dashboard"
-          data-test-subj="newDashboardLink"
-          ng-if="listingController.getSelectedItemsCount() === 0"
-          tooltip="Create new dashboard"
-          tooltip-append-to-body="true"
-        >
-          <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-plus"></span>
-        </a>
-      </div>
-
+      <!-- Pagination -->
+      <!--
       <div class="kuiToolBarSection">
-        <!-- Pagination -->
+
         <tool-bar-pager-text
           start-item="listingController.pager.startItem"
           end-item="listingController.pager.endItem"
-          total-items="listingController.pager.totalItems"
-        ></tool-bar-pager-text>
+          total-items="listingController.pager.totalItems"></tool-bar-pager-text>
         <tool-bar-pager-buttons
           has-previous-page="listingController.pager.hasPreviousPage"
           has-next-page="listingController.pager.hasNextPage"
           on-page-next="listingController.onPageNext"
-          on-page-previous="listingController.onPagePrevious"
-        ></tool-bar-pager-buttons>
+          on-page-previous="listingController.onPagePrevious"></tool-bar-pager-buttons>
       </div>
+      -->
     </div>
 
     <!-- NoItems -->
@@ -83,7 +84,7 @@
       ng-if="!listingController.items.length && listingController.filter"
     >
       <div class="kuiNoItems">
-        No dashboards matched your search.
+        没有找到关联的数据
       </div>
     </div>
 
@@ -94,7 +95,7 @@
     >
       <div class="kuiPromptForItems">
         <div class="kuiPromptForItems__message">
-          Looks like you don&rsquo;t have any dashboards. Let&rsquo;s create some!
+          您还没有创建仪表盘，不妨试一试!
         </div>
 
         <div class="kuiPromptForItems__actions">
@@ -104,7 +105,7 @@
           >
             <span class="kuiButton__inner">
               <span class="kuiButton__icon kuiIcon fa-plus"></span>
-              <span>Create a dashboard</span>
+              <span>创建仪表盘</span>
             </span>
           </a>
         </div>
@@ -125,7 +126,7 @@
         </th>
 
         <th class="kuiTableHeaderCell" ng-click="listingController.toggleSort()">
-          Name
+          仪表盘名称
           <span
             class="fa"
             ng-class="listingController.isAscending ? 'fa-caret-up' : 'fa-caret-down'">
@@ -166,7 +167,7 @@
     <div class="kuiToolBarFooter">
       <div class="kuiToolBarFooterSection">
         <div class="kuiToolBarText" ng-hide="listingController.getSelectedItemsCount() === 0">
-          {{ listingController.getSelectedItemsCount() }} selected
+          您选中了{{ listingController.getSelectedItemsCount() }}项记录
         </div>
       </div>
 

@@ -45,9 +45,12 @@ export default function ChartTitleFactory() {
 
     drawValueLines(svg, width, height) {
       const axis = this._handler.valueAxes.find(axis => axis.axisConfig.get('id') === this.get('valueAxis'));
-      axis.getScale().ticks().forEach(tick => {
-        this.drawLine(svg, tick, axis, width, height);
-      });
+      if(axis.getScale().ticks) {
+          axis.getScale().ticks().forEach(tick => {
+            this.drawLine(svg, tick, axis, width, height);
+          });
+      }
+
     }
 
     draw(width, height) {

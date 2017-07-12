@@ -164,13 +164,13 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
       $scope.addVis = function (hit) {
         pendingVisCount++;
         dashboardState.addNewPanel(hit.id, 'visualization');
-        notify.info(`Visualization successfully added to your dashboard`);
+        notify.info(`可视化图形已成功添加到仪表盘中`);
       };
 
       $scope.addSearch = function (hit) {
         pendingVisCount++;
         dashboardState.addNewPanel(hit.id, 'search');
-        notify.info(`Search successfully added to your dashboard`);
+        notify.info(`查询已成功关联到仪表盘`);
       };
 
       /**
@@ -230,8 +230,8 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
           {
             onConfirm: revertChangesAndExitEditMode,
             onCancel: _.noop,
-            confirmButtonText: 'Yes, lose changes',
-            cancelButtonText: 'No, keep working',
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
             defaultFocusedButton: ConfirmationButtonTypes.CANCEL
           }
         );
@@ -247,7 +247,7 @@ app.directive('dashboardApp', function (Notifier, courier, AppState, timefilter,
         return dashboardState.saveDashboard(angular.toJson, timefilter).then(function (id) {
           $scope.kbnTopNav.close('save');
           if (id) {
-            notify.info(`Saved Dashboard as "${dash.title}"`);
+            notify.info(`已将仪表盘另存为"${dash.title}"`);
             if (dash.id !== $routeParams.id) {
               kbnUrl.change(createDashboardEditUrl(dash.id));
             } else {

@@ -4,15 +4,13 @@
     <!-- Transcluded elements. -->
     <div data-transclude-slots>
       <!-- Title. -->
-      <div
-        data-transclude-slot="topLeftCorner"
-      >
+      <div data-transclude-slot="topLeftCorner">
         <div class="kuiLocalBreadcrumbs" data-test-subj="breadcrumbs">
           <div class="kuiLocalBreadcrumb">
-            <a class="kuiLocalBreadcrumb__link" href="{{landingPageUrl()}}">Dashboard</a>
+            <a class="kuiLocalBreadcrumb__link" href="{{landingPageUrl()}}">{{ 'Dashboard' | translate}}</a>
           </div>
           <div class="kuiLocalBreadcrumb">
-            {{ getDashTitle() }}
+            {{ getDashTitle() | translate}}
           </div>
         </div>
       </div>
@@ -27,28 +25,29 @@
         ng-submit="filterResults()"
       >
         <div class="typeahead" kbn-typeahead="dashboard" on-select="filterResults()">
-          <div class="kuiLocalSearch">
+          <div class="input-group">
             <input
               parse-query
               input-focus
               kbn-typeahead-input
               ng-model="model.query"
-              placeholder="Filter..."
+              placeholder="请输入查询条件"
               aria-label="Filter input"
               data-test-subj="dashboardQuery"
               type="text"
-              class="kuiLocalSearchInput"
+              class="form-control"
               ng-class="{'kuiLocalSearchInput-isInvalid': queryInput.$invalid}"
             >
-            <button
-              type="submit"
-              aria-label="Filter Dashboards"
-              class="kuiLocalSearchButton"
-              data-test-subj="dashboardQueryFilterButton"
-              ng-disabled="queryInput.$invalid"
-            >
-              <span class="fa fa-search" aria-hidden="true"></span>
-            </button>
+            <span class="input-group-btn">
+              <button
+                type="submit"
+                aria-label="Filter Dashboards"
+                class="btn btn-primary"
+                data-test-subj="dashboardQueryFilterButton"
+                ng-disabled="queryInput.$invalid">
+                <span class="fa fa-search" aria-hidden="true"></span>
+              </button>
+            </span>
           </div>
           <kbn-typeahead-items></kbn-typeahead-items>
         </div>
@@ -60,13 +59,14 @@
   <filter-bar state="state"></filter-bar>
 
   <div ng-show="getShouldShowEditHelp()" class="text-center start-screen">
-    <h2>This dashboard is empty. Let's fill it up!</h2>
-    <p>Click the <a class="btn btn-xs navbtn-inverse" ng-click="kbnTopNav.open('add'); toggleAddVisualization = !toggleAddVisualization" aria-label="Add visualization">Add</a> button in the menu bar above to add a visualization to the dashboard. <br/>If you haven't setup a visualization yet visit <a href="#/visualize" title="Visualize">"Visualize"</a> to create your first visualization.</p>
+    <h2>仪表盘还没有内容，赶紧填充可视化图表吧！</h2>
+    <p>点击窗口右上角的<a class="btn btn-xs btn-primary" ng-click="kbnTopNav.open('add'); toggleAddVisualization = !toggleAddVisualization" aria-label="Add visualization">添加</a> 按钮，即可选择您创建的可视化图表. <br/>
+      如果您还没有创建可视化图表，那么不妨使用左侧的<a href="#/visualize" title="Visualize">"可视化"</a>菜单创建可视化图表。</p>
   </div>
 
   <div ng-show="getShouldShowViewHelp()" class="text-center start-screen">
-    <h2>This dashboard is empty. Let's fill it up!</h2>
-    <p>Click the <a class="btn btn-xs navbtn-inverse" ng-click="kbnTopNav.click('edit');" aria-label="Edit">Edit</a> button in the menu bar above to start working on your new dashboard.
+    <h2>仪表盘还没有内容，赶紧填充可视化图表吧！</h2>
+    <p>点击窗口右上角的<a class="btn btn-xs navbtn-inverse" ng-click="kbnTopNav.click('edit');" aria-label="Edit">编辑</a>按钮，即可随心所欲发挥您的创造力。
   </div>
 
   <dashboard-grid
@@ -81,6 +81,7 @@
     create-child-ui-state="createChildUiState"
     toggle-expand="toggleExpandPanel"
     data-shared-items-count="{{panels.length}}"
+    style="padding-left: 5px;"
   ></dashboard-grid>
 
   <dashboard-panel ng-if="hasExpandedPanel()"

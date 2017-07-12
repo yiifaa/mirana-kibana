@@ -1,57 +1,63 @@
-<div>
+<div class="list-group" style="margin-bottom:10px;">
   <!-- Global settings -->
-  <div class="kuiSideBarSection">
-    <div class="kuiSideBarSectionTitle">
-      <div class="kuiSideBarSectionTitle__text">
-        Settings
+  <div class="list-group-item list-group-item-info">
+    {{'Settings' | translate}}
+  </div>
+
+  <div class="list-group-item">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="legendPosition">
+          {{'Legend Position' | translate}}
+        </label>
+        <div class="col-sm-9">
+          <select
+            id="legendPosition"
+            class="form-control"
+            ng-model="vis.params.legendPosition"
+            ng-options="position for position in ['top', 'left', 'right', 'bottom']">
+          </select>
+        </div>
+      </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="showCursor">
+        浮动提示
+      </label>
+      <div class="col-sm-9">
+        <div class="checkbox">
+            <input class="kuiCheckBox" id="showCursor" type="checkbox" ng-model="vis.params.addTooltip">
+        </div>
       </div>
     </div>
 
-    <div class="kuiSideBarFormRow">
-      <label class="kuiSideBarFormRow__label" for="legendPosition">
-        Legend Position
+    <div class="form-group" ng-show="vis.hasSchemaAgg('segment', 'date_histogram')">
+      <label class="kuiSideBarFormRow__label" for="currentTimeMarker" title="标记当前时间">
+        时间标记
       </label>
-      <div class="kuiSideBarFormRow__control">
-        <select
-          id="legendPosition"
-          class="kuiSelect kuiSideBarSelect"
-          ng-model="vis.params.legendPosition"
-          ng-options="position for position in ['top', 'left', 'right', 'bottom']"
-        ></select>
+      <div class="col-sm-9">
+          <div class="checkbox">
+              <input class="kuiCheckBox" id="currentTimeMarker" type="checkbox"
+                   ng-model="vis.params.addTimeMarker"
+                   ng-checked="vis.params.addTimeMarker">
+          </div>
       </div>
     </div>
 
-    <div class="kuiSideBarFormRow">
-      <label class="kuiSideBarFormRow__label" for="showCursor">
-        Show Tooltip
+    <div class="form-group" ng-show="!vis.hasSchemaAgg('segment', 'date_histogram')">
+      <label class="col-sm-3 control-label" for="orderBuckets" title="按分组统计数量的大小排序">
+        分组排序
       </label>
-      <div class="kuiSideBarFormRow__control">
-        <input class="kuiCheckBox" id="showCursor" type="checkbox" ng-model="vis.params.addTooltip">
-      </div>
-    </div>
-
-    <div class="kuiSideBarFormRow" ng-show="vis.hasSchemaAgg('segment', 'date_histogram')">
-      <label class="kuiSideBarFormRow__label" for="currentTimeMarker">
-        Current Time Marker
-      </label>
-      <div class="kuiSideBarFormRow__control">
-        <input class="kuiCheckBox" id="currentTimeMarker" type="checkbox"
-               ng-model="vis.params.addTimeMarker"
-               ng-checked="vis.params.addTimeMarker"
-        >
-      </div>
-    </div>
-
-    <div class="kuiSideBarFormRow" ng-show="!vis.hasSchemaAgg('segment', 'date_histogram')">
-      <label class="kuiSideBarFormRow__label" for="orderBuckets">
-        Order Buckets by Sum
-      </label>
-      <div class="kuiSideBarFormRow__control">
-        <input class="kuiCheckBox" id="orderBuckets" type="checkbox" ng-model="vis.params.orderBucketsBySum">
+      <div class="col-sm-9">
+          <div class="checkbox">
+              <input class="kuiCheckBox" id="orderBuckets" type="checkbox" ng-model="vis.params.orderBucketsBySum">
+          </div>
       </div>
     </div>
 
     <vislib-grid></vislib-grid>
+
+    <div>
   </div>
 
 </div>

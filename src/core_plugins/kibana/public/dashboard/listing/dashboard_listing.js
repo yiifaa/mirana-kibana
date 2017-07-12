@@ -126,9 +126,9 @@ export function DashboardListingController($injector, $scope) {
     };
 
     confirmModal(
-      'Are you sure you want to delete the selected dashboards? This action is irreversible!',
+      '此操作不可恢复，请确认是否继续删除仪表盘?',
       {
-        confirmButtonText: 'Delete',
+        confirmButtonText: '删除',
         onConfirm: doDelete
       });
   };

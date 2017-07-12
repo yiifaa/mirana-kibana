@@ -11,14 +11,17 @@ import { TopNavIds } from './top_nav_ids';
 export function getTopNavConfig(dashboardMode, actions) {
   switch (dashboardMode) {
     case DashboardViewMode.VIEW:
-      return [getShareConfig(), getEditConfig(actions[TopNavIds.ENTER_EDIT_MODE])];
+      return [
+        //  getShareConfig(), 
+        getEditConfig(actions[TopNavIds.ENTER_EDIT_MODE])];
     case DashboardViewMode.EDIT:
       return [
         getSaveConfig(),
         getViewConfig(actions[TopNavIds.EXIT_EDIT_MODE]),
         getAddConfig(),
-        getOptionsConfig(),
-        getShareConfig()];
+        getOptionsConfig()
+        //  ,getShareConfig()
+      ];
     default:
       return [];
   }

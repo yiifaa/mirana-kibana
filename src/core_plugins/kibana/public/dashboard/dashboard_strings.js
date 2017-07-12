@@ -23,8 +23,8 @@ export function getUnsavedChangesWarningMessage(changedFilters) {
   const changedFilterList = createStringList(changedFilters);
 
   return changedFilterList ?
-    `Are you sure you want to cancel and lose changes, including changes made to your ${changedFilterList}?` :
-    `Are you sure you want to cancel and lose changes?`;
+    `请确认是否取消并丢弃所做的修改操作,包括${changedFilterList}?` :
+    `请确认是否取消并丢弃所做的修改操作?`;
 }
 
 /**
@@ -37,7 +37,7 @@ export function getUnsavedChangesWarningMessage(changedFilters) {
 export function getDashboardTitle(title, viewMode, isDirty) {
   const isEditMode = viewMode === DashboardViewMode.EDIT;
   const unsavedSuffix = isEditMode && isDirty
-    ? ' (unsaved)'
+    ? '[未保存]'
     : '';
 
   const displayTitle = `${title}${unsavedSuffix}`;

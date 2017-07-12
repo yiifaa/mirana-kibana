@@ -1,5 +1,5 @@
 <div>
-  <div class="kuiSideBarCollapsibleTitle">
+  <div class="kuiSideBarCollapsibleTitle" style="margin-top:0px;margin-bottom:5px;padding-bottom:5px;">
     <div
       class="kuiSideBarCollapsibleTitle__label"
       ng-click="isGridOpen = !isGridOpen"
@@ -10,35 +10,39 @@
         class="fa fa-caret-right kuiSideBarCollapsibleTitle__caret"
       ></span>
       <span class="kuiSideBarCollapsibleTitle__text">
-        Grid
+        {{'Grid'|translate}}
       </span>
     </div>
   </div>
 
   <div ng-show="isGridOpen" class="kuiSideBarCollapsibleSection">
     <!-- General -->
-    <div class="kuiSideBarSection">
-      <div class="kuiSideBarFormRow">
-        <label class="kuiSideBarFormRow__label" for="showCategoryLines">
-          X-Axis Lines
+    <div class="form-horizontal">
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="showCategoryLines">
+          {{'X-Axis Lines' | translate}}
         </label>
-        <div class="kuiSideBarFormRow__control">
-          <input class="kuiCheckBox" id="showCategoryLines" type="checkbox" ng-model="vis.params.grid.categoryLines">
+        <div class="col-sm-9">
+          <div class="checkbox">
+              <label>
+                <input class="kuiCheckBox" id="showCategoryLines" type="checkbox" ng-model="vis.params.grid.categoryLines">
+              </label>
+          </div>
         </div>
       </div>
 
-      <div class="kuiSideBarFormRow">
-        <label class="kuiSideBarFormRow__label" for="gridAxis">
-          Y-Axis Lines
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="gridAxis">
+        {{'Y-Axis Lines' | translate}}
         </label>
-        <div class="kuiSideBarFormRow__control">
+        <div class="col-sm-9">
           <select
             id="gridAxis"
-            class="kuiSelect kuiSideBarSelect"
+            class="form-control"
             ng-model="vis.params.grid.valueAxis"
-            ng-options="axis.id as axis.name for axis in vis.params.valueAxes"
-          >
-            <option value="">Don't show</option>
+            ng-options="axis.id as axis.name for axis in vis.params.valueAxes">
+            <option value="">隐藏</option>
           </select>
         </div>
       </div>

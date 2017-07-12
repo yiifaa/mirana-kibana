@@ -29,6 +29,9 @@ block content
       height: 100%;
       padding: 20px;
       background-color: #E8488B;
+      color : #FFFFFF;
+      display : flex;
+      align-items : center;
       -webkit-animation: colorShift 3s infinite;
               animation: colorShift 3s infinite;
       box-shadow: inset -10px 0 20px -10px rgba(0, 0, 0, 0.5);
@@ -91,7 +94,7 @@ block content
   .kibanaWelcomeView
     .kibanaLoader
       .kibanaLoader__logo
-        .kibanaWelcomeLogo
+        .fa.fa-cog.fa-spin.fa-5x.fa-fw
       .kibanaLoader__content
         | #{i18n('UI-WELCOME_MESSAGE')}
 

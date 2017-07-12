@@ -1,18 +1,17 @@
 <div
   ng-switch="mode"
-  ng-init="mode = 'visualization'"
->
-  <div class="kuiLocalDropdownTitle">Add Panels</div>
+  ng-init="mode = 'visualization'">
+  <div class="kuiLocalDropdownTitle">添加仪表盘</div>
 
   <ul class="nav nav-tabs">
     <li ng-class="{active: mode == 'visualization'}">
       <a ng-click="mode='visualization'" title="Visualizations">
-        Visualization
+        {{'Visualization' | translate}}
       </a>
     </li>
     <li ng-class="{active: mode == 'search'}">
       <a ng-click="mode='search'" title="Searches">
-        Saved Search
+        保存的查询结果
       </a>
     </li>
   </ul>

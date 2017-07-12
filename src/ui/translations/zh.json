@@ -27,6 +27,7 @@
   "number"  : "数字",
   "string"  : "字符串",
 
+  "Dot Size" : "圆点大小",
   "Custom Label" : "自定义别名",
   "X-Axis" : "横坐标(X轴)",
   "LeftAxis-1" : "左坐标轴-1",
@@ -61,7 +62,23 @@
   "Tag Cloud" : "标签云",
   "Field" : "分组字段",
   "Interval" : "分组间隔",
+  "Settings" : "配置",
+  "Legend Position" : "图例位置",
+  "Grid" : "背景表格",
+  "X-Axis Lines" : "横轴直线",
+  "Y-Axis Lines" : "纵轴直线",
+  "Options" : "配置",
 
+  "Dashboard" : "仪表盘",
+  "dashboard" : "仪表盘",
+  "Cancel"  : "取消",
+  "Add" : "添加",
+  "Edit" : "编辑",
+  "Editing" : "编辑",
+  "Options"  : "配置",
+
+
+  "person" : "人员信息",
   "birthday" : "生日",
   "dept": "部门",
   "salary" : "工资",
