@@ -6,7 +6,7 @@
 2. 添加主题支持；
 3. 重新调整格局；
 4. 添加ECharts支持；
-5. 简化二次难度；
+5. 简化二次开发难度；
 6. 添加路由支持；
 
 ## 2017-07-05
@@ -42,7 +42,8 @@ this.navLink = this.uiExports.navLinks.new({
 
 ## 2017-07-07
 1. 时间格式关键文件：src\ui\settings\defaults.js，src\ui\public\timepicker\timepicker.js，utilities\visual_regression.js
-2. 国际化文件散落在JS文件、HTML文件与i18n配置文件中，核心位置src\core_plugins\kibana\translations\zh.json
+2. 国际化文件散落在JS文件、HTML文件与i18n配置文件中，核心位置src\core_plugins\kibana\translations\zh.json[通用提示信息]
+3. 国际化文件，个性化定义(含标题名称、日期、索引及字段翻译配置信息)，src\ui\translations\zh.json；
 
 ## 2017-07-10
 1. 汉化日志检索页；
@@ -53,3 +54,5 @@ this.navLink = this.uiExports.navLinks.new({
 
 ## 2017-07-11
 1. 样式文件存放位置ui_framework\components\view\_view.scss
+2. 修改程序连接位置：src\ui\public\chrome\directives\global_nav\global_nav.html
+3.

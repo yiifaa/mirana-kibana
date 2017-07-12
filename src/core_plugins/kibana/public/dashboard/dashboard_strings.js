@@ -41,5 +41,5 @@ export function getDashboardTitle(title, viewMode, isDirty) {
     : '';
 
   const displayTitle = `${title}${unsavedSuffix}`;
-  return isEditMode ? 'Editing ' + displayTitle : displayTitle;
+  return isEditMode ? '编辑' + displayTitle : displayTitle;
 }
