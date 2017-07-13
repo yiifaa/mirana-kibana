@@ -1,23 +1,28 @@
 <div class="vis-editor-agg-form-row">
   <div ng-if="agg.type.params.byName.order" class="form-group">
-    <label>Order</label>
-    <select
-      name="order"
-      ng-model="agg.params.order"
-      required
-      ng-options="opt as opt.display for opt in aggParam.options"
-      class="form-control">
-    </select>
+    <label class="col-sm-4 control-label">{{'Order' | translate}}</label>
+    <div class="col-sm-8">
+      <select
+        name="order"
+        class="form-control"
+        ng-model="agg.params.order"
+        required
+        ng-options="opt as opt.display for opt in aggParam.options"
+        class="form-control">
+      </select>
+    </div>
   </div>
   <div class="form-group">
-    <label>Size</label>
-    <input
-      name="size"
-      ng-model="agg.params.size"
-      required
-      class="form-control"
-      type="number"
-      min="1"
-    >
+    <label class="col-sm-4 control-label">{{'Size' | translate}}</label>
+    <div class="col-sm-8">
+      <input
+        name="size"
+        class="form-control"
+        ng-model="agg.params.size"
+        required
+        class="form-control"
+        type="number"
+        min="1">
+    </div>
   </div>
 </div>

@@ -1,9 +1,10 @@
 <!-- header -->
-<div class="vis-editor-agg-header">
+<div class="vis-editor-agg-header" style="margin-bottom:10px;">
 
   <!-- open/close editor -->
   <button
-    aria-label="{{ editorOpen ? 'Close Editor' : 'Open Editor' }}"
+    aria-label="{{ editorOpen ? '关闭编辑器' : '打开编辑器' }}"
+    title="{{ editorOpen ? '关闭编辑器' : '打开编辑器' }}"
     ng-click="editorOpen = !editorOpen"
     type="button"
     class="btn btn-primary btn-xs vis-editor-agg-header-toggle">
@@ -16,9 +17,11 @@
   </span>
 
   <!-- description -->
+  <!--
   <span ng-if="!editorOpen && aggForm.$valid" class="vis-editor-agg-header-description">
     {{ describe() | translate}}
   </span>
+  -->
 
   <!-- error -->
   <span ng-if="!editorOpen && aggForm.$invalid" class="vis-editor-agg-header-description danger">

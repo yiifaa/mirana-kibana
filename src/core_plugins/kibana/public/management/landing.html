@@ -1,9 +1,11 @@
 <kbn-management-app>
   <kbn-management-landing>
     <!-- General info -->
+    <!--
     <div class="page-row">
       <div class="page-row-text">Version: {{::kbnVersion}}</div>
     </div>
+    -->
 
     <!-- Management sections for the ES stack -->
     <div
@@ -12,17 +14,16 @@
       ng-class="{ 'management-section-info-expanded': section.showInfo }"
       class="page-row"
     >
-      <div class="kuiPanel kuiPanel--withHeader management-panel">
-        <div class="kuiPanelHeader">
-          <div class="kuiPanelHeaderSection">
-            <div
-              class="management-panel__heading-icon management-panel__heading-icon--{{::section.id}}"
-            ></div>
-            <div class="kuiPanelHeader__title">
-              {{::section.display}}
-            </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+            <!--
+            <div class="management-panel__heading-icon management-panel__heading-icon--{{::section.id}}"></div>
+          -->
+            <i class="fa fa-cog fa-spin fa-1x fa-fw"></i>
+            <span style="font-size:16px;">{{::section.display | translate}}</span>
           </div>
 
+          <!--
           <div class="kuiPanelHeaderSection" ng-if="section.info">
             <div class="kuiText">
               <span
@@ -31,34 +32,21 @@
               ></span>
             </div>
           </div>
-        </div>
+          -->
+        <ul class="list-group">
+           <li class="list-group-item" ng-repeat="item in section.visibleItems">
+             <a
+               ng-class="{ 'management-panel__link--disabled': item.disabled || !item.url }"
+               kbn-href="{{::item.disabled ? '' : item.url}}"
+               tooltip="{{::item.tooltip}}"
+               tooltip-placement="bottom"
+               tooltip-popup-delay="400"
+               tooltip-append-to-body="1">
+               {{::item.display | translate}}
+             </a>
+           </li>
+        </ul>
 
-        <div class="kuiPanelBody management-panel__body">
-          <div class="row">
-            <ul class="list-unstyled">
-              <li
-                class="col-xs-4 col-md-3"
-                ng-repeat="item in section.visibleItems"
-              >
-                <a
-                  class="management-panel__link"
-                  ng-class="{ 'management-panel__link--disabled': item.disabled || !item.url }"
-                  kbn-href="{{::item.disabled ? '' : item.url}}"
-                  tooltip="{{::item.tooltip}}"
-                  tooltip-placement="bottom"
-                  tooltip-popup-delay="400"
-                  tooltip-append-to-body="1"
-                >
-                  {{::item.display}}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div class="management-section-info">
-            {{::section.info}}
-          </div>
-        </div>
       </div>
     </div>
   </kbn-management-landing>

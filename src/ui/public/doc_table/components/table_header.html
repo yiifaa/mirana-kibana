@@ -1,4 +1,4 @@
-<tr>
+<tr class="active">
   <th width="1%"></th>
   <th ng-if="indexPattern.timeFieldName" data-test-subj="docTableHeaderField">
     <span>主时间轴 <i ng-class="headerClass(indexPattern.timeFieldName)" ng-click="cycleSortOrder(indexPattern.timeFieldName)" tooltip="Sort by time"></i></span>
@@ -14,21 +14,21 @@
         ng-click="onRemoveColumn(name)"
         ng-if="canRemoveColumn(name)"
         tooltip-append-to-body="1"
-        tooltip="Remove column"
+        tooltip="删除此列"
       ></i>
       <i
         class="fa fa-angle-double-left"
         ng-click="moveColumnLeft(name)"
         ng-if="canMoveColumnLeft(name)"
         tooltip-append-to-body="1"
-        tooltip="Move column to the left"
+        tooltip="向左移动此列"
       ></i>
       <i
         class="fa fa-angle-double-right"
         ng-click="moveColumnRight(name)"
         ng-if="canMoveColumnRight(name)"
         tooltip-append-to-body="1"
-        tooltip="Move column to the right"
+        tooltip="向右移动此列"
       ></i>
     </span>
   </th>

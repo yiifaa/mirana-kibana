@@ -4,7 +4,7 @@
     <div class="kuiViewContentItem kuiBar kuiVerticalRhythm">
       <div class="kuiBarSection">
         <h1 class="kuiTitle">
-          Edit Saved Objects
+          编辑已保存对象
         </h1>
       </div>
 
@@ -15,7 +15,7 @@
         >
           <span class="kuiButton__inner">
             <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-download"></span>
-            <span>Export Everything</span>
+            <span>{{'Export Everything' | translate}}</span>
           </span>
         </button>
 
@@ -29,7 +29,7 @@
           >
             <span class="kuiButton__inner">
               <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-upload"></span>
-              <span>Import</span>
+              <span>{{'Import' | translate}}</span>
             </span>
           </button>
         </file-upload>
@@ -38,8 +38,8 @@
 
     <!-- Intro -->
     <p class="kuiViewContentItem kuiVerticalRhythm">
-      From here you can delete saved objects, such as saved searches. You can also edit the raw data of saved objects. Typically objects are only modified via their associated application, which is probably what you should use instead of this screen. Each tab is limited to 100 results. You can use the filter to find objects not in the default list.
-    </p>
+      在这里，您可以直接删除已保存的对象，如查询结果，除此之外，您还可以编辑已保存对象的源数据。需要提醒的是，您最好
+      通过关联的程序修改数据，此外，每个列表只能显示100条数据，所以你最好输入条件来过滤数据。</p>
 
     <!-- Tabs -->
     <div class="kuiViewContentItem kuiVerticalRhythm">
@@ -48,12 +48,12 @@
           class="kuiTab kbn-management-tab"
           ng-class="{ 'kuiTab-isSelected': state.tab === service.title }"
           ng-repeat="service in services"
-          title="{{ service.title }}"
+          title="{{ service.title | translate}}"
           ng-click="changeTab(service)"
         >
-          {{ service.title }}
+          {{ service.title | translate}}
           <small>
-          ({{service.data.length}}<span ng-show="service.total > service.data.length"> of {{service.total}}</span>)
+          ({{service.data.length}}<span ng-show="service.total > service.data.length"> / {{service.total}}</span>)
           </small>
         </button>
       </div>
@@ -67,19 +67,6 @@
     >
       <!-- ToolBar -->
       <div class="kuiToolBar">
-        <div class="kuiToolBarSearch">
-          <div class="kuiToolBarSearchBox">
-            <div class="kuiToolBarSearchBox__icon kuiIcon fa-search"></div>
-            <input
-              class="kuiToolBarSearchBox__input"
-              type="text"
-              placeholder="Search..."
-              aria-label="Filter"
-              ng-model="managementObjectsController.advancedFilter"
-            >
-          </div>
-        </div>
-
         <div class="kuiToolBarSection">
           <!-- Bulk delete button -->
           <button
@@ -90,7 +77,7 @@
           >
             <span class="kuiButton__inner">
               <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-trash"></span>
-              <span>Delete</span>
+              <span>{{'Delete'|translate}}</span>
             </span>
           </button>
 
@@ -103,13 +90,25 @@
           >
             <span class="kuiButton__inner">
               <span aria-hidden="true" class="kuiButton__icon kuiIcon fa-download"></span>
-              <span>Export</span>
+              <span>{{'Export'|translate}}</span>
             </span>
           </button>
         </div>
 
         <div class="kuiToolBarSection">
           <!-- We need an empty section for the buttons to be positioned consistently. -->
+        </div>
+        <div class="kuiToolBarSearch">
+          <div class="kuiToolBarSearchBox">
+            <div class="kuiToolBarSearchBox__icon kuiIcon fa-search"></div>
+            <input
+              class="kuiToolBarSearchBox__input"
+              type="text"
+              placeholder="请输入..."
+              aria-label="Filter"
+              ng-model="managementObjectsController.advancedFilter"
+            >
+          </div>
         </div>
       </div>
 
@@ -119,7 +118,7 @@
         ng-if="!service.data.length"
       >
         <div class="kuiNoItems">
-          No {{service.title}} matched your search.
+            {{'NO_DATA' | translate}}
         </div>
       </div>
 
@@ -136,7 +135,7 @@
               >
             </th>
             <th class="kuiTableHeaderCell">
-              Title
+              名称
             </th>
           </tr>
         </thead>
@@ -184,7 +183,7 @@
       <div class="kuiToolBarFooter">
         <div class="kuiToolBarFooterSection">
           <div class="kuiToolBarText" ng-hide="selectedItems.length === 0">
-            {{ selectedItems.length }} selected
+            您选中了{{ selectedItems.length }}项记录
           </div>
         </div>
         <div class="kuiToolBarFooterSection">

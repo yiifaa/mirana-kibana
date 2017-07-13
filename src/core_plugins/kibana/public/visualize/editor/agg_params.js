@@ -70,20 +70,22 @@ uiModules
         $aggParamEditorsScope = $scope.$new();
         let fieldOpts = $scope.agg.getFieldOptions();
         //  格式化文档
-        fieldOpts.forEach(item => {
-            //  翻译字段
-            $translate(item.name).then(label => {
-                item.displayTxt = label
-            }, label => {
-                item.displayTxt = item.name
-            })
-            //  翻译类型
-            $translate(item.type).then(label => {
-                item.displayType = label
-            }, label => {
-                item.displayType = item.type
-            })
-        })
+        if(!!fieldOpts) {
+          fieldOpts.forEach(item => {
+              //  翻译字段
+              $translate(item.name).then(label => {
+                  item.displayTxt = label
+              }, label => {
+                  item.displayTxt = item.name
+              })
+              //  翻译类型
+              $translate(item.type).then(label => {
+                  item.displayType = label
+              }, label => {
+                  item.displayType = item.type
+              })
+          })
+        }
 
         $aggParamEditorsScope.indexedFields = fieldOpts;
 

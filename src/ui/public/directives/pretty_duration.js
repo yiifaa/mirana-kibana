@@ -34,7 +34,27 @@ module.directive('prettyDuration', function (config, quickRanges, timeUnits) {
             if ($scope.to.toString() === 'now' && fromParts[0] === 'now' && fromParts[1]) {
               const rounded = fromParts[1].split('/');
               //  text = 'Last ' + rounded[0];
-              text = '过去 ' + rounded[0];
+              let regex = /^(\d+)([a-zA-Z]+$)/
+              if(regex.test(rounded[0])) {
+                  let result = rounded[0].match(regex),
+                      unitMap = {
+                          s : '几秒',
+                          m : '分钟',
+                          h : '小时',
+                          d : '天',
+                          dd : '天',
+                          M : '月',
+                          y : '年',
+                          w : '周'
+                      },
+                      num = parseInt(result[1]),
+                      unit = unitMap[result[2]],
+                      human = num + unit
+                  text = '过去' + human
+              } else {
+                  text = '过去 ' + rounded[0];
+              }
+              //  console.log(moment.duration(50, 'y').humanize());
               if (rounded[1]) {
                 text = text + ' rounded to the ' + timeUnits[rounded[1]];
               }

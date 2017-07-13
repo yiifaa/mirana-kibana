@@ -1,21 +1,22 @@
 <div class="app-container">
   <!-- Local nav. -->
   <kbn-top-nav name="management-subnav" data-test-subj="managementNav">
-    <!-- Transcluded elements. -->
     <div data-transclude-slots>
-      <!-- Breadcrumbs. -->
-      <bread-crumbs
-        data-transclude-slot="topLeftCorner"
-        omit-current-page="true"
-        use-links="true"
-        omit-pages="omitPages"
-      ></bread-crumbs>
 
-      <!-- Tabs. -->
-      <div data-transclude-slot="bottomRow" class="kuiLocalTabs">
+      <div class="page-header" data-transclude-slot="topLeftCorner" style="padding-left:15px;margin-top:20px;border-color:#ddd;padding-bottom:3px;width:100%;">
+          <h4 style="margin-bottom:3px;"><a href="#/management">{{'Management' | translate}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+          <small>大数据引擎系统管理及配置</small></h4>
+      </div>
+
+    <div data-transclude-slot="bottomRow" class="kuiLocalTabs">
+        <!--
         <span ng-if="!sectionName" class="kuiLocalTab">
-          {{::section.display}}
+          {{::section.display | translate}}
         </span>
+        -->
+        <div style="font-size:12px;margin-left:8px;">
+          <p class="text-muted" ng-if="!sectionName" style="margin-bottom:5px;">在这里，您可以设置、更改、删除您关注的索引模式，并能对仪表盘、可视化、查询结果的存储记录进行管理。</p>
+        </div>
         <a
           ng-if="sectionName"
           ng-repeat="item in section.visibleItems"
@@ -28,9 +29,14 @@
           tooltip-popup-delay="400"
           tooltip-append-to-body="1"
         >
-          {{::item.display}}
+          {{::item.display | translate}}
         </a>
       </div>
+      <!--
+      <div data-transclude-slot="bottomRow">
+          <p class="text-muted" style="font-size:12px;margin-left:8px;margin-top:10px;">在这里，您可以设置、更改、删除您关注的索引模式，并能对仪表盘、可视化、查询结果的存储记录进行管理。</p>
+      </div>
+      -->
     </div>
   </kbn-top-nav>
 

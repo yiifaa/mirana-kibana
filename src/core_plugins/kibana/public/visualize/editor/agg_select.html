@@ -1,12 +1,16 @@
 <div class="form-group">
-  <label ng-if="$index < 1 || groupName !== 'buckets'">{{'Aggregation' | translate}}</label>
-  <label ng-if="$index >= 1 && groupName === 'buckets'">{{'Sub Aggregation' | translate}}</label>
-  <select
-    name="agg"
-    class="form-control"
-    ng-model="agg.type"
-    required
-    auto-select-if-only-one="aggTypeOptions | aggFilter:agg.schema.aggFilter"
-    ng-options="agg as agg.title group by agg.subtype for agg in aggTypeOptions | aggFilter:agg.schema.aggFilter">
-  </select>
+  <label ng-if="$index < 1 || groupName !== 'buckets'" class="col-sm-4 control-label">{{'Aggregation' | translate}}</label>
+  <label ng-if="$index >= 1 && groupName === 'buckets'" class="col-sm-4 control-label">{{'Sub Aggregation' | translate}}</label>
+
+  <div class="col-sm-8">
+    <select
+      name="agg"
+      class="form-control"
+      ng-model="agg.type"
+      required
+      auto-select-if-only-one="aggTypeOptions | aggFilter:agg.schema.aggFilter"
+      ng-options="agg as agg.title group by agg.subtype for agg in aggTypeOptions | aggFilter:agg.schema.aggFilter">
+    </select>
+  </div>
+
 </div>

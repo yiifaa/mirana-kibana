@@ -48,11 +48,11 @@
           class="fa fa-warning text-color-warning ng-scope doc-viewer-underscore"></i>
         <i ng-if="!mapping[field] && field[0] !== '_' && !showArrayInObjectsWarning(doc, field)"
           tooltip-placement="top"
-          tooltip="No cached mapping for this field. Refresh field list from the Management > Index Patterns page"
+          tooltip="此字段没有建立缓存映射，请在“系统配置>索引管理”中点击“刷新”字段列表。"
           class="fa fa-warning text-color-warning ng-scope doc-viewer-no-mapping"></i>
         <i ng-if="showArrayInObjectsWarning(doc, field)"
           tooltip-placement="top"
-          tooltip="Objects in arrays are not well supported."
+          tooltip="不支持嵌套在数组中的对象"
           class="fa fa-warning text-color-warning ng-scope doc-viewer-object-array"></i>
         <div class="doc-viewer-value" ng-bind-html="typeof(formatted[field]) === 'undefined' ? hit[field] : formatted[field] | trustAsHtml"></div>
       </td>

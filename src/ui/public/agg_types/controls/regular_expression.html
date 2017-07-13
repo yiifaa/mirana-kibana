@@ -1,10 +1,11 @@
 <div ng-if="!aggParam.disabled(agg)">
   <div class="form-group regex">
-    <label>{{ aggParam.name | label }} Pattern</label>
-    <input
-      type="text"
-      class="form-control"
-      ng-model="agg.params[aggParam.name].pattern"
-    >
+    <label class="col-sm-4 control-label">{{ aggParam.name | label |translate }}模式</label>
+    <div  class="col-sm-8">
+      <input
+        type="text"
+        class="form-control"
+        ng-model="agg.params[aggParam.name].pattern">
+    </div>
   </div>
 </div>
